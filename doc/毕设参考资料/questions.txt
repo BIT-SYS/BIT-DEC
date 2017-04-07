@@ -1,0 +1,13 @@
+/*************************************/
+根据函数地址在符号表中的Bit位来判断ARM/Thumb
+/*************************************/
+4.5.3 Symbol Values
+In addition to the normal rules for symbol values the following rules shall also apply to symbols of type STT_FUNC:
+1)If the symbol addresses an ARM instruction, its value is the address of the instruction 
+(in a relocatable object, the offset of the instruction from the start of the section containing it).
+2)If the symbol addresses a Thumb instruction, its value is the address of the instruction with bit zero set 
+(in a relocatable object, the section offset with bit zero set).
+3) For the purposes of relocation the value used shall be the address of the instruction (st_value & ~1).
+Note This allows a linker to distinguish ARM and Thumb code symbols without having to refer to the map. 
+An ARM symbol will always have an even value, while a Thumb symbol will always have an odd value. However, 
+a linker should strip the discriminating bit from the value before using it for relocation.
