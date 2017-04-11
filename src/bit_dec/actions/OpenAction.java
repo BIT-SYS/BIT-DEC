@@ -20,7 +20,7 @@ public class OpenAction extends Action implements   IWorkbenchAction,Runnable {
 	
 	
 	public OpenAction(IWorkbenchWindow window) 
-	{ 
+	{   
 	   if  (window  ==   null ){
 		  throw   new  IllegalArgumentException();
 	   } 

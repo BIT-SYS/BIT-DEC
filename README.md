@@ -1,2 +1,2 @@
 # BIT-DEC
-new version of  BIT_DEC written by TinyMagicka
+new version of  BIT-DEC written by TinyMagicka

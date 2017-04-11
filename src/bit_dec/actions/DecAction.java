@@ -24,32 +24,6 @@ import bit_dec.views.CFGView;
 import bit_dec.views.FuncsView;
 
 public class DecAction extends Action implements IWorkbenchAction, Runnable {
-	
-	/**
-	 * 对某个函数进行控制流构建和高级代码的输出
-	 * @param funcName
-	 */
-	public static void decAction(String funcName,IWorkbenchPage workbenchPage){
-		
-		HashMap<String, AsmFuncModel> funcMap = AsmTextSectionStruct.textSectionModel.getFuncMap();
-		AsmStructAna structAna = new AsmStructAna();
-		AsmFuncModel funcModel = structAna.genCfg(funcMap.get(funcName));
-		//==============构建控制流图================//
-		CFGView graphView = (CFGView)workbenchPage.findView("BIT_DEC.cfgView");
-		graphView.drawCFG(funcModel);
-		//==============输出高级代码================//
-		AsmAdCode showHighCode = new AsmAdCode(); 
-		try {
-			String highcodeContent =  showHighCode.cfgAna(funcName);
-			AdCodeView adCodeView = (AdCodeView) workbenchPage.findView("BIT_DEC.advanced_code");
-			adCodeView.init();
-			adCodeView.showContent(highcodeContent, 0);
-		} catch (Exception e) {
-			MessageDialog.openInformation(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "提示",
-					e.toString());
-		}
-	}
-	
 	private IWorkbenchWindow workbenchWindow;
 
 	public DecAction(IWorkbenchWindow window) {
@@ -86,7 +60,30 @@ public class DecAction extends Action implements IWorkbenchAction, Runnable {
 			}
 		}
 	}
-
+	/**
+	 * 对某个函数进行控制流构建和高级代码的输出
+	 * @param funcName
+	 */
+	public static void decAction(String funcName,IWorkbenchPage workbenchPage){
+		
+		HashMap<String, AsmFuncModel> funcMap = AsmTextSectionStruct.textSectionModel.getFuncMap();
+		AsmStructAna structAna = new AsmStructAna();
+		AsmFuncModel funcModel = structAna.genCfg(funcMap.get(funcName));
+		//==============构建控制流图================//
+		CFGView graphView = (CFGView)workbenchPage.findView("BIT_DEC.cfgView");
+		graphView.drawCFG(funcModel);
+		//==============输出高级代码================//
+		AsmAdCode showHighCode = new AsmAdCode(); 
+		try {
+			String highcodeContent =  showHighCode.cfgAna(funcName);
+			AdCodeView adCodeView = (AdCodeView) workbenchPage.findView("BIT_DEC.advanced_code");
+			adCodeView.init();
+			adCodeView.showContent(highcodeContent, 0);
+		} catch (Exception e) {
+			MessageDialog.openInformation(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "提示",
+					e.toString());
+		}
+	}
 
 	@Override
 	public void dispose() {

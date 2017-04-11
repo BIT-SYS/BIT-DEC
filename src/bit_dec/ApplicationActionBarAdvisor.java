@@ -17,29 +17,32 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 import bit_dec.actions.*;
 
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
-
-	private IWorkbenchAction NewAction;
-	private IWorkbenchAction iExitAction;
+	//File
+	private IWorkbenchAction newAction;
+	private OpenAction openAction;
 	private IWorkbenchAction iSaveAction;
 	private IWorkbenchAction iSaveasAction;
+	private IWorkbenchAction iImport;
+	private IWorkbenchAction iExport;
 	private IWorkbenchAction iCloseAction;
+	private IWorkbenchAction iExitAction;
+	//Edit
 	private IWorkbenchAction iCutAction;
 	private IWorkbenchAction iCopyAction;
 	private IWorkbenchAction iPasteAction;
+	//Decompile
+	private CallGraphAction callGraphAction;
+	private DecAction decAction;
+	//View
 	private IWorkbenchAction PREFERENCES;
-	private IWorkbenchAction iRefresh;
 	private IWorkbenchAction iResetPers;
 	private IWorkbenchAction iShowViewMenu;
 	private IWorkbenchAction iOpenPersDiag;
+	//Help
 	private IWorkbenchAction iHELP_CONTENTS;
 	private IWorkbenchAction iHELP_SEARCH;
-	private IWorkbenchAction iImport;
-	private IWorkbenchAction iExport;
-	
-	
-	private OpenAction OpenAction;
-	private CallGraphAction callGraphAction;
-	private DecAction decAction;
+	//toolBar
+	private IWorkbenchAction iRefresh;
 	
     public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
         super(configurer);
@@ -47,15 +50,15 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
     @Override
 	protected void makeActions(IWorkbenchWindow window) {
+    	/**** create actions *******************************************************/
     	//file Menu
-    	NewAction     = ActionFactory.NEW.create(window);
-    	
+    	newAction     = ActionFactory.NEW.create(window);
+		openAction 	  = new OpenAction(window);
     	iSaveAction   = ActionFactory.SAVE.create(window);
     	iSaveasAction = ActionFactory.SAVE_AS.create(window);
-		iCloseAction  = ActionFactory.CLOSE.create(window);
-		
 		iImport       = ActionFactory.IMPORT.create(window);
 		iExport       = ActionFactory.EXPORT.create(window);
+		iCloseAction  = ActionFactory.CLOSE.create(window);
 		iExitAction   = ActionFactory.QUIT.create(window);
 		
 		//Edit menu
@@ -65,11 +68,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		
 		//Decompiling Menu
 		callGraphAction = new CallGraphAction(window);
-		decAction = new DecAction(window);
+		decAction     = new DecAction(window);
 		
 		//View menu
 		PREFERENCES   = ActionFactory.PREFERENCES.create(window);
-		iRefresh      = ActionFactory.REFRESH.create(window);
 		iResetPers    = ActionFactory.RESET_PERSPECTIVE.create(window);
 		iShowViewMenu = ActionFactory.SHOW_VIEW_MENU.create(window);
 		iOpenPersDiag = ActionFactory.OPEN_PERSPECTIVE_DIALOG.create(window);
@@ -78,55 +80,59 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		iHELP_CONTENTS = ActionFactory.HELP_CONTENTS.create(window);
 		iHELP_SEARCH = ActionFactory.HELP_SEARCH.create(window);
 		
-		OpenAction = new OpenAction(window);
+		//toolBar
+		iRefresh      = ActionFactory.REFRESH.create(window);
 		
-		NewAction.setText("New Project...");
+		newAction.setText("New Project...");
 		iImport.setText("Import Project...");
 		iExport.setText("Export Project...");
-    	
-    	register(NewAction);
-		register(iExitAction);
+		
+    	/*****register actions***********************************************/
+		//File menu
+    	register(newAction);
+    	//register(openAction);
 		register(iSaveAction);
 		register(iSaveasAction);
-		register(iCloseAction);
 		register(iImport);
 		register(iExport);
+		register(iCloseAction);
+		register(iExitAction);
 		
-		//Edit Menu
+		//Edit menu
 		register(iCutAction);
 		register(iCopyAction);
 		register(iPasteAction);
-		
-		
-		
-		//others
+		//Decompiler
+		//View menu
 		register(PREFERENCES);
-		register(iRefresh);
 		register(iResetPers);
 		register(iShowViewMenu);
 		register(iOpenPersDiag);
 		
-		//help
+		//help menu
 		register(iHELP_CONTENTS);
 		register(iHELP_SEARCH);
+		
+		//toolBar
+		register(iRefresh);
     }
 
     @Override
 	protected void fillMenuBar(IMenuManager menuBar) {
-    	MenuManager fileMenu = new MenuManager("&File","");
-    	MenuManager editMenu = new MenuManager("&Edit","");
-    	MenuManager OperateMenu = new MenuManager("&Decompile","");
-    	MenuManager OthersMenu = new MenuManager("&View","");
-    	MenuManager HelpMenu = new MenuManager("&Help","");
+    	MenuManager fileMenu	  = new MenuManager("&File"     ,"");
+    	MenuManager editMenu 	  = new MenuManager("&Edit"     ,"");
+    	MenuManager decompileMenu = new MenuManager("&Decompile","");
+    	MenuManager viewMenu  	  = new MenuManager("&View"     ,"");
+    	MenuManager helpMenu 	  = new MenuManager("&Help"     ,"");
     	menuBar.add(fileMenu);
     	menuBar.add(editMenu);
-    	menuBar.add(OperateMenu);
-    	menuBar.add(OthersMenu);
-    	menuBar.add(HelpMenu);
+    	menuBar.add(decompileMenu);
+    	menuBar.add(viewMenu);
+    	menuBar.add(helpMenu);
     	
-    	//file Menu
-    	fileMenu.add(NewAction);
-    	fileMenu.add(OpenAction);
+    	//File Menu
+    	fileMenu.add(newAction);
+    	fileMenu.add(openAction);
     	fileMenu.add(iSaveAction);
     	fileMenu.add(iSaveasAction);
     	fileMenu.add(new Separator());
@@ -141,28 +147,28 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     	editMenu.add(iCopyAction);
     	editMenu.add(iPasteAction);
     	
-    	//Operate Menu
-    	OperateMenu.add(new Separator());
-    	OperateMenu.add(new Separator());
-    	OperateMenu.add(callGraphAction);
-    	OperateMenu.add(decAction);
+    	//Decompile Menu
+    	decompileMenu.add(callGraphAction);
+    	decompileMenu.add(decAction);
     	
-    	//Others Menu
-    	OthersMenu.add(PREFERENCES);
-    	OthersMenu.add(iResetPers);
-    	OthersMenu.add(iShowViewMenu);
-    	OthersMenu.add(iOpenPersDiag);
+    	//View Menu
+    	viewMenu.add(PREFERENCES);
+    	viewMenu.add(iResetPers);
+    	viewMenu.add(iShowViewMenu);
+    	viewMenu.add(iOpenPersDiag);
     	
     	//Help Menu
-    	HelpMenu.add(iHELP_CONTENTS);
-    	HelpMenu.add(iHELP_SEARCH);
+    	helpMenu.add(iHELP_CONTENTS);
+    	helpMenu.add(iHELP_SEARCH);
     }
     
     @Override
 	protected void fillCoolBar(ICoolBarManager coolBar){
 		// This will add a new toolbar to the application
-		IToolBarManager toolbar = new ToolBarManager(SWT.FLAT | SWT.RIGHT);
-		coolBar.add(new ToolBarContributionItem(toolbar, "main"));
+		//IToolBarManager toolbar = new ToolBarManager(SWT.FLAT | SWT.RIGHT);
+    	IToolBarManager toolbar = new ToolBarManager(SWT.FLAT| SWT.SHADOW_OUT);
+		//coolBar.add(new ToolBarContributionItem(toolbar, "main"));
+		coolBar.add(toolbar);
 		toolbar.add(callGraphAction);
 		toolbar.add(decAction);
 		toolbar.add(iRefresh);

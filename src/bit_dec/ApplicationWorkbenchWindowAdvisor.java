@@ -23,8 +23,8 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
         configurer.getWindow().getShell().setMaximized(true);
         configurer.setShowCoolBar(true);
         configurer.setShowStatusLine(true);
-        configurer.setTitle("BIT_DEC");
-        configurer.setShowPerspectiveBar(false);
+        configurer.setTitle("这是一个很长的标题用来测试的");
+        configurer.setShowPerspectiveBar(true);
         
         
     }
