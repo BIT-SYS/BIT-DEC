@@ -6,21 +6,21 @@
          point="org.eclipse.core.runtime.applications">
       <application>
          <run
-               class="bit_dec.Application">
+               class="app.Application">
          </run>
       </application>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="bit_dec.Perspective"
+            class="app.Perspective"
             fixed="true"
             icon="icons/alt_about.gif"
             id="BIT_DEC.perspective"
             name="DEC">
       </perspective>
       <perspective
-            class="bit_dec.debugPerspective"
+            class="app.debugPerspective"
             icon="icons/sample.gif"
             id="BIT_DEC.debugPerspective"
             name="Simulation">
@@ -40,32 +40,32 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="bit_dec.views.CallGraphView"
+            class="view.CallGraphView"
             icon="icons/sample.gif"
             id="BIT_DEC.callgraphView"
             name="APK Call Graph"
             restorable="true">
       </view>
       <view
-            class="bit_dec.views.CFGView"
+            class="view.CFGView"
             id="BIT_DEC.cfgView"
             name="Function CFG"
             restorable="true">
       </view>
       <view
-            class="bit_dec.views.FuncsView"
+            class="view.FuncsView"
             id="BIT_DEC.functionsView"
             name="Function List"
             restorable="true">
       </view>
       <view
-            class="bit_dec.views.AdCodeView"
+            class="view.AdCodeView"
             id="BIT_DEC.advanced_code"
             name="C Source Code"
             restorable="true">
       </view>
       <view
-            class="bit_dec.views.NaviView"
+            class="view.NaviView"
             id="BIT_DEC.myNavigator"
             name="Navigator"
             restorable="true">
@@ -74,7 +74,7 @@
    <extension
          point="org.eclipse.ui.console.consoleFactories">
       <consoleFactory
-            class="bit_dec.views.ConsoleFactory"
+            class="view.ConsoleFactory"
             label="Output">
       </consoleFactory>
    </extension>
@@ -112,7 +112,7 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="bit_dec.editor.asm.ASMEditor"
+            class="editor.asm.ASMEditor"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             extensions="asm"
             icon="icons/sample.gif"

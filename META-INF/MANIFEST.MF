@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIT_DEC
 Bundle-SymbolicName: BIT_DEC;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: bit_dec.Activator
+Bundle-Activator: app.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.console;bundle-version="3.5.200",

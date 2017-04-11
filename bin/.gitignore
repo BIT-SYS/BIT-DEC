@@ -1,1 +1,11 @@
 /bit_dec/
+/sys/
+/app/
+/action/
+/callgraph/
+/dissambler/
+/view/
+/test/
+/editor/
+/prepro/
+/utils/
