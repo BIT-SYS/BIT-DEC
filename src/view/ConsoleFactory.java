@@ -13,9 +13,7 @@ public class ConsoleFactory implements IConsoleFactory {
 	@Override
 	public void openConsole() {
 		if (console != null) {
-
-			IConsoleManager manager = ConsolePlugin.getDefault()
-					.getConsoleManager();
+			IConsoleManager manager = ConsolePlugin.getDefault().getConsoleManager();
 
 			IConsole[] existing = manager.getConsoles();
 			boolean exists = false;
@@ -25,7 +23,6 @@ public class ConsoleFactory implements IConsoleFactory {
 					exists = true;
 			}
 			if (!exists) {
-
 				manager.addConsoles(new IConsole[] { console });
 			}
 			manager.showConsoleView(console);

@@ -42,31 +42,31 @@
       <view
             class="view.CallGraphView"
             icon="icons/sample.gif"
-            id="BIT_DEC.callgraphView"
+            id="view.CallGraphView"
             name="APK Call Graph"
             restorable="true">
       </view>
       <view
             class="view.CFGView"
-            id="BIT_DEC.cfgView"
+            id="view.CFGView"
             name="Function CFG"
             restorable="true">
       </view>
       <view
             class="view.FuncsView"
-            id="BIT_DEC.functionsView"
+            id="view.FuncsView"
             name="Function List"
             restorable="true">
       </view>
       <view
             class="view.AdCodeView"
-            id="BIT_DEC.advanced_code"
+            id="view.AdCodeView"
             name="C Source Code"
             restorable="true">
       </view>
       <view
             class="view.NaviView"
-            id="BIT_DEC.myNavigator"
+            id="view.NaviView"
             name="Navigator"
             restorable="true">
       </view>
