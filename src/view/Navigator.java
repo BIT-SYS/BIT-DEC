@@ -19,20 +19,18 @@ public class Navigator extends ResourceNavigator {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-
 	@Override
 	protected void makeActions() {
 
+		//复制工作台的action
 		navigatorActionGroup = new NavigatorActionGroup( this );
 		setActionGroup(navigatorActionGroup);
-
+		
 		IHandlerService service = (IHandlerService) getSite().getService(IHandlerService.class);
 		service.activateHandler(IWorkbenchCommandConstants.NAVIGATE_TOGGLE_LINK_WITH_EDITOR,
     			new ActionHandler(navigatorActionGroup.toggleLinkingAction));
     	collapseAllHandler = new CollapseAllHandler(this.getViewer());
-    	service.activateHandler(CollapseAllHandler.COMMAND_ID,
-				collapseAllHandler);
+    	service.activateHandler(CollapseAllHandler.COMMAND_ID, collapseAllHandler);
 	}
 	
 	public NavigatorActionGroup getNavigatorActionGroup(){

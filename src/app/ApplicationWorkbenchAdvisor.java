@@ -45,7 +45,9 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
  */
          super.initialize(configurer);
          configurer.setSaveAndRestore(true);   
-         //WorkbenchAdapterBuilder.registerAdapters();
+         ///http://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.platform.doc.isv%2Fguide%2Fcnf_rcp.htm
+         ///used for navigator 
+         WorkbenchAdapterBuilder.registerAdapters();
      }
  /*
      private void declareWorkbenchImage(IWorkbenchConfigurer configurer_p,
@@ -54,11 +56,15 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
          ImageDescriptor desc = ImageDescriptor.createFromURL(url);
          configurer_p.declareImage(symbolicName, desc, shared);
      }
-     
+     */
+	
+	  
       @Override
+      ///http://help.eclipse.org/kepler/index.jsp?topic=%2Forg.eclipse.platform.doc.isv%2Fguide%2Fcnf_rcp.htm
+	  ///used for navigator 
       public IAdaptable getDefaultPageInput() {
   		IWorkspace workspace = ResourcesPlugin.getWorkspace();
   		return workspace.getRoot();
   	}
-	*/
+	
 }
