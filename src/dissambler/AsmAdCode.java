@@ -12,7 +12,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.texteditor.quickdiff.compare.equivalence.Hash;
 
 import utils.StringTools;
-import view.AdCodeView;
+import view.AdvancedCode;
 import callgraph.FuncModel;
 import callgraph.JavaCalledList;
 
@@ -24,7 +24,7 @@ public class AsmAdCode {
 	private ArrayList<nodeinfo> treeList;
 	private ArrayList<VarNode> V1;
 	static ArrayList<VarNode> P;
-	private AdCodeView myView;
+	private AdvancedCode myView;
 	private AsmFuncModel func;
 	private ArrayList<AsmBlockModel> blockList;
 	private String funcHeadStr;

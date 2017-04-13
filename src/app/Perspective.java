@@ -15,15 +15,15 @@ public class Perspective implements IPerspectiveFactory {
 		layout.setEditorAreaVisible(true);
 		
 		IFolderLayout leftFolder = layout.createFolder("", IPageLayout.LEFT,  0.10f, editorArea);
-		IFolderLayout mainfolder = layout.createFolder("", IPageLayout.RIGHT, 0.1f, editorArea);
-		IFolderLayout srcfolder  = layout.createFolder("", IPageLayout.RIGHT, 0.1f, editorArea);
+		IFolderLayout mainfolder = layout.createFolder("", IPageLayout.RIGHT, 0.5f, editorArea);
+		IFolderLayout srcfolder  = layout.createFolder("", IPageLayout.RIGHT, 0.5f, editorArea);
 		//leftFolder.addPlaceholder("BIT_DEC.myNavigator" + ":*");
-		layout.addView(IConsoleConstants.ID_CONSOLE_VIEW, IPageLayout.BOTTOM,0.1f, editorArea);
-		leftFolder.addView(Constant.VIEW_NAVIVIEW);
+		layout.addView(IConsoleConstants.ID_CONSOLE_VIEW, IPageLayout.BOTTOM,0.8f, editorArea);
+		leftFolder.addView(Constant.VIEW_NAVIGATOR);
 		mainfolder.addView(Constant.VIEW_FUNCSVIEW);
-		mainfolder.addView(Constant.VIEW_CALLGRAPHVIEW);
-		srcfolder.addView(Constant.VIEW_ADCODEVIEW);
-		srcfolder.addView(Constant.VIEW_CGFVIEW);
+		mainfolder.addView(Constant.VIEW_CALLGRAPH);
+		srcfolder.addView(Constant.VIEW_ADVANCEDCODE);
+		srcfolder.addView(Constant.VIEW_CGF);
 		
 		ConsoleFactory consoleFactory = new ConsoleFactory();
 		consoleFactory.openConsole();	

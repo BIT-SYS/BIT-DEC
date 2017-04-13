@@ -12,7 +12,7 @@ import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import view.NaviView;
+import view.Navigator;
 import app.Activator;
 
 public class PathTools {
@@ -76,7 +76,7 @@ public class PathTools {
 
 	private static void init(){
 		IWorkbenchPage page = _window.getActivePage();
-		NaviView viewPart = (NaviView)page.findView("BIT_DEC.myNavigator");
+		Navigator viewPart = (Navigator)page.findView("BIT_DEC.myNavigator");
 		ISelectionService service = viewPart.getNavigatorActionGroup().getNavigator().getSite().getWorkbenchWindow()
 				.getSelectionService();
 		_selection = (IStructuredSelection) service

@@ -15,8 +15,8 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import view.AdCodeView;
-import view.CFGView;
+import view.AdvancedCode;
+import view.CFG;
 import view.FuncsView;
 import dissambler.AsmAdCode;
 import dissambler.AsmFuncModel;
@@ -70,13 +70,13 @@ public class DecAction extends Action implements IWorkbenchAction, Runnable {
 		AsmStructAna structAna = new AsmStructAna();
 		AsmFuncModel funcModel = structAna.genCfg(funcMap.get(funcName));
 		//==============构建控制流图================//
-		CFGView graphView = (CFGView)workbenchPage.findView("BIT_DEC.cfgView");
+		CFG graphView = (CFG)workbenchPage.findView("BIT_DEC.cfgView");
 		graphView.drawCFG(funcModel);
 		//==============输出高级代码================//
 		AsmAdCode showHighCode = new AsmAdCode(); 
 		try {
 			String highcodeContent =  showHighCode.cfgAna(funcName);
-			AdCodeView adCodeView = (AdCodeView) workbenchPage.findView("BIT_DEC.advanced_code");
+			AdvancedCode adCodeView = (AdvancedCode) workbenchPage.findView("BIT_DEC.advanced_code");
 			adCodeView.init();
 			adCodeView.showContent(highcodeContent, 0);
 		} catch (Exception e) {

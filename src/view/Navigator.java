@@ -11,11 +11,11 @@ import action.NavigatorActionGroup;
 
 
 
-public class NaviView extends ResourceNavigator {
+public class Navigator extends ResourceNavigator {
 	
 	private NavigatorActionGroup navigatorActionGroup;
 	private CollapseAllHandler collapseAllHandler;
-	public NaviView() {
+	public Navigator() {
 		// TODO Auto-generated constructor stub
 	}
 

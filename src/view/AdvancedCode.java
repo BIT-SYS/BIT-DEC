@@ -5,10 +5,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
 
-public class AdvancedCodeView extends ViewPart {
+public class AdvancedCode extends ViewPart {
 
 	private Text text;
-	public AdvancedCodeView() {
+	public AdvancedCode() {
 	}
 
 	@Override
@@ -17,7 +17,7 @@ public class AdvancedCodeView extends ViewPart {
 		
 	}
 
-	public void showConten(String temp,int step){
+	public void showContent(String temp,int step){
 		for(int i=0;i<step;i++){
 			text.append(" ");
 		}

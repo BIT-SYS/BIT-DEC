@@ -40,15 +40,15 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="view.CallGraphView"
+            class="view.CallGraph"
             icon="icons/sample.gif"
-            id="view.CallGraphView"
+            id="view.CallGraph"
             name="APK Call Graph"
             restorable="true">
       </view>
       <view
-            class="view.CFGView"
-            id="view.CFGView"
+            class="view.CFG"
+            id="view.CFG"
             name="Function CFG"
             restorable="true">
       </view>
@@ -59,14 +59,14 @@
             restorable="true">
       </view>
       <view
-            class="view.AdCodeView"
-            id="view.AdCodeView"
+            class="view.AdvancedCode"
+            id="view.AdvancedCode"
             name="C Source Code"
             restorable="true">
       </view>
       <view
-            class="view.NaviView"
-            id="view.NaviView"
+            class="view.Navigator"
+            id="view.Navigator"
             name="Navigator"
             restorable="true">
       </view>

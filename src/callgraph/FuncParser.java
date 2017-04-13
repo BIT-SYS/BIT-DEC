@@ -28,7 +28,7 @@ import org.eclipse.ui.PlatformUI;
 
 import utils.FileTools;
 import utils.PathTools;
-import view.CallGraphView;
+import view.CallGraph;
 
 
 public class FuncParser {
