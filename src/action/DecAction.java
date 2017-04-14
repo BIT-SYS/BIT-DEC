@@ -16,13 +16,14 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import sys.Constant;
-import view.AdvancedCode;
-import view.CFG;
+import view.AdvancedCodeView;
+import view.CFGView;
 import view.FuncsView;
 import dissambler.AsmAdCode;
 import dissambler.AsmFuncModel;
 import dissambler.AsmStructAna;
 import dissambler.AsmTextSectionStruct;
+import sys.Constant;
 
 public class DecAction extends Action implements IWorkbenchAction, Runnable {
 	private IWorkbenchWindow workbenchWindow;
@@ -71,13 +72,13 @@ public class DecAction extends Action implements IWorkbenchAction, Runnable {
 		AsmStructAna structAna = new AsmStructAna();
 		AsmFuncModel funcModel = structAna.genCfg(funcMap.get(funcName));
 		//==============构建控制流图================//
-		CFG graphView = (CFG)workbenchPage.findView("BIT_DEC.cfgView");
+		CFGView graphView = (CFGView)workbenchPage.findView(Constant.VIEW_CGF);
 		graphView.drawCFG(funcModel);
 		//==============输出高级代码================//
 		AsmAdCode showHighCode = new AsmAdCode(); 
 		try {
 			String highcodeContent =  showHighCode.cfgAna(funcName);
-			AdvancedCode adCodeView = (AdvancedCode) workbenchPage.findView("BIT_DEC.advanced_code");
+			AdvancedCodeView adCodeView = (AdvancedCodeView) workbenchPage.findView(Constant.VIEW_ADVANCEDCODE);
 			adCodeView.init();
 			adCodeView.showContent(highcodeContent, 0);
 		} catch (Exception e) {

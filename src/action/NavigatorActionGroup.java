@@ -93,7 +93,7 @@ public class NavigatorActionGroup extends ResourceNavigatorActionGroup {
 
 	private NewWizardMenu newWizardMenu;
 
-	private OpenAction OpenAction;
+	private ImportAPKAction OpenAction;
 
 	private OpenFileAction openFileAction;
 
@@ -174,7 +174,7 @@ public class NavigatorActionGroup extends ResourceNavigatorActionGroup {
 		IShellProvider provider = navigator.getSite();
 
 		// ***********************************************************************
-		OpenAction = new OpenAction(navigator.getSite().getWorkbenchWindow());
+		OpenAction = new ImportAPKAction(navigator.getSite().getWorkbenchWindow());
 		callGraphAction = new CallGraphAction(navigator.getSite()
 				.getWorkbenchWindow());
 		decAction = new DecAction(navigator.getSite()

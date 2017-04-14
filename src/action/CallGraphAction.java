@@ -10,7 +10,7 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import utils.PathTools;
-import view.CallGraph;
+import view.CallGraphView;
 import callgraph.FuncParser;
 import sys.Constant;
 public class CallGraphAction extends Action implements IWorkbenchAction{
@@ -39,7 +39,7 @@ public class CallGraphAction extends Action implements IWorkbenchAction{
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		try {
 			IViewPart viewPart = page.showView(Constant.VIEW_CALLGRAPH);
-			CallGraph callgarphView = (CallGraph)viewPart;
+			CallGraphView callgarphView = (CallGraphView)viewPart;
 			callgarphView.drawCallGraph();
 		} catch (PartInitException e) {
 			e.printStackTrace();

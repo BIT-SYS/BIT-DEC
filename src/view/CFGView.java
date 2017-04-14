@@ -27,7 +27,7 @@ import dissambler.AsmInstModel;
 import dissambler.AsmStructAna;
 import dissambler.AsmTextSectionStruct;
 
-public class CFG extends ViewPart {
+public class CFGView extends ViewPart {
 
 	private Composite composite;
 	private mxCell node1;
@@ -42,7 +42,7 @@ public class CFG extends ViewPart {
 	private Frame frame;
 	AsmFuncModel funcModel;
 	
-	public CFG() {
+	public CFGView() {
 		// TODO Auto-generated constructor stub
 	}
 

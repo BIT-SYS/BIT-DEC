@@ -19,7 +19,7 @@ import action.*;
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	//File
 	private IWorkbenchAction newAction;
-	private OpenAction openAction;
+	private ImportAPKAction openAction;
 	private IWorkbenchAction iSaveAction;
 	private IWorkbenchAction iSaveasAction;
 	private IWorkbenchAction iImport;
@@ -53,7 +53,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     	/**** create actions *******************************************************/
     	//file Menu
     	newAction     = ActionFactory.NEW.create(window);
-		openAction 	  = new OpenAction(window);
+		openAction 	  = new ImportAPKAction(window);
     	iSaveAction   = ActionFactory.SAVE.create(window);
     	iSaveasAction = ActionFactory.SAVE_AS.create(window);
 		iImport       = ActionFactory.IMPORT.create(window);

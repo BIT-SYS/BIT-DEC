@@ -11,7 +11,7 @@ import prepro.ApkPreprocessor;
 import utils.PathTools;
 
 
-public class OpenAction extends Action implements   IWorkbenchAction,Runnable {
+public class ImportAPKAction extends Action implements   IWorkbenchAction,Runnable {
 	
 	private IWorkbenchWindow workbenchWindow;
 	private String projectPath = "";
@@ -19,7 +19,7 @@ public class OpenAction extends Action implements   IWorkbenchAction,Runnable {
 	private String apkName = "";
 	
 	
-	public OpenAction(IWorkbenchWindow window) 
+	public ImportAPKAction(IWorkbenchWindow window) 
 	{   
 	   if  (window == null ){
 		  throw new IllegalArgumentException();

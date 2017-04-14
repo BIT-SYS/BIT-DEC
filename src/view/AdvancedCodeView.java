@@ -5,10 +5,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
 
-public class AdvancedCode extends ViewPart {
+public class AdvancedCodeView extends ViewPart {
 
 	private Text text;
-	public AdvancedCode() {
+	public AdvancedCodeView() {
 	}
 
 	@Override

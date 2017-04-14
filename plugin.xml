@@ -40,15 +40,15 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="view.CallGraph"
+            class="view.CallGraphView"
             icon="icons/sample.gif"
-            id="view.CallGraph"
+            id="view.CallGraphView"
             name="APK Call Graph"
             restorable="true">
       </view>
       <view
-            class="view.CFG"
-            id="view.CFG"
+            class="view.CFGView"
+            id="view.CFGView"
             name="Function CFG"
             restorable="true">
       </view>
@@ -59,14 +59,14 @@
             restorable="true">
       </view>
       <view
-            class="view.AdvancedCode"
-            id="view.AdvancedCode"
+            class="view.AdvancedCodeView"
+            id="view.AdvancedCodeView"
             name="C Source Code"
             restorable="true">
       </view>
       <view
-            class="view.Navigator"
-            id="view.Navigator"
+            class="view.NavigatorView"
+            id="view.NavigatorView"
             name="Navigator"
             restorable="true">
       </view>
@@ -87,13 +87,13 @@
    <extension
          point="org.eclipse.ui.navigator.viewer">
        <viewerActionBinding
-            viewerId="view.Navigator">
+            viewerId="view.NavigatorView">
          <includes>
              <actionExtension pattern="org.eclipse.ui.navigator.resources.*" />
          </includes>
        </viewerActionBinding>
        <viewerContentBinding 
-            viewerId="view.Navigator">
+            viewerId="view.NavigatorView">
           <includes>
        	     <contentExtension pattern="org.eclipse.ui.navigator.resourceContent" />		       	      
 	     <contentExtension pattern="org.eclipse.ui.navigator.resources.filters.*"/>

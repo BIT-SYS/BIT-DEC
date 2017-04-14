@@ -25,7 +25,7 @@ import com.mxgraph.model.mxCell;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 
-public class CallGraph extends ViewPart {
+public class CallGraphView extends ViewPart {
 
 	private Composite composite;
 	private Frame frame;
@@ -42,7 +42,7 @@ public class CallGraph extends ViewPart {
 	protected static mxGraphComponent graghComponent = new mxGraphComponent(
 			new mxGraph());
 
-	public CallGraph() {
+	public CallGraphView() {
 	}
 
 	@Override

@@ -8,11 +8,11 @@ import org.eclipse.ui.views.navigator.ResourceNavigator;
 
 import action.NavigatorActionGroup;
 
-public class Navigator extends ResourceNavigator {
+public class NavigatorView extends ResourceNavigator {
 	
 	private NavigatorActionGroup navigatorActionGroup;
 	private CollapseAllHandler collapseAllHandler;
-	public Navigator() {
+	public NavigatorView() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -22,6 +22,7 @@ public class Navigator extends ResourceNavigator {
 		//copy the actions from workbench
 		navigatorActionGroup = new NavigatorActionGroup( this );
 		setActionGroup(navigatorActionGroup);
+		
 		//what does the code do??
 		IHandlerService service = (IHandlerService) getSite().getService(IHandlerService.class);
 		service.activateHandler(IWorkbenchCommandConstants.NAVIGATE_TOGGLE_LINK_WITH_EDITOR,new ActionHandler(navigatorActionGroup.toggleLinkingAction));
