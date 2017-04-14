@@ -8,9 +8,6 @@ import org.eclipse.ui.views.navigator.ResourceNavigator;
 
 import action.NavigatorActionGroup;
 
-
-
-
 public class Navigator extends ResourceNavigator {
 	
 	private NavigatorActionGroup navigatorActionGroup;
@@ -22,13 +19,12 @@ public class Navigator extends ResourceNavigator {
 	@Override
 	protected void makeActions() {
 
-		//复制工作台的action
+		//copy the actions from workbench
 		navigatorActionGroup = new NavigatorActionGroup( this );
 		setActionGroup(navigatorActionGroup);
-		
+		//what does the code do??
 		IHandlerService service = (IHandlerService) getSite().getService(IHandlerService.class);
-		service.activateHandler(IWorkbenchCommandConstants.NAVIGATE_TOGGLE_LINK_WITH_EDITOR,
-    			new ActionHandler(navigatorActionGroup.toggleLinkingAction));
+		service.activateHandler(IWorkbenchCommandConstants.NAVIGATE_TOGGLE_LINK_WITH_EDITOR,new ActionHandler(navigatorActionGroup.toggleLinkingAction));
     	collapseAllHandler = new CollapseAllHandler(this.getViewer());
     	service.activateHandler(CollapseAllHandler.COMMAND_ID, collapseAllHandler);
 	}

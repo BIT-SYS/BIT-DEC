@@ -55,6 +55,7 @@ public class ApkPreprocessor implements Runnable{
 			androidCodeDecAction.run();
 			Sodump sodump = new Sodump(projectPath);
 			sodump.run();
+			//System.out.println("tinymintinymintinymintinymintinymintinymintinymintinymin");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

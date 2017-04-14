@@ -15,6 +15,7 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
+import sys.Constant;
 import view.AdvancedCode;
 import view.CFG;
 import view.FuncsView;
@@ -41,7 +42,7 @@ public class DecAction extends Action implements IWorkbenchAction, Runnable {
 	public void run() {
 		if (workbenchWindow != null) {
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			FuncsView funcsView = (FuncsView)page.findView("BIT_DEC.functionsView");
+			FuncsView funcsView = (FuncsView)page.findView(Constant.VIEW_FUNCSVIEW);
 			Shell shell = workbenchWindow.getShell();
 			ElementListSelectionDialog dialog = new ElementListSelectionDialog(
 					shell, new LabelProvider());

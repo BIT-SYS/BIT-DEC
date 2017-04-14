@@ -12,7 +12,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import utils.PathTools;
 import view.CallGraph;
 import callgraph.FuncParser;
-
+import sys.Constant;
 public class CallGraphAction extends Action implements IWorkbenchAction{
 	
 	private  IWorkbenchWindow workbenchWindow;
@@ -38,7 +38,7 @@ public class CallGraphAction extends Action implements IWorkbenchAction{
 		//绘制并显示函数调用图
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		try {
-			IViewPart viewPart = page.showView("BIT_DEC.callgraphView");
+			IViewPart viewPart = page.showView(Constant.VIEW_CALLGRAPH);
 			CallGraph callgarphView = (CallGraph)viewPart;
 			callgarphView.drawCallGraph();
 		} catch (PartInitException e) {

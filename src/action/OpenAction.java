@@ -21,8 +21,8 @@ public class OpenAction extends Action implements   IWorkbenchAction,Runnable {
 	
 	public OpenAction(IWorkbenchWindow window) 
 	{   
-	   if  (window  ==   null ){
-		  throw   new  IllegalArgumentException();
+	   if  (window == null ){
+		  throw new IllegalArgumentException();
 	   } 
 	   this.workbenchWindow = window; 
 	   this.setText("Import Android APK"); 
@@ -32,7 +32,7 @@ public class OpenAction extends Action implements   IWorkbenchAction,Runnable {
 	public void run() 
 	{ 
 		this.projectPath = PathTools.getProjectPath(workbenchWindow);
-		if  (workbenchWindow  !=   null )  {
+		if  (workbenchWindow != null )  {
 			Shell shell = workbenchWindow.getShell();
 			FileDialog dialog = new FileDialog (shell, SWT.OPEN);
 			String[] type = {"*.apk","*.hex"};

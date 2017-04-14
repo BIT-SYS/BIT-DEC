@@ -55,7 +55,7 @@ import org.eclipse.ui.views.navigator.WorkspaceActionGroup;
 import view.FuncsView;
 import dissambler.AsmStructAna;
 import dissambler.AsmTextSectionStruct;
-
+import sys.Constant;
 /**
  * The main action group for the navigator. This contains a few actions and
  * several subgroups.
@@ -394,7 +394,7 @@ public class NavigatorActionGroup extends ResourceNavigatorActionGroup {
 				
 				IWorkbenchPage page = PlatformUI.getWorkbench()
 						.getActiveWorkbenchWindow().getActivePage();
-				IViewPart viewPart = page.findView("BIT_DEC.functionsView");
+				IViewPart viewPart = page.findView(Constant.VIEW_FUNCSVIEW);
 				FuncsView myView = (FuncsView) viewPart;
 				myView.showFunctions();
 				
