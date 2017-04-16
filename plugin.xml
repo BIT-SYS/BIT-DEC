@@ -113,4 +113,15 @@
             name="ASM Editor">
       </editor>
    </extension> >
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="view.tiny"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            extensions="tiny"
+            icon="icons/sample.gif"
+            id="view.tiny"
+            name="tiny Editor">
+      </editor>
+   </extension> >
 </plugin>

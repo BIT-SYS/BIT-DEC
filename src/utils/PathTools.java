@@ -14,7 +14,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 
 import view.NavigatorView;
 import app.Activator;
-import sys.Constant;
 public class PathTools {
 	
 	private static IStructuredSelection _selection;

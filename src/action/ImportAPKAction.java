@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 
-import prepro.ApkPreprocessor;
+import core.prepro.ApkPreprocessor;
 import utils.PathTools;
 
 

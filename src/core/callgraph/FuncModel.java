@@ -1,4 +1,4 @@
-package callgraph;
+package core.callgraph;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package dissambler;
+package core.dissambler;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

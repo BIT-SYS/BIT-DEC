@@ -1,4 +1,4 @@
-package dissambler;
+package core.dissambler;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,10 +11,10 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.texteditor.quickdiff.compare.equivalence.Hash;
 
+import core.callgraph.FuncModel;
+import core.callgraph.JavaCalledList;
 import utils.StringTools;
 import view.AdvancedCodeView;
-import callgraph.FuncModel;
-import callgraph.JavaCalledList;
 
 public class AsmAdCode {
 

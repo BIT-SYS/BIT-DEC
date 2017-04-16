@@ -14,11 +14,11 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-import callgraph.FuncParser;
-import dissambler.AsmAdCode;
-import dissambler.AsmFuncModel;
-import dissambler.AsmStructAna;
-import dissambler.AsmTextSectionStruct;
+import core.callgraph.FuncParser;
+import core.dissambler.AsmAdCode;
+import core.dissambler.AsmFuncModel;
+import core.dissambler.AsmStructAna;
+import core.dissambler.AsmTextSectionStruct;
 import action.DecAction;
 
 public class FuncsView extends ViewPart {

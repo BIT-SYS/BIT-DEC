@@ -1,4 +1,4 @@
-package prepro;
+package core.prepro;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

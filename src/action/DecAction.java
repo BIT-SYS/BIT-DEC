@@ -12,18 +12,19 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
+import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import sys.Constant;
+import core.dissambler.AsmAdCode;
+import core.dissambler.AsmFuncModel;
+import core.dissambler.AsmStructAna;
+import core.dissambler.AsmTextSectionStruct;
+import utils.Constant;
 import view.AdvancedCodeView;
 import view.CFGView;
+import view.ConsoleFactory;
 import view.FuncsView;
-import dissambler.AsmAdCode;
-import dissambler.AsmFuncModel;
-import dissambler.AsmStructAna;
-import dissambler.AsmTextSectionStruct;
-import sys.Constant;
 
 public class DecAction extends Action implements IWorkbenchAction, Runnable {
 	private IWorkbenchWindow workbenchWindow;
@@ -34,8 +35,7 @@ public class DecAction extends Action implements IWorkbenchAction, Runnable {
 		}
 		this.workbenchWindow = window;
 		this.setText("Generate C Code");
-		setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
-				 "BIT_DEC", "icons/c.jpg"));
+		setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin("BIT_DEC", "icons/c.jpg"));
 		this.setToolTipText("Generate C Code");
 	}
 	
@@ -66,13 +66,14 @@ public class DecAction extends Action implements IWorkbenchAction, Runnable {
 	 * 对某个函数进行控制流构建和高级代码的输出
 	 * @param funcName
 	 */
+	//此地乃是错误高发区 （田泽民注（苦笑））
 	public static void decAction(String funcName,IWorkbenchPage workbenchPage){
 		
 		HashMap<String, AsmFuncModel> funcMap = AsmTextSectionStruct.textSectionModel.getFuncMap();
 		AsmStructAna structAna = new AsmStructAna();
 		AsmFuncModel funcModel = structAna.genCfg(funcMap.get(funcName));
 		//==============构建控制流图================//
-		CFGView graphView = (CFGView)workbenchPage.findView(Constant.VIEW_CGF);
+		CFGView graphView = (CFGView)workbenchPage.findView(Constant.VIEW_CGF); 
 		graphView.drawCFG(funcModel);
 		//==============输出高级代码================//
 		AsmAdCode showHighCode = new AsmAdCode(); 
@@ -82,8 +83,9 @@ public class DecAction extends Action implements IWorkbenchAction, Runnable {
 			adCodeView.init();
 			adCodeView.showContent(highcodeContent, 0);
 		} catch (Exception e) {
-			MessageDialog.openInformation(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "提示",
-					e.toString());
+			//MessageDialog.openInformation(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "提示", e.toString());
+			MessageConsoleStream  printer =ConsoleFactory.getConsole().newMessageStream();
+			printer.println("无法处理函数"+funcName);
 		}
 	}
 

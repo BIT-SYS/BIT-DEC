@@ -21,11 +21,11 @@ import com.mxgraph.model.mxCell;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 
-import dissambler.AsmBlockModel;
-import dissambler.AsmFuncModel;
-import dissambler.AsmInstModel;
-import dissambler.AsmStructAna;
-import dissambler.AsmTextSectionStruct;
+import core.dissambler.AsmBlockModel;
+import core.dissambler.AsmFuncModel;
+import core.dissambler.AsmInstModel;
+import core.dissambler.AsmStructAna;
+import core.dissambler.AsmTextSectionStruct;
 
 public class CFGView extends ViewPart {
 

@@ -1,4 +1,4 @@
-package callgraph;
+package core.callgraph;
 
 import java.io.BufferedReader;
 import java.io.File;

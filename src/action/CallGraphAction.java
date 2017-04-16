@@ -9,10 +9,10 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
+import core.callgraph.FuncParser;
+import utils.Constant;
 import utils.PathTools;
 import view.CallGraphView;
-import callgraph.FuncParser;
-import sys.Constant;
 public class CallGraphAction extends Action implements IWorkbenchAction{
 	
 	private  IWorkbenchWindow workbenchWindow;

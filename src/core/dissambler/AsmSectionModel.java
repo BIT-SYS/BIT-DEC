@@ -1,4 +1,4 @@
-package dissambler;
+package core.dissambler;
 
 import java.util.ArrayList;
 import java.util.HashMap;

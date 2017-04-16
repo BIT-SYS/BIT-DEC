@@ -11,10 +11,6 @@ import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-import callgraph.FuncModel;
-import callgraph.FuncParser;
-import callgraph.JavaCalledList;
-
 import com.mxgraph.layout.mxCompactTreeLayout;
 import com.mxgraph.layout.mxEdgeLabelLayout;
 import com.mxgraph.layout.mxIGraphLayout;
@@ -24,6 +20,10 @@ import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
+
+import core.callgraph.FuncModel;
+import core.callgraph.FuncParser;
+import core.callgraph.JavaCalledList;
 
 public class CallGraphView extends ViewPart {
 
