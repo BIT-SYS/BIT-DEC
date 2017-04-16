@@ -1,4 +1,4 @@
-package core.prepro;
+package core.APKProcessor;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,17 +18,16 @@ import org.eclipse.ui.console.MessageConsoleStream;
 import utils.FileTools;
 import utils.ZipUtils;
 import view.ConsoleFactory;
-import action.AndroidCodeDecAction;
 import app.Activator;
 
-public class ApkPreprocessor implements Runnable{
+public class ApkProcessor implements Runnable{
 	
 	private IWorkbenchWindow workbenchWindow;
 	private String projectPath = "";
 	private String filePath = "";
 	private String toolsFileUrl = "";
 	
-	public  ApkPreprocessor(String projectPath,String filePath,IWorkbenchWindow workbenchWindow){
+	public  ApkProcessor(String projectPath,String filePath,IWorkbenchWindow workbenchWindow){
 		this.workbenchWindow = workbenchWindow;
 		this.projectPath = projectPath;
 		this.filePath = filePath;

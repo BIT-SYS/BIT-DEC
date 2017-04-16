@@ -32,7 +32,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private IWorkbenchAction iPasteAction;
 	//Decompile
 	private CallGraphAction callGraphAction;
-	private DecAction decAction;
+	private FunctionDecAction decAction;
 	//View
 	private IWorkbenchAction PREFERENCES;
 	private IWorkbenchAction iResetPers;
@@ -68,7 +68,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		
 		//Decompiling Menu
 		callGraphAction = new CallGraphAction(window);
-		decAction     = new DecAction(window);
+		decAction     = new FunctionDecAction(window);
 		
 		//View menu
 		PREFERENCES   = ActionFactory.PREFERENCES.create(window);

@@ -109,13 +109,8 @@ public class AsmStructAna{
 //			}
 			//转移语句或停止暂停语句
 			if (isJumpIns(instModel)) {
-				////////////对，就是我，田泽民加的try  catch
-				try{
-					stack.pop();
-				}catch(Exception e){
-					MessageConsoleStream  printer =ConsoleFactory.getConsole().newMessageStream();
-					printer.println("无法处理函数");
-				}
+				/////
+				stack.pop();
 				blockModel.addInstModel(instModel);
 				//将block存入blocklist中
 				blockList.add(blockModel);

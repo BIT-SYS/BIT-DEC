@@ -19,7 +19,7 @@ import core.dissambler.AsmAdCode;
 import core.dissambler.AsmFuncModel;
 import core.dissambler.AsmStructAna;
 import core.dissambler.AsmTextSectionStruct;
-import action.DecAction;
+import action.FunctionDecAction;
 
 public class FuncsView extends ViewPart {
 
@@ -65,7 +65,7 @@ public class FuncsView extends ViewPart {
 					return;
 				IWorkbenchPage page = getViewSite().getPage();
 				String funcName = list.getItem(index);
-				DecAction.decAction(funcName, page);
+				FunctionDecAction.decAction(funcName, page);
 			}
 
 			@Override

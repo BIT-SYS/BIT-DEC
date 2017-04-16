@@ -99,7 +99,7 @@ public class NavigatorActionGroup extends ResourceNavigatorActionGroup {
 
 	private CallGraphAction callGraphAction;
 	
-	private DecAction decAction;
+	private FunctionDecAction decAction;
 
 	public static final String OPEN_WITH_ID = PlatformUI.PLUGIN_ID
 			+ ".OpenWithSubMenu";
@@ -177,7 +177,7 @@ public class NavigatorActionGroup extends ResourceNavigatorActionGroup {
 		OpenAction = new ImportAPKAction(navigator.getSite().getWorkbenchWindow());
 		callGraphAction = new CallGraphAction(navigator.getSite()
 				.getWorkbenchWindow());
-		decAction = new DecAction(navigator.getSite()
+		decAction = new FunctionDecAction(navigator.getSite()
 				.getWorkbenchWindow());
 		// ***********************************************************************
 		openFileAction = new OpenFileAction(navigator.getSite().getPage());

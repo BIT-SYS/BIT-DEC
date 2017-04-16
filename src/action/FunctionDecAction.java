@@ -26,15 +26,16 @@ import view.CFGView;
 import view.ConsoleFactory;
 import view.FuncsView;
 
-public class DecAction extends Action implements IWorkbenchAction, Runnable {
+public class FunctionDecAction extends Action implements IWorkbenchAction, Runnable {
 	private IWorkbenchWindow workbenchWindow;
 
-	public DecAction(IWorkbenchWindow window) {
+	public FunctionDecAction(IWorkbenchWindow window) {
 		if (window == null) {
 			throw new IllegalArgumentException();
 		}
 		this.workbenchWindow = window;
-		this.setText("Generate C Code");
+		//this.setText("Generate C Code");
+		this.setText("Function Call Graph");
 		setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin("BIT_DEC", "icons/c.jpg"));
 		this.setToolTipText("Generate C Code");
 	}
@@ -71,13 +72,13 @@ public class DecAction extends Action implements IWorkbenchAction, Runnable {
 		
 		HashMap<String, AsmFuncModel> funcMap = AsmTextSectionStruct.textSectionModel.getFuncMap();
 		AsmStructAna structAna = new AsmStructAna();
-		AsmFuncModel funcModel = structAna.genCfg(funcMap.get(funcName));
-		//==============构建控制流图================//
-		CFGView graphView = (CFGView)workbenchPage.findView(Constant.VIEW_CGF); 
-		graphView.drawCFG(funcModel);
-		//==============输出高级代码================//
-		AsmAdCode showHighCode = new AsmAdCode(); 
 		try {
+			AsmFuncModel funcModel = structAna.genCfg(funcMap.get(funcName));
+			//==============构建控制流图================//
+			CFGView graphView = (CFGView)workbenchPage.findView(Constant.VIEW_CGF); 
+			graphView.drawCFG(funcModel);
+			//==============输出高级代码================//
+			AsmAdCode showHighCode = new AsmAdCode(); 
 			String highcodeContent =  showHighCode.cfgAna(funcName);
 			AdvancedCodeView adCodeView = (AdvancedCodeView) workbenchPage.findView(Constant.VIEW_ADVANCEDCODE);
 			adCodeView.init();

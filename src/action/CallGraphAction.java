@@ -23,8 +23,7 @@ public class CallGraphAction extends Action implements IWorkbenchAction{
 		   } 
 		this.setText("Generate Call Graph");
 		   this.workbenchWindow = window; 
-		   setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(
- "BIT_DEC", "icons/graph.jpg"));
+		   setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin("BIT_DEC", "icons/graph.jpg"));
 		   this.setToolTipText("Generate Call Graph");
 	}
 	

@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 
-import core.prepro.ApkPreprocessor;
+import core.APKProcessor.ApkProcessor;
 import utils.PathTools;
 
 
@@ -45,7 +45,7 @@ public class ImportAPKAction extends Action implements   IWorkbenchAction,Runnab
 			
 			switch(fileType){
 				case "apk":{
-					ApkPreprocessor apkPreprocessor = new ApkPreprocessor(projectPath,filePath,this.workbenchWindow);
+					ApkProcessor apkPreprocessor = new ApkProcessor(projectPath,filePath,this.workbenchWindow);
 					Thread apkpreThread = new Thread(apkPreprocessor);
 					apkpreThread.start();
 					break;
