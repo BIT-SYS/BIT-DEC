@@ -3,18 +3,11 @@ package core.dissambler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.internal.texteditor.quickdiff.compare.equivalence.Hash;
-
-import core.callgraph.FuncModel;
-import core.callgraph.JavaCalledList;
 import utils.StringTools;
 import view.AdvancedCodeView;
+import core.callgraph.FuncModel;
+import core.callgraph.JavaCalledList;
 
 public class AsmAdCode {
 

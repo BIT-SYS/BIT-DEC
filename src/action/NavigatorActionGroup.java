@@ -400,8 +400,6 @@ public class NavigatorActionGroup extends ResourceNavigatorActionGroup {
 				/*
 				 * 显示带高亮的汇编码
 				 */
-				
-
 			}
 		}
 	}

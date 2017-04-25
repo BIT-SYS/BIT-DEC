@@ -9,12 +9,13 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
+import app.Activator;
 import core.callgraph.FuncParser;
 import utils.Constant;
 import utils.PathTools;
 import view.CallGraphView;
+
 public class CallGraphAction extends Action implements IWorkbenchAction{
-	
 	private  IWorkbenchWindow workbenchWindow;
 	public CallGraphAction(IWorkbenchWindow window) {
 		// TODO Auto-generated constructor stub
@@ -23,7 +24,7 @@ public class CallGraphAction extends Action implements IWorkbenchAction{
 		   } 
 		this.setText("Generate Call Graph");
 		   this.workbenchWindow = window; 
-		   setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin("BIT_DEC", "icons/graph.jpg"));
+		   setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(Constant.PLUGIN_ID, "icons/graph.jpg"));
 		   this.setToolTipText("Generate Call Graph");
 	}
 	

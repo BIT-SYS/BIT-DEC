@@ -1,6 +1,5 @@
 package action;
 
-
 import java.util.HashMap;
 
 import org.eclipse.jface.action.Action;
@@ -16,6 +15,7 @@ import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
+import app.Activator;
 import core.dissambler.AsmAdCode;
 import core.dissambler.AsmFuncModel;
 import core.dissambler.AsmStructAna;
@@ -36,7 +36,7 @@ public class FunctionDecAction extends Action implements IWorkbenchAction, Runna
 		this.workbenchWindow = window;
 		//this.setText("Generate C Code");
 		this.setText("Function Call Graph");
-		setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin("BIT_DEC", "icons/c.jpg"));
+		setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(Constant.PLUGIN_ID, "icons/c.jpg"));
 		this.setToolTipText("Generate C Code");
 	}
 	
@@ -74,6 +74,7 @@ public class FunctionDecAction extends Action implements IWorkbenchAction, Runna
 		AsmStructAna structAna = new AsmStructAna();
 		try {
 			AsmFuncModel funcModel = structAna.genCfg(funcMap.get(funcName));
+			//AsmFuncModel funcModel = funcMap.get(funcName);
 			//==============构建控制流图================//
 			CFGView graphView = (CFGView)workbenchPage.findView(Constant.VIEW_CGF); 
 			graphView.drawCFG(funcModel);

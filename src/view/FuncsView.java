@@ -38,7 +38,7 @@ public class FuncsView extends ViewPart {
 		int funcNum = funclist.size();
 		arrayList = new ArrayList<String>();
 		list.removeAll();
-		//¹ýÂËµ½Ã»ÓÃµÄº¯Êý
+		//ï¿½ï¿½ï¿½Ëµï¿½Ã»ï¿½ÃµÄºï¿½ï¿½ï¿½
 		String[] filterFuncs = FuncParser.filterFuncs;
 		boolean flag = false;
 		for(int i=0;i<funcNum;i++){
@@ -57,6 +57,11 @@ public class FuncsView extends ViewPart {
 			}
 		}
 		
+	}
+	
+	@Override
+	public void createPartControl(Composite parent) {
+		list = new List(parent, SWT.BORDER | SWT.H_SCROLL| SWT.V_SCROLL);
 		SelectionListener listener = new SelectionListener() {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -74,12 +79,6 @@ public class FuncsView extends ViewPart {
 			}
 		};
 		list.addSelectionListener(listener);
-	}
-	
-	@Override
-	public void createPartControl(Composite parent) {
-		list = new List(parent, SWT.BORDER | SWT.H_SCROLL
-				| SWT.V_SCROLL);
 	}
 
 	public Object[] getList(){;

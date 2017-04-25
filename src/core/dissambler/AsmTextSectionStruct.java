@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class AsmTextSectionStruct {
 
-	public static AsmSectionModel textSectionModel;
+	public static AsmSectionModel textSectionModel = new AsmSectionModel();
 	
 //	public static void main(String[] args){
 //		String pathString = "C:\\Users\\zxs\\Desktop\\runtime-BIT_DEC.application\\aa\\so2asm\\armeabi\\libHelloWorld.asm";
@@ -25,23 +25,25 @@ public class AsmTextSectionStruct {
 	 */
 	public static void struct(String filepath) {
 		
-		textSectionModel = new AsmSectionModel();
-		
 		String line = null;
 		InputStream is;
 		boolean isPop = false;//用于识别是否到了pop指令处，如果是就跳过当前函数后面的数据指令
 		AsmFuncModel funcModel = null;
 		AsmInstModel instModel = null;
 		HashMap<String, AsmFuncModel> funcMap = new HashMap<>();
-		HashMap<Long, AsmInstModel> instMap = new HashMap<>();
-		ArrayList<AsmInstModel> instList = new ArrayList<>();
+		HashMap<Long,   AsmInstModel> instMap = new HashMap<>();
 		ArrayList<AsmFuncModel> funcList = new ArrayList<>();
+		ArrayList<AsmInstModel> instList = new ArrayList<>();
 		
 		try {
 			is = new FileInputStream(filepath);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 			while ((line = reader.readLine()) != null&& !line.contains("Disassembly of section .text:"));
+			//	System.out.println(line);
+			//System.out.println(line);
+			//System.out.println("==========================================================================");
 			while ((line = reader.readLine())!= null && !line.contains("Disassembly of section")) {
+				//System.out.println(line);
 				//函数
 				if (line.trim().endsWith(">:")) {
 					isPop = false;

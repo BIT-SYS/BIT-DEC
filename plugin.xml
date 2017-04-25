@@ -16,38 +16,27 @@
             class="app.Perspective"
             fixed="true"
             icon="icons/alt_about.gif"
-            id="BIT_DEC.perspective"
+            id="app.Perspective"
             name="DEC">
       </perspective>
       <perspective
             class="app.debugPerspective"
             icon="icons/sample.gif"
-            id="BIT_DEC.debugPerspective"
+            id="app.debugPerspective"
             name="Simulation">
       </perspective>
-   </extension>
-   <extension
-         id="bit_dec.views.MyTemplateView"
-         name="Sample View"
-         point="org.eclipse.help.contexts">
-      <contexts
-            file="contexts.xml">
-      </contexts>
-      <contexts
-            file="contexts.xml">
-      </contexts>
    </extension>
    <extension
          point="org.eclipse.ui.views">
       <view
             class="view.CallGraphView"
-            icon="icons/sample.gif"
             id="view.CallGraphView"
             name="APK Call Graph"
             restorable="true">
       </view>
       <view
             class="view.CFGView"
+            icon="icons/c.jpg"
             id="view.CFGView"
             name="Function CFG"
             restorable="true">
@@ -107,21 +96,10 @@
       <editor
             class="editor.asm.ASMEditor"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            extensions="asm"
+            extensions="asm,java"
             icon="icons/sample.gif"
             id="bit_dec.ASMeditors.ASMEditor"
             name="ASM Editor">
-      </editor>
-   </extension> >
-   <extension
-         point="org.eclipse.ui.editors">
-      <editor
-            class="view.tiny"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            extensions="tiny"
-            icon="icons/sample.gif"
-            id="view.tiny"
-            name="tiny Editor">
       </editor>
    </extension> >
 </plugin>

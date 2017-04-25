@@ -1,18 +1,20 @@
-//±àÐ´Õß£ºÌïÔóÃñ
-//2017Äê4ÔÂ11ÈÕ
+//ï¿½ï¿½Ð´ï¿½ß£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//2017ï¿½ï¿½4ï¿½ï¿½11ï¿½ï¿½
 package utils;
 
 import java.io.File;
 
 public class Constant {
+	public static final String PLUGIN_ID 		 = "BIT_DEC";
+	public static final String PERSPECTIVE_ID    = "app.Perspective";
 	public static final String VIEW_ADVANCEDCODE = "view.AdvancedCodeView";
 	public static final String VIEW_CALLGRAPH    = "view.CallGraphView";
 	public static final String VIEW_CGF          = "view.CFGView";
 	public static final String VIEW_FUNCSVIEW    = "view.FuncsView";
 	public static final String VIEW_NAVIGATOR    = "view.NavigatorView";
-	public static final String NAVIGATOR         = "navigator";
 	
-	
+	public static String TEMPLATE     = "D:/WorkSpace/eclipse-rcp/bit-dec2/resources/template";
+	public static String OUTPUTFOLDER = "D:/tmp/";
 	
 	
 	

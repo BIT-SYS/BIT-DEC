@@ -1,154 +1,128 @@
 package view;
 
-import java.awt.Frame;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-
+import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.TitleEvent;
+import org.eclipse.swt.browser.TitleListener;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-import com.mxgraph.layout.mxIGraphLayout;
-import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
-import com.mxgraph.model.mxCell;
-import com.mxgraph.swing.mxGraphComponent;
-import com.mxgraph.view.mxGraph;
-
 import core.dissambler.AsmBlockModel;
 import core.dissambler.AsmFuncModel;
-import core.dissambler.AsmInstModel;
-import core.dissambler.AsmStructAna;
-import core.dissambler.AsmTextSectionStruct;
+
+import com.github.abel533.echarts.Label;
+import com.github.abel533.echarts.code.BrushType;
+import com.github.abel533.echarts.code.Symbol;
+import com.github.abel533.echarts.code.Tool;
+import com.github.abel533.echarts.code.Trigger;
+import com.github.abel533.echarts.code.X;
+import com.github.abel533.echarts.code.Y;
+//import com.github.abel533.echarts.code.*;
+import com.github.abel533.echarts.series.Force;
+import com.github.abel533.echarts.series.force.Link;
+import com.github.abel533.echarts.series.force.Node;
+import com.github.abel533.echarts.style.LinkStyle;
+import com.github.abel533.echarts.style.NodeStyle;
+import com.github.abel533.echarts.style.TextStyle;
+import com.github.abel533.echarts.util.EnhancedOption;
 
 public class CFGView extends ViewPart {
 
-	private Composite composite;
-	private mxCell node1;
-	private mxCell node2;
-	private int width = 150;
-	private int height = 40;
-	private String shap = null;
-	private ArrayList<mxCell> NodeList;
-	private ArrayList<String> NodeListText;
-	protected static mxGraphComponent graghComponent = new mxGraphComponent(
-			new mxGraph());
-	private Frame frame;
-	AsmFuncModel funcModel;
-	
+	Browser browser=null;
 	public CFGView() {
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void createPartControl(Composite parent) {
-		// TODO Auto-generated method stub
-		composite = new Composite(parent, SWT.EMBEDDED | SWT.NO_BACKGROUND);
+		//composite = new Composite(parent, SWT.EMBEDDED | SWT.NO_BACKGROUND);
+		//composite.setLayout(new GridLayout());
+		//frame = (JFrame) SWT_AWT.new_Frame(parent);
+		browser = new Browser(parent, SWT.EMBEDDED | SWT.NO_BACKGROUND);
+		browser.addTitleListener(new TitleListener() {
+			  @Override
+		  	  public void changed(TitleEvent event) {
+				// TODO Auto-generated method stub
+				
+			 }
+		   });
+		//browser.setUrl("file://d:/tmp/force1.html");
+		browser.setBounds(parent.getBounds());
+		browser.setVisible(true);
 		
+		parent.addControlListener(new ControlAdapter() {
+	        @Override
+	        public void controlResized(final ControlEvent e) {
+	            //System.out.println("RESIZE");
+	            //browser.setBounds(parent.getBounds());
+	        	//browser.setUrl("file://d:/tmp/force1.html");
+	        	browser.redraw();
+	        }
+	    });
 	}
 
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-
+		
 	}
-
+	
 	public void drawCFG(AsmFuncModel funcModel) {
-		frame = SWT_AWT.new_Frame(composite);
-		
-		NodeListText = new ArrayList<String>();
-		NodeList = new ArrayList<mxCell>();
-
-		final mxGraph graph = new mxGraph();
-		Object parent = graph.getDefaultParent();
-		graph.getModel().beginUpdate();
-
-		graghComponent.setConnectable(false);
-		graph.setAllowDanglingEdges(false);
-		graph.setCloneInvalidEdges(false);
-		graph.setCellsEditable(false);
-		graph.setCellsResizable(false);
-		graph.setAutoSizeCells(true);
-		
-		
-		HashMap<Integer, mxCell> hashMap = new HashMap<>();
+		// use ECharts to draw charts
+		EnhancedOption option = new EnhancedOption();
+	    option.title().text("人物关系：乔布斯").subtext("数据来自人立方").x(X.right).y(Y.bottom);
+	    option.tooltip().trigger(Trigger.item).formatter("{a} : {b}");
+	    option.toolbox().show(true).feature(Tool.restore, Tool.saveAsImage);
+	    option.legend("家人", "朋友").legend().x(X.left);
+	
+	    //数据
+	    Force force = new Force("人物关系");
+	    force.categories("人物", "家人", "朋友");
+	    force.itemStyle().normal()
+	            .label(new Label().show(true).textStyle(new TextStyle().color("#333")))
+	            .nodeStyle().brushType(BrushType.both).color("rgba(255,215,0,0.4)").borderWidth(1);
+	
+	    force.itemStyle().emphasis()
+	            .linkStyle(new LinkStyle())
+	            .nodeStyle(new NodeStyle())
+	            .label().show(true);
+	    force.useWorker(false).minRadius(15).maxRadius(25).gravity(1.1).scaling(1.1).linkSymbol(Symbol.arrow);
+    
 		ArrayList<AsmBlockModel> blockList = funcModel.getBlockList();
 		int blockListSize = blockList.size();
-		try {
-			for (int i = 0; i < blockListSize; i++) {
-				AsmBlockModel block = blockList.get(i);
-				if (hashMap.get(block.getbNo()) == null) {
-					node1 = (mxCell) graph.insertVertex(parent, null, block.getbNo(), 20,
-							20, width, height, shap);
-					graph.updateCellSize(node1);
-					hashMap.put(block.getbNo(), node1);
-				}
-				else {
-					node1 = hashMap.get(block.getbNo());
-				}
-				ArrayList<AsmBlockModel> subBlockSet = block.getSubBlockSet();
-				for (int j = 0; j < subBlockSet.size(); j++) {
-					AsmBlockModel sublock = subBlockSet.get(j);
-					if (hashMap.get(sublock.getbNo()) == null) {
-						node2 = (mxCell) graph.insertVertex(parent, null, sublock.getbNo(), 20,
-								20, width, height, shap);
-						graph.updateCellSize(node2);
-						hashMap.put(sublock.getbNo(), node2);
-					}
-					else {
-						node2 = hashMap.get(sublock.getbNo());
-					}
-					graph.insertEdge(parent, null, null, node1, node2);
-				}
-			}
-			mxIGraphLayout layout = new mxHierarchicalLayout(graph);
-			layout = new mxHierarchicalLayout(graph, SwingConstants.NORTH);
-			layout.execute(graph.getDefaultParent());
-			// layout = new mxCompactTreeLayout(graph, false);
-			// layout = new mxCompactTreeLayout(graph, true);
-			// layout = new mxParallelEdgeLayout(graph);
-			// layout = new mxEdgeLabelLayout(graph);
-			// layout = new mxOrganicLayout(graph);
-		}
-		finally {
-			graph.getModel().endUpdate();
-		}
-		final mxGraphComponent graphComponent = new mxGraphComponent(graph);
-		SwingUtilities.invokeLater(new Runnable() {
-			 @Override
-			public void run() {
-				 frame.add(graphComponent);
-			 }
-		});
-		/*
-		 * 点击控制流图结点
-		 */
-		graphComponent.getGraphControl().addMouseListener(new MouseAdapter()
-		{
 		
-			@Override
-			public void mouseReleased(MouseEvent e)
-			{
-				Object cell = graphComponent.getCellAt(e.getX(), e.getY());
+		force.nodes(new Node(1, "1", 15));
+	    force.nodes(new Node(2, "1-2", 10));
+	    force.links(new Link(1, "1-2", 10));
+	    force.nodes(new Node(1, "2", 15));
+		/*
+		for (int i = 1; i < blockListSize; i++) {
+			AsmBlockModel block = blockList.get(i);
+			force.nodes(new Node(1, ""+block.getbNo(), 15));
+			System.out.println("force.nodes(new Node(1, \""+block.getbNo()+"\", 15));");
+			
+			ArrayList<AsmBlockModel> subBlockSet = block.getSubBlockSet();
+			for (int j = 0; j < subBlockSet.size(); j++) { 
+				AsmBlockModel sublock = subBlockSet.get(j);
+				force.nodes(new Node(2, block.getbNo()+"-"+sublock.getbNo(), 10));
+				force.links(new Link(""+block.getbNo(), block.getbNo()+"-"+sublock.getbNo(), 10));
 				
-				if (cell != null)
-				{
-					String blocknum = graph.getLabel(cell);
-					//System.out.println(blocknum);
-					showBlock(blocknum);
-				}
+				System.out.println("force.nodes(new Node(2, \""+block.getbNo()+"-"+sublock.getbNo()+"\", 10));");
+				System.out.println("force.links(new Link(\""+block.getbNo()+"\", \""+block.getbNo()+"-"+sublock.getbNo()+"\", 10));");
 			}
-		});
-	}
+		}*/
+		option.series(force);
+	    option.exportToHtml("force1.html");
+	    browser.setUrl("file://d:/tmp/force1.html");
+	    // option.view();
+ 	}
 
 	/*
-	 * 通过基本块号高亮汇编代码
+	 * 
 	 */
 	public void showBlock(String blocknum){
 //		int num =Integer.parseInt(blocknum);

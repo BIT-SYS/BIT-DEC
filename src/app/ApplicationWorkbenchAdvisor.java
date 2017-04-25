@@ -16,9 +16,11 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.internal.ide.model.WorkbenchAdapterBuilder;
 import org.osgi.framework.Bundle;
 
+import utils.Constant;
+
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
-	private static final String PERSPECTIVE_ID = "BIT_DEC.perspective"; //$NON-NLS-1$
+	private static final String PERSPECTIVE_ID = Constant.PERSPECTIVE_ID; //$NON-NLS-1$
 
     @Override
 	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
