@@ -10,7 +10,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
-
+/*
 import com.mxgraph.layout.mxCompactTreeLayout;
 import com.mxgraph.layout.mxEdgeLabelLayout;
 import com.mxgraph.layout.mxIGraphLayout;
@@ -20,7 +20,7 @@ import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
-
+*/
 import core.callgraph.FuncModel;
 import core.callgraph.FuncParser;
 import core.callgraph.JavaCalledList;
@@ -29,18 +29,19 @@ public class CallGraphView extends ViewPart {
 
 	private Composite composite;
 	private Frame frame;
+	/*
 	private ArrayList<String> NodeListText;
 	private ArrayList<mxCell> NodeList;
 	private String temp;
 	private mxCell node1;
 	private mxCell node2;
+	*/
 	private int width = 150;
 	private int height = 40;
 	private String shap = null;
 	private String temp8;
 
-	protected static mxGraphComponent graghComponent = new mxGraphComponent(
-			new mxGraph());
+	//protected static mxGraphComponent graghComponent = new mxGraphComponent(new mxGraph());
 
 	public CallGraphView() {
 	}
@@ -58,7 +59,7 @@ public class CallGraphView extends ViewPart {
 
 	public void drawCallGraph() {
 		frame = SWT_AWT.new_Frame(composite);
-
+/*
 		NodeListText = new ArrayList<String>();
 		NodeList = new ArrayList<mxCell>();
 
@@ -201,6 +202,7 @@ public class CallGraphView extends ViewPart {
 				frame.add(graphComponent);
 			}
 		});
+		*/
 	}
 
 }

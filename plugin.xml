@@ -59,12 +59,6 @@
             name="Navigator"
             restorable="true">
       </view>
-      <view
-            class="org.eclipse.ui.navigator.CommonNavigator"
-            id="navigator"
-            name="Navigator"
-            restorable="true">
-      </view>
    </extension>
    <extension
          point="org.eclipse.ui.console.consoleFactories">
@@ -98,7 +92,7 @@
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             extensions="asm,java"
             icon="icons/sample.gif"
-            id="bit_dec.ASMeditors.ASMEditor"
+            id="editor.asm.ASMEditor"
             name="ASM Editor">
       </editor>
    </extension> >

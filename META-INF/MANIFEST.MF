@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Bit-dec2
-Bundle-SymbolicName: bit-dec2;singleton:=true
+Bundle-SymbolicName: bit-dec;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: app.Activator
 Require-Bundle: org.eclipse.ui,

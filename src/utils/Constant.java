@@ -5,7 +5,7 @@ package utils;
 import java.io.File;
 
 public class Constant {
-	public static final String PLUGIN_ID 		 = "BIT_DEC";
+	public static final String PLUGIN_ID 		 = "bit-dec";
 	public static final String PERSPECTIVE_ID    = "app.Perspective";
 	public static final String VIEW_ADVANCEDCODE = "view.AdvancedCodeView";
 	public static final String VIEW_CALLGRAPH    = "view.CallGraphView";
