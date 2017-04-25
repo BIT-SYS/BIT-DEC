@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>函数调用关系图</title>
+    <style>*{ margin:0} html,body{ height:100%} .wrapper{ min-height:100%; height:auto !important; height:100%; margin:0 auto -155px} .footer,.push{ height:155px} table.gridtable{ font-family:verdana,arial,sans-serif; font-size:11px; color:#333; border-width:1px; border-color:#666; border-collapse:collapse; margin:5px auto} table.gridtable th{ border-width:1px; padding:8px; border-style:solid; border-color:#666; background-color:#dedede} table.gridtable td{ border-width:1px; padding:8px; border-style:solid; border-color:#666; background-color:#fff} .middle{ text-align:center; margin:0 auto; width:90%; height:auto} .info{ font-size:12px; text-align:center; line-height:20px; padding:40px} .info a{ margin:0 10px; text-decoration:none; color:green}</style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="middle">
+        <h1 style="padding: 70px 0 20px;">函数调用关系图</h1>
+        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+        <div id="main" style="height:400px">函数调用关系图</div>
+    </div>
+    <div class="push"></div>
+</div>
+</body>
+<!-- ECharts单文件引入 -->
+<script src="./echarts-all.js"></script>
+<script type="text/javascript">
+// 基于准备好的dom，初始化echarts图表
+var myChart = echarts.init(document.getElementById('main'));
+
+var option = {"title": {"text": "人物关系：乔布斯","subtext": "数据来自人立方","x": "right","y": "bottom"},"toolbox": {"feature": {"restore": {"show": true,"title": "杩樺師"},"saveAsImage": {"show": true,"title": "淇濆瓨涓哄浘鐗�","type": "png","lang": ["鐐瑰嚮淇濆瓨"]}},"show": true},"tooltip": {"trigger": "item","formatter": "{a} : {b}"},"legend": {"data": ["家人","朋友"],"x": "left"},"series": [{"categories": [{"name": "人物"},{"name": "家人"},{"name": "朋友"}],"nodes": [{"name": "1","category": 1,"value": 15},{"name": "1-1","category": 2,"value": 10},{"name": "1-2","category": 2,"value": 10},{"name": "2","category": 1,"value": 15}],"links": [{"source": "1","target": "1-1","weight": 10},{"source": "1","target": "1-2","weight": 10}],"minRadius": 15,"maxRadius": 25,"linkSymbol": "arrow","scaling": 1.1,"gravity": 1.1,"useWorker": false,"name": "人物关系","type": "force","itemStyle": {"normal": {"label": {"show": true,"textStyle": {"color": "#333"}},"nodeStyle": {"brushType": "both","color": "rgba(255,215,0,0.4)","borderWidth": 1}},"emphasis": {"label": {"show": true},"nodeStyle": {},"linkStyle": {}}}}]};
+
+// 为echarts对象加载数据
+myChart.setOption(option);
+</script>
+</html>

@@ -1,7 +1,7 @@
 package view;
 
+import test.test;
 import java.util.ArrayList;
-
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.TitleEvent;
 import org.eclipse.swt.browser.TitleListener;
@@ -10,25 +10,10 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
-
+import utils.Constant;
 import core.dissambler.AsmBlockModel;
 import core.dissambler.AsmFuncModel;
 
-import com.github.abel533.echarts.Label;
-import com.github.abel533.echarts.code.BrushType;
-import com.github.abel533.echarts.code.Symbol;
-import com.github.abel533.echarts.code.Tool;
-import com.github.abel533.echarts.code.Trigger;
-import com.github.abel533.echarts.code.X;
-import com.github.abel533.echarts.code.Y;
-//import com.github.abel533.echarts.code.*;
-import com.github.abel533.echarts.series.Force;
-import com.github.abel533.echarts.series.force.Link;
-import com.github.abel533.echarts.series.force.Node;
-import com.github.abel533.echarts.style.LinkStyle;
-import com.github.abel533.echarts.style.NodeStyle;
-import com.github.abel533.echarts.style.TextStyle;
-import com.github.abel533.echarts.util.EnhancedOption;
 
 public class CFGView extends ViewPart {
 
@@ -50,7 +35,7 @@ public class CFGView extends ViewPart {
 				
 			 }
 		   });
-		//browser.setUrl("file://d:/tmp/force1.html");
+		//browser.setUrl(Constant.OUTPUTFOLDER+"force1.html");
 		browser.setBounds(parent.getBounds());
 		browser.setVisible(true);
 		
@@ -59,7 +44,7 @@ public class CFGView extends ViewPart {
 	        public void controlResized(final ControlEvent e) {
 	            //System.out.println("RESIZE");
 	            //browser.setBounds(parent.getBounds());
-	        	//browser.setUrl("file://d:/tmp/force1.html");
+	        	//browser.setUrl(Constant.OUTPUTFOLDER+"CFG.html");
 	        	browser.redraw();
 	        }
 	    });
@@ -73,6 +58,7 @@ public class CFGView extends ViewPart {
 	
 	public void drawCFG(AsmFuncModel funcModel) {
 		// use ECharts to draw charts
+		/*
 		EnhancedOption option = new EnhancedOption();
 	    option.title().text("人物关系：乔布斯").subtext("数据来自人立方").x(X.right).y(Y.bottom);
 	    option.tooltip().trigger(Trigger.item).formatter("{a} : {b}");
@@ -91,14 +77,22 @@ public class CFGView extends ViewPart {
 	            .nodeStyle(new NodeStyle())
 	            .label().show(true);
 	    force.useWorker(false).minRadius(15).maxRadius(25).gravity(1.1).scaling(1.1).linkSymbol(Symbol.arrow);
-    
+	    
+	    force.nodes(new Node(1, "1", 15));
+	    force.nodes(new Node(2, "1-1", 10));
+	    force.nodes(new Node(2, "1-2", 10));
+	    force.links(new Link("1", "1-1", 10));
+	    force.links(new Link("1", "1-2", 10));
+	    force.nodes(new Node(1, "2", 15));
+	
+	    option.series(force);
+	    option.exportToHtml(Constant.OUTPUTFOLDER+"CFG.html");*/
+
+	    browser.setUrl(Constant.OUTPUTFOLDER+"CFG.html");
+	    
 		ArrayList<AsmBlockModel> blockList = funcModel.getBlockList();
 		int blockListSize = blockList.size();
 		
-		force.nodes(new Node(1, "1", 15));
-	    force.nodes(new Node(2, "1-2", 10));
-	    force.links(new Link(1, "1-2", 10));
-	    force.nodes(new Node(1, "2", 15));
 		/*
 		for (int i = 1; i < blockListSize; i++) {
 			AsmBlockModel block = blockList.get(i);
@@ -115,10 +109,7 @@ public class CFGView extends ViewPart {
 				System.out.println("force.links(new Link(\""+block.getbNo()+"\", \""+block.getbNo()+"-"+sublock.getbNo()+"\", 10));");
 			}
 		}*/
-		option.series(force);
-	    option.exportToHtml("force1.html");
-	    browser.setUrl("file://d:/tmp/force1.html");
-	    // option.view();
+		
  	}
 
 	/*

@@ -13,8 +13,8 @@ public class Constant {
 	public static final String VIEW_FUNCSVIEW    = "view.FuncsView";
 	public static final String VIEW_NAVIGATOR    = "view.NavigatorView";
 	
-	public static String TEMPLATE     = "D:/WorkSpace/eclipse-rcp/bit-dec2/resources/template";
-	public static String OUTPUTFOLDER = "D:/tmp/";
+	public static String TEMPLATE     = "D:/WorkSpace/eclipse-rcp/bit-dec/resources/template";
+	public static String OUTPUTFOLDER = "D:/WorkSpace/eclipse-rcp/bit-dec/resources/";
 	
 	
 	

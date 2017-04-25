@@ -98,7 +98,7 @@ public class EnhancedOption extends GsonOption implements TestConfig {
         Writer writer = null;
         List<String> lines = readLines();
         //写入文件
-        File html = new File(Constant.OUTPUTFOLDER + "/" + fileName);
+        File html = new File(fileName);
         try {
             writer = new OutputStreamWriter(new FileOutputStream(html), "UTF-8");
             for (String l : lines) {
