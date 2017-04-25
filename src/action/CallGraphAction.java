@@ -9,11 +9,10 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import app.Activator;
-import core.callgraph.FuncParser;
 import utils.Constant;
 import utils.PathTools;
 import view.CallGraphView;
+import core.callgraph.FuncParser;
 
 public class CallGraphAction extends Action implements IWorkbenchAction{
 	private  IWorkbenchWindow workbenchWindow;
@@ -23,9 +22,9 @@ public class CallGraphAction extends Action implements IWorkbenchAction{
 			  throw   new  IllegalArgumentException();
 		   } 
 		this.setText("Generate Call Graph");
-		   this.workbenchWindow = window; 
-		   setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(Constant.PLUGIN_ID, "icons/graph.jpg"));
-		   this.setToolTipText("Generate Call Graph");
+	   this.workbenchWindow = window; 
+	   setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(Constant.PLUGIN_ID, "icons/graph.jpg"));
+	   this.setToolTipText("Generate Call Graph");
 	}
 	
 	

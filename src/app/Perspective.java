@@ -14,18 +14,15 @@ public class Perspective implements IPerspectiveFactory {
 		String editorArea = layout.getEditorArea();
 		layout.setEditorAreaVisible(true);
 		
-		IFolderLayout leftFolder = layout.createFolder("", IPageLayout.LEFT,  0.2f, editorArea);
-		IFolderLayout mainfolder = layout.createFolder("", IPageLayout.RIGHT, 0, editorArea);
-		//IFolderLayout srcfolder  = layout.createFolder("", IPageLayout.RIGHT, 0.5f, editorArea);
-		//leftFolder.addPlaceholder(Constant.VIEW_NAVIGATOR + ":*");
+		IFolderLayout rightFolder = layout.createFolder("", IPageLayout.RIGHT, 0.5f, editorArea);
 		layout.addView(IConsoleConstants.ID_CONSOLE_VIEW, IPageLayout.BOTTOM,0.8f, editorArea);
+		IFolderLayout leftFolder = layout.createFolder("", IPageLayout.LEFT,  0.3f, editorArea);
+		rightFolder.addView(Constant.VIEW_FUNCSVIEW);
+		rightFolder.addView(Constant.VIEW_CALLGRAPH);
+		rightFolder.addView(Constant.VIEW_ADVANCEDCODE);
+		rightFolder.addView(Constant.VIEW_CGF);
+		//rightFolder.addView("bit_dec.ASMeditors.ASMEditor");
 		leftFolder.addView(Constant.VIEW_NAVIGATOR);
-		//leftFolder.addView(Constant.NAVIGATOR);
-		mainfolder.addView(Constant.VIEW_FUNCSVIEW);
-		mainfolder.addView(Constant.VIEW_CALLGRAPH);
-		mainfolder.addView(Constant.VIEW_ADVANCEDCODE);
-		mainfolder.addView(Constant.VIEW_CGF);
-		mainfolder.addView("bit_dec.ASMeditors.ASMEditor");
 		//srcfolder.addView(Constant.VIEW_ADVANCEDCODE);
 		//srcfolder.addView(Constant.VIEW_CGF);
 		
