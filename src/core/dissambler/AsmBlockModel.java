@@ -3,7 +3,7 @@ package core.dissambler;
 import java.util.ArrayList;
 
 public class AsmBlockModel {
-	private int bNo; //»ù±¾¿é±àºÅ
+	private int bNo; //Â»Ã¹Â±Â¾Â¿Ã©Â±Ã ÂºÃ…
 	private ArrayList<AsmBlockModel> preBlockSet;
 	private ArrayList<AsmBlockModel> subBlockSet;
 	private ArrayList<AsmInstModel> instList;

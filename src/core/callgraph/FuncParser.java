@@ -45,7 +45,7 @@ public class FuncParser {
 	
 	public final static String[] filterFuncs= {"__gnu_","_Unwind_","__aeabi_","__restore_"};
 	/**
-	 * Ö÷º¯Êı½øĞĞ²âÊÔÓÃ
+	 * ä¸»å‡½æ•°è¿›è¡Œæµ‹è¯•ç”¨
 	 * @param args
 	 */
 	public static void main(String[] args){
@@ -59,7 +59,7 @@ public class FuncParser {
 		this.projectPath = projectPath;
 		this.javafuncList = new ArrayList<>();
 		this.asmfuncList = new ArrayList<>();
-		//¶ÔsmaliÎÄ¼ş½øĞĞÔ¤´¦Àí£¬È¥×¢ÊÍ
+		//å¯¹smaliæ–‡ä»¶è¿›è¡Œé¢„å¤„ç†ï¼Œå»æ³¨é‡Š
 //		try {
 //			this.clearComments(this.smaliPath);
 //		} catch (FileNotFoundException | UnsupportedEncodingException e) {
@@ -71,23 +71,23 @@ public class FuncParser {
 		String armRootPath = checkARMRoot(this.projectPath);
 		if (armRootPath != null) {
 			this.armRootPath = armRootPath;
-			//Ö±½Ó»ñÈ¡asmµÄº¯Êıµ÷ÓÃ¹ØÏµ£¨²»°üÀ¨soµ÷ÓÃjava£©
+			//ç›´æ¥è·å–asmçš„å‡½æ•°è°ƒç”¨å…³ç³»ï¼ˆä¸åŒ…æ‹¬soè°ƒç”¨javaï¼‰
 			parseASMDire(new File(this.armRootPath));
 		}
 		System.out.println("========================================================");
-		//»ñÈ¡javaµÄº¯ÊıÁĞ±í
+		//è·å–javaçš„å‡½æ•°åˆ—è¡¨
 		JavaFuncList javaFuncList = new JavaFuncList();
 		javaFuncList.listJavaFile(new File(this.projectPath+"/src"));
-		//»ñÈ¡javaµÄº¯Êıµ÷ÓÃ±í
+		//è·å–javaçš„å‡½æ•°è°ƒç”¨è¡¨
 		JavaCalledList javaCalledList = new JavaCalledList();
 		javaCalledList.listJavaFile(new File(this.projectPath+"/src"));
 		
 		
-		//Í¨¹ısmali½øĞĞjavaµÄº¯Êı½âÎö
+		//é€šè¿‡smaliè¿›è¡Œjavaçš„å‡½æ•°è§£æ
 		//parseSmaliDire(new File(this.smaliPath));
 	}
 	/**
-	 * ½âÎöSmaliÎÄ¼ş¼Ğ
+	 * è§£æSmaliæ–‡ä»¶å¤¹
 	 * @throws IOException 
 	 * @throws ParseException 
 	 */
@@ -99,14 +99,14 @@ public class FuncParser {
 //					this.parseSmali(files[i]);
 //				}
 //			}else if (!files[i].isFile()
-//					//²»¶ÔandroidÎÄ¼ş¼ĞÏÂµÄsmali½øĞĞ½âÎö
+//					//ä¸å¯¹androidæ–‡ä»¶å¤¹ä¸‹çš„smaliè¿›è¡Œè§£æ
 //					&& !files[i].getName().equals("android")) {
 //				parseSmaliDire(files[i]);
 //			} 
 //		}
 //	}
 	/**
-	 * ½âÎöASMÎÄ¼ş¼Ğ
+	 * è§£æASMæ–‡ä»¶å¤¹
 	 */
 	private void parseASMDire(File file){
 		File[] files = file.listFiles();
@@ -121,7 +121,7 @@ public class FuncParser {
 		}
 	}
 	/**
-	 * ½âÎöÒ»¸öASMÎÄ¼ş
+	 * è§£æä¸€ä¸ªASMæ–‡ä»¶
 	 * @param file
 	 */
 	@SuppressWarnings("resource")
@@ -138,15 +138,15 @@ public class FuncParser {
 			while ((line = reader.readLine())!= null && !line.contains("Disassembly of section .text:"));
 			while ((line = reader.readLine())!= null && !line.contains("Disassembly of section")) {
 				if(line.contains(">:")){
-					//´æ´¢ÉÏÒ»¸öº¯ÊıµÄµ÷ÓÃ¹ØÏµ
+					//å­˜å‚¨ä¸Šä¸€ä¸ªå‡½æ•°çš„è°ƒç”¨å…³ç³»
 					if (funcModel != null && calledFuncList !=null ) {
 						funcModel.setCalledFuncList(calledFuncList);
 						asmfuncList.add(funcModel);
 						System.out.println(funcModel.toString2());
 					}
-					//ÌáÈ¡º¯ÊıÃû
+					//æå–å‡½æ•°å
 					temp5 = line.substring(line.indexOf('<')+1, line.indexOf('>'));
-					//¹ıÂËµ½Ã»ÓÃµÄº¯Êı
+					//è¿‡æ»¤åˆ°æ²¡ç”¨çš„å‡½æ•°
 					int filterFlag = 0;
 					for(String fiterFunc:filterFuncs){
 						if (temp5.startsWith(fiterFunc)) {
@@ -157,14 +157,14 @@ public class FuncParser {
 					if (filterFlag == 1) {
 						continue;
 					}
-					//³õÊ¼»¯µ±Ç°º¯Êı
+					//åˆå§‹åŒ–å½“å‰å‡½æ•°
 					calledFuncList = new HashSet<FuncModel>();
 					funcModel = new FuncModel();
 					funcModel.setFuncName(temp5);
 					GoalFuncIndex = 1;
 					continue;
 				}
-				//ÌáÈ¡µ÷ÓÃº¯Êı
+				//æå–è°ƒç”¨å‡½æ•°
 				if(GoalFuncIndex == 1){
 					String calledFuncName;
 					String[] words = line.split("\\s+");
@@ -194,7 +194,7 @@ public class FuncParser {
 	}
 	
 	/**
-	 * ½âÎöÒ»‚€smaliÎÄ¼ş
+	 * è§£æä¸€å€‹smaliæ–‡ä»¶
 	 * @param file
 	 */
 //	private void parseSmali(File file) {
@@ -213,7 +213,7 @@ public class FuncParser {
 //					FuncModel funcModel = splitFunStr(line);
 //					javafuncList.add(funcModel);
 //				}
-//				// µÃµ½ÀàÃûºÍ°üÃû
+//				// å¾—åˆ°ç±»åå’ŒåŒ…å
 //				else if (line.contains("class ")) {
 //					classLineStrArr = line.split("\\s+");
 //					for (int i = 0; i < classLineStrArr.length; i++) {
@@ -231,7 +231,7 @@ public class FuncParser {
 //						}
 //					}
 //				}
-//				// »ñµÃ°üÃû
+//				// è·å¾—åŒ…å
 //				else if (line.contains("import ")) {
 //					this.packName = line.substring(line.indexOf(" "),line.length()-line.indexOf(" ")).trim();
 //				}
@@ -249,7 +249,7 @@ public class FuncParser {
 //	}
 
 	/**
-	 * ½âÎöÒ»¸öjavaº¯Êı
+	 * è§£æä¸€ä¸ªjavaå‡½æ•°
 	 * @param funcLine
 	 * @return
 	 */
@@ -258,15 +258,15 @@ public class FuncParser {
 //		String[] listt = funcLine.split("[\\(\\)]");
 //		String[] list1 = listt[0].split("\\s+");
 //		funcModel.setPackName(this.packName);
-//		//»ñÈ¡ÀàÃû
-//		if (list1[list1.length - 1].equals("startActivity")) {// ????????????????????²»Ö¹Ò»¸östartActivity
+//		//è·å–ç±»å
+//		if (list1[list1.length - 1].equals("startActivity")) {// ????????????????????ä¸æ­¢ä¸€ä¸ªstartActivity
 //			funcModel.setClassName("");
 //		} else {
 //			funcModel.setClassName(this.className);
 //		}
-//		//»ñÈ¡º¯ÊıÃûreplace
+//		//è·å–å‡½æ•°åreplace
 //		funcModel.setFuncName(list1[list1.length - 1].replaceAll("\\s", ""));
-//		//»ñÈ¡º¯Êı·µ»ØÖµ
+//		//è·å–å‡½æ•°è¿”å›å€¼
 //		if (list1.length == 1) {
 //			funcModel.setRetType("");
 //		} else if ((list1[list1.length - 2].equals("public"))
@@ -280,13 +280,13 @@ public class FuncParser {
 //		} else {
 //			funcModel.setRetType(list1[list1.length - 2].trim());
 //		}
-//		//»ñÈ¡º¯Êı²ÎÊıÁĞ±í
-//		//1.Ã»ÓĞ²ÎÊıµÄÇé¿ö
+//		//è·å–å‡½æ•°å‚æ•°åˆ—è¡¨
+//		//1.æ²¡æœ‰å‚æ•°çš„æƒ…å†µ
 //		if (listt.length == 1) {
 //			funcModel.setArgTypeList(new ArrayList<String>());
 //		} else if (listt[1].equals("")) {
 //			funcModel.setArgTypeList(new ArrayList<String>());
-//		//2.º¬ÓĞ²ÎÊıµÄÇé¿ö
+//		//2.å«æœ‰å‚æ•°çš„æƒ…å†µ
 //		} else {
 //			ArrayList<String> arglist = new ArrayList<>();
 //			String[] list2 = listt[1].trim().split(",");
@@ -302,9 +302,9 @@ public class FuncParser {
 //	}
 	
 	/**
-	 * ™z²éÓĞ›]ÓĞARMÎÄ¼ş
-	 * @param preojectPath ßxÖĞí—Ä¿µÄÂ·½
-	 * @return é¿Õ±íÃ÷›]ÓĞARMÎÄ¼ş,·ñ„t·µ»ØARMRootPath
+	 * æ£€æŸ¥æœ‰æ²¡æœ‰ARMæ–‡ä»¶
+	 * @param preojectPath é€‰ä¸­é¡¹ç›®çš„è·¯å¾„
+	 * @return ä¸ºç©ºè¡¨æ˜ARMæ–‡ä»¶,å¦åˆ™è¿”å›ARMRootPath
 	 */
 	private String checkARMRoot(String preojectPath){
 		File projectFile = new File(preojectPath);
@@ -317,7 +317,7 @@ public class FuncParser {
 		return null;
 	}
 	/**
-	 * javaÎÄ¼ş¼ĞÈ¥³ı×¢ÊÍ
+	 * javaæ–‡ä»¶å¤¹å»é™¤æ³¨é‡Š
 	 * @param rootPath
 	 * @throws FileNotFoundException
 	 * @throws UnsupportedEncodingException
@@ -341,7 +341,7 @@ public class FuncParser {
 	}
 	
 	/**
-	 * ´òÓ¡º¯ÊıÁĞ±í
+	 * æ‰“å°å‡½æ•°åˆ—è¡¨
 	 */
 	public void printFuncList(){
 		for(FuncModel fm: this.javafuncList){
@@ -380,7 +380,7 @@ public class FuncParser {
 //		include = ff;
 //		File file  = new File(path1);
 //		/*
-//		 * ¹¹½¨Javaº¯Êı±í£¨ÒÔ¼°¹¹½¨Cº¯Êı±íºÍµ÷ÓÃ±í£©
+//		 * æ„å»ºJavaå‡½æ•°è¡¨ï¼ˆä»¥åŠæ„å»ºCå‡½æ•°è¡¨å’Œè°ƒç”¨è¡¨ï¼‰
 //		 */
 //		System.out.println("path1:"+path1);
 //		System.out.println("ARMfilepath:"+ARMfilepath);
@@ -391,11 +391,11 @@ public class FuncParser {
 //			listARMFile(ARMfile);
 //		}
 //		/*
-//		 * ¹¹½¨Javaµ÷ÓÃ±í
+//		 * æ„å»ºJavaè°ƒç”¨è¡¨
 //		 */
 //		JavaGraghInfo(file);
 //		/*
-//		 * »­³öµ÷ÓÃÍ¼
+//		 * ç”»å‡ºè°ƒç”¨å›¾
 //		 */
 //		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 //		IViewPart viewPart;
@@ -469,7 +469,7 @@ public class FuncParser {
 //						allCCallGragh.add(OnefuncInnerBean);
 //					}
 //					if(line.contains(">:")){
-//						//ÌáÈ¡º¯ÊıÃû
+//						//æå–å‡½æ•°å
 //						temp5 = line.substring(line.indexOf('<')+1, line.indexOf('>'));
 //						if((!temp5.startsWith("_")) && (!temp5.startsWith("__"))){
 //							GoalFuncIndex = 1;
@@ -484,7 +484,7 @@ public class FuncParser {
 //						}
 //						
 //					}
-//					//ÌáÈ¡µ÷ÓÃº¯Êı
+//					//æå–è°ƒç”¨å‡½æ•°
 //					if(GoalFuncIndex == 1){
 //						String[] words;
 //						String callFunc;
@@ -521,16 +521,16 @@ public class FuncParser {
 //	public void getJavaFuncsInfo(File file){
 //
 //		
-//		 //µÃµ½¸±±¾
+//		 //å¾—åˆ°å‰¯æœ¬
 //		 Copy(file.getPath(),file.getPath()+".copy.noblank");
-//		 //È¥³ı¸±±¾×¢ÊÍ 
+//		 //å»é™¤å‰¯æœ¬æ³¨é‡Š 
 //		 clearcomment = new FilePretreatment(); 
 //		 try {
 //		 clearcomment.clearComment(file.getPath()+".copy.noblank"); }
 //		 catch (FileNotFoundException e) { e.printStackTrace(); }
 //		 catch (UnsupportedEncodingException e) {
 //		 e.printStackTrace(); }
-//		 //´¦ÀíjavaµÃµ½º¯ÊıĞÅÏ¢±í
+//		 //å¤„ç†javaå¾—åˆ°å‡½æ•°ä¿¡æ¯è¡¨
 //	}
 //	
 //	public void JavaGraghInfo(File file){
@@ -579,7 +579,7 @@ public class FuncParser {
 //			}
 //			
 //			while((line = reader.readLine())!= null){
-//				//ÌáÈ¡»ùº¯Êı²¢´´½¨OnefuncInnerBean
+//				//æå–åŸºå‡½æ•°å¹¶åˆ›å»ºOnefuncInnerBean
 //				if(!line.equals("")){
 //				left_kuohao = 0;
 //				right_kuohao = 0;
@@ -588,7 +588,7 @@ public class FuncParser {
 //				Single_func_self = new FuncModel();
 //				splitFunStr1(line);
 //				OnefuncInnerBean.setFuncSelf(Single_func_self);
-//				//µ¥¸öÌáÈ¡??????????????????????????????????????Í¬Ê±»¹ÒªÕÒ³ö¸Ãº¯ÊıµÄÀàĞÍ
+//				//å•ä¸ªæå–??????????????????????????????????????åŒæ—¶è¿˜è¦æ‰¾å‡ºè¯¥å‡½æ•°çš„ç±»å‹
 //				while((line = reader.readLine())!= null){
 //					if(line.contains("{")){
 //						left_kuohao++;
@@ -604,7 +604,7 @@ public class FuncParser {
 //						long_string = long_string + line;
 //					}
 //				}
-//				//??????????????????Ñ°ÕÒactivityÈ»ºóÌø×ª,¶øÇÒ»¹ÓĞsetClass µÈ
+//				//??????????????????å¯»æ‰¾activityç„¶åè·³è½¬,è€Œä¸”è¿˜æœ‰setClass ç­‰
 //				if(long_string.contains("setClass")){
 //					
 //					FuncModel ff = new FuncModel();
@@ -634,7 +634,7 @@ public class FuncParser {
 //					}
 //					
 //				}
-//				//Ñ°ÕÒµ÷ÓÃº¯Êı²¢·ÖÀë³ö²ÎÊı£¨ÌØ±ğÊÇÎªÁËcÓïÑÔµÄ²ÎÊıÍÆ¶Ï£©
+//				//å¯»æ‰¾è°ƒç”¨å‡½æ•°å¹¶åˆ†ç¦»å‡ºå‚æ•°ï¼ˆç‰¹åˆ«æ˜¯ä¸ºäº†cè¯­è¨€çš„å‚æ•°æ¨æ–­ï¼‰
 //				SeekFuncs(long_string);
 //				allJavaCallGragh.add(OnefuncInnerBean);
 //				}
@@ -646,16 +646,16 @@ public class FuncParser {
 //	}
 //	
 //	public void SeekFuncs(String temp_str){
-////		É¨Ãæjavaµ÷ÓÃµÄjava
+////		æ‰«é¢javaè°ƒç”¨çš„java
 //		
 //		
 //		for(int i=0;i<allJavaFuncsInfo.size();i++){
-////			???????????1.²»Í¬ÀàÏàÍ¬µÄº¯Êı 2.ÏàÍ¬º¯Êı²»Í¬²ÎÊı
+////			???????????1.ä¸åŒç±»ç›¸åŒçš„å‡½æ•° 2.ç›¸åŒå‡½æ•°ä¸åŒå‚æ•°
 //			if(temp_str.contains(allJavaFuncsInfo.get(i).getFunName())){
 //				OnefuncInnerBean.addFuncInnerFunc(allJavaFuncsInfo.get(i));
 //			}
 //		}
-////		É¨Ãèjavaµ÷ÓÃµÄc
+////		æ‰«æjavaè°ƒç”¨çš„c
 //		int CfuncIndex;
 //		int CfuncKuohaoStartIndex;
 //		int CfuncKuohaoEndIndex;
@@ -666,7 +666,7 @@ public class FuncParser {
 //		for(int i=0;i<allCFuncsInfo.size();i++){
 //			if(allCFuncsInfo.get(i).getFunName().startsWith("Java_")){
 //				if(temp_str.contains(allCFuncsInfo.get(i).getFunName())){
-////					ÌáÈ¡Cº¯ÊıµÄ²ÎÊı
+////					æå–Cå‡½æ•°çš„å‚æ•°
 //					CfuncIndex = temp_str.indexOf(allCFuncsInfo.get(i).getFunName());
 //					rest = temp_str.substring(CfuncIndex);
 //					CfuncKuohaoStartIndex = rest.indexOf('(');
@@ -698,8 +698,8 @@ public class FuncParser {
 //		if(listt.length == 1){
 //			Single_func_self.setFuncArgNum(0);
 //			Single_func_self.addArgType("_null");
-////			System.out.println("¸¸º¯Êı²ÎÊı¸öÊı:0");
-////			System.out.println("¸¸º¯Êı²ÎÊıÀàĞÍ:_null");
+////			System.out.println("çˆ¶å‡½æ•°å‚æ•°ä¸ªæ•°:0");
+////			System.out.println("çˆ¶å‡½æ•°å‚æ•°ç±»å‹:_null");
 //		}
 //		else{
 //			String[] list2 = listt[1].split(",");
@@ -707,10 +707,10 @@ public class FuncParser {
 //			int args_count = 0;
 //			args_num= list2.length;
 //			Single_func_self.setFuncArgNum(args_num);
-////			System.out.println("¸¸º¯Êı²ÎÊı¸öÊı:"+args_num);
+////			System.out.println("çˆ¶å‡½æ•°å‚æ•°ä¸ªæ•°:"+args_num);
 //			for(int i=0;i<list2.length;i++){
 //				if(list2[i]==""){
-////					System.out.println("¸¸º¯ÊıÀàĞÍ²ÎÊı:null");
+////					System.out.println("çˆ¶å‡½æ•°ç±»å‹å‚æ•°:null");
 //					Single_func_self.addArgType("_null");
 //				}
 //				else {
@@ -718,7 +718,7 @@ public class FuncParser {
 //					list22 = list2[i].split("\\s+");
 //					args_count = i+1;
 //					if(list22.length>=2){
-////						System.out.println("²ÎÊı"+args_count+":"+list22[list22.length-2]);
+////						System.out.println("å‚æ•°"+args_count+":"+list22[list22.length-2]);
 //						Single_func_self.addArgType(list22[list22.length-2]);
 //					}
 //					else{
@@ -731,10 +731,10 @@ public class FuncParser {
 //		
 //		
 //		Single_func_self.setFuncName(list1[list1.length-1]);
-////		System.out.println("¸¸º¯ÊıÃû:"+list1[list1.length-1]);
+////		System.out.println("çˆ¶å‡½æ•°å:"+list1[list1.length-1]);
 //		if(list1.length == 1){
 //			Single_func_self.setFuncReturn("_null");
-////			System.out.println("¸¸·µ»ØÀàĞÍ:_null");
+////			System.out.println("çˆ¶è¿”å›ç±»å‹:_null");
 //		}
 //		else if( (list1[list1.length-2].equals("public") )  ||
 //				(list1[list1.length-2].equals("private") )  ||
@@ -745,11 +745,11 @@ public class FuncParser {
 //				(list1[list1.length-2] == "final") )
 //			
 //		{
-////			System.out.println("¸¸·µ»ØÀàĞÍ: null");
+////			System.out.println("çˆ¶è¿”å›ç±»å‹: null");
 //			Single_func_self.setFuncReturn("_null");
 //		}
 //		else{
-////			System.out.println("¸¸·µ»ØÀàĞÍ:"+list1[list1.length-2]);
+////			System.out.println("çˆ¶è¿”å›ç±»å‹:"+list1[list1.length-2]);
 //			Single_func_self.setFuncReturn(list1[list1.length-2]);
 //		}
 //		
@@ -804,8 +804,8 @@ public class FuncParser {
 //	public void printJavaFuncInfo(){
 //		for(int i=0;i<allJavaFuncsInfo.size();i++){
 ////			System.out.println("++++++++++++++++");
-////			System.out.println("ÀàÃû£º"+allJavaFuncsInfo.get(i).getClassName());
-////			System.out.println("º¯ÊıÃû£º"+allJavaFuncsInfo.get(i).getFunName());
+////			System.out.println("ç±»åï¼š"+allJavaFuncsInfo.get(i).getClassName());
+////			System.out.println("å‡½æ•°åï¼š"+allJavaFuncsInfo.get(i).getFunName());
 //		}
 //	}
 

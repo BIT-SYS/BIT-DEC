@@ -20,7 +20,7 @@ public class PathTools {
 	private static IWorkbenchWindow _window;
 	
 	/**
-	 * «@µÃßxÖĞí—Ä¿µÄÂ·½
+	 * è·å–é€‰ä¸­é¡¹ç›®çš„è·¯å¾„
 	 * @param window
 	 * @return
 	 */
@@ -31,13 +31,13 @@ public class PathTools {
 			IProject iproject = (IProject) _selection.getFirstElement();
 			return iproject.getLocation().toString();
 		}catch (NullPointerException e) {
-			MessageDialog.openInformation(window.getShell(), "¾¯¸æ", "ÇëÏÈµã»÷ĞèÒª²Ù×÷µÄÏîÄ¿¹¤³Ì"); 
+			MessageDialog.openInformation(window.getShell(), "è­¦å‘Š", "è¯·å…ˆç‚¹å‡»éœ€è¦æ“ä½œçš„é¡¹ç›®å·¥ç¨‹"); 
 			return null;
 		}
 	}
 
 	/**
-	 * «@µÃßxÖĞÎÄ¼şµÄÂ·½
+	 * è·å–é€‰ä¸­æ–‡ä»¶çš„è·¯å¾„
 	 * @param window
 	 * @return
 	 */
@@ -51,7 +51,7 @@ public class PathTools {
 		return null;
 	}
 	/**
-	 * ¹¤¾ß°üÂ·¾¶
+	 * å·¥å…·åŒ…è·¯å¾„
 	 * @return
 	 */
 	public static String getToolsPath(){
@@ -64,7 +64,7 @@ public class PathTools {
 		}
 	}
 	/**
-	 * »ñÈ¡smaliÂ·¾¶
+	 * è·å–smaliè·¯å¾„
 	 * @param window
 	 * @return
 	 */

@@ -21,13 +21,13 @@ public class AsmTextSectionStruct {
 //	}
 	
 	/**
-	 * ½á¹¹»¯text section
+	 * ç»“æ„åŒ–text section
 	 */
 	public static void struct(String filepath) {
 		
 		String line = null;
 		InputStream is;
-		boolean isPop = false;//ÓÃÓÚÊ¶±ğÊÇ·ñµ½ÁËpopÖ¸Áî´¦£¬Èç¹ûÊÇ¾ÍÌø¹ıµ±Ç°º¯ÊıºóÃæµÄÊı¾İÖ¸Áî
+		boolean isPop = false;//ç”¨äºè¯†åˆ«æ˜¯å¦åˆ°äº†popæŒ‡ä»¤å¤„ï¼Œå¦‚æœæ˜¯å°±è·³è¿‡å½“å‰å‡½æ•°åé¢çš„æ•°æ®æŒ‡ä»¤
 		AsmFuncModel funcModel = null;
 		AsmInstModel instModel = null;
 		HashMap<String, AsmFuncModel> funcMap = new HashMap<>();
@@ -44,17 +44,17 @@ public class AsmTextSectionStruct {
 			//System.out.println("==========================================================================");
 			while ((line = reader.readLine())!= null && !line.contains("Disassembly of section")) {
 				//System.out.println(line);
-				//º¯Êı
+				//å‡½æ•°
 				if (line.trim().endsWith(">:")) {
 					isPop = false;
-					//´æ´¢º¯ÊıµÄ½áÎ²
+					//å­˜å‚¨å‡½æ•°çš„ç»“å°¾
 					if (funcModel != null && instModel != null) {
 						funcModel.setInstMap(instMap);
 						funcModel.setInstList(instList);
 						funcModel.setEnd(instModel.getAddr());
 						funcMap.put(funcModel.getFuncName(), funcModel);
 						funcList.add(funcModel);
-						//Çå¿ÕinstMap¸øÏÂÒ»¸öº¯ÊıÊ¹ÓÃ
+						//æ¸…ç©ºinstMapç»™ä¸‹ä¸€ä¸ªå‡½æ•°ä½¿ç”¨
 						instMap = new HashMap<>();
 						instList = new ArrayList<>();
 					}
@@ -62,15 +62,15 @@ public class AsmTextSectionStruct {
 					long addr = Long.parseLong(strs[0], 16);
 					String funcName = strs[1].substring(1,strs[1].length()-2);
 					funcModel = new AsmFuncModel();
-					//´æ´¢º¯ÊıµÄÆğÊ¼µØÖ·ºÍº¯ÊıÃû
+					//å­˜å‚¨å‡½æ•°çš„èµ·å§‹åœ°å€å’Œå‡½æ•°å
 					funcModel.setStart(addr);
 					funcModel.setFuncName(funcName);
 					continue;
 				}
-				//Ìø¹ı¿ÕĞĞºÍÊı¾İÖ¸Áî
+				//è·³è¿‡ç©ºè¡Œå’Œæ•°æ®æŒ‡ä»¤
 				if (line.trim().equals("") || isPop == true || line.trim().equals("..."))
 					continue;
-				//Ö¸Áî
+				//æŒ‡ä»¤
 				instModel = structInst(line);
 				instMap.put(instModel.getAddr(), instModel);
 				instList.add(instModel);
@@ -78,13 +78,13 @@ public class AsmTextSectionStruct {
 					isPop = true;
 				}
 			}
-			//´æ´¢×îºóÒ»¸öº¯ÊıµÄÄÚÈİ
+			//å­˜å‚¨æœ€åä¸€ä¸ªå‡½æ•°çš„å†…å®¹
 			funcModel.setInstMap(instMap);
 			funcModel.setInstList(instList);
 			funcModel.setEnd(instModel.getAddr());
 			funcMap.put(funcModel.getFuncName(), funcModel);
 			funcList.add(funcModel);
-			//´æ´¢funcMap
+			//å­˜å‚¨funcMap
 			textSectionModel.setFuncMap(funcMap);
 			textSectionModel.setFuncList(funcList);
 		} catch (IOException e) {
@@ -93,28 +93,28 @@ public class AsmTextSectionStruct {
 	}
 	
 	/**
-	 * ½á¹¹»¯Ö¸Áî×Ö·û´®
+	 * ç»“æ„åŒ–æŒ‡ä»¤å­—ç¬¦ä¸²
 	 * @param inst
 	 * @return
 	 */
 	private static AsmInstModel structInst(String inst){
 		AsmInstModel instModel = new AsmInstModel();
 		inst = inst.trim();
-		//»ñÈ¡×¢ÊÍÄÚÈİ
+		//è·å–æ³¨é‡Šå†…å®¹
 		if(inst.contains(";")){
 			int pos = inst.indexOf(";");
 			String memo = inst.substring(pos+1).trim();
 			instModel.setMemo(memo);
 			inst = inst.substring(0, pos).trim();
 		}
-		//»ñÈ¡Ö¸ÁîµØÖ·
+		//è·å–æŒ‡ä»¤åœ°å€
 		int pos = inst.indexOf(":");
 		long addr = Long.parseLong(inst.substring(0, pos), 16);
 		instModel.setAddr(addr);
 		inst = inst.substring(pos+1).trim();
-		//»ñÈ¡Ö¸ÁîÂë
+		//è·å–æŒ‡ä»¤ç 
 		pos = inst.indexOf("\t");
-		/*Ã»ÓĞ²Ù×÷ÂëºÍ²Ù×÷ÊıµÄÇé¿ö*/
+		/*æ²¡æœ‰æ“ä½œç å’Œæ“ä½œæ•°çš„æƒ…å†µ*/
 		if (pos == -1) {
 			instModel.setBinary(inst);
 			return instModel;
@@ -122,12 +122,12 @@ public class AsmTextSectionStruct {
 		String instCode = inst.substring(0,pos).trim();
 		instModel.setBinary(instCode);
 		inst = inst.substring(pos+1).trim();
-		//»ñÈ¡²Ù×÷Âë
+		//è·å–æ“ä½œç 
 		if(inst.indexOf("\t")>0)
 			pos = inst.indexOf("\t");
 		else
 			pos = inst.indexOf(" ");
-		/*¿ÕÖ¸ÁînopµÄÇé¿ö*/
+		/*ç©ºæŒ‡ä»¤nopçš„æƒ…å†µ*/
 		if (pos == -1) {
 			instModel.setOp(inst);
 			return instModel;
@@ -135,10 +135,10 @@ public class AsmTextSectionStruct {
 		String opCode = inst.substring(0,pos);
 		instModel.setOp(opCode);
 		inst = inst.substring(pos+1).trim();
-		//»ñÈ¡²Ù×÷Êı
+		//è·å–æ“ä½œæ•°
 		ArrayList<String> argList = new ArrayList<>();
 		String args[] = inst.split(",");
-		/*ÌØÊâÇé¿ö  blt.n	124e <Java_com_example_myandroid_MainActivity_forsentence+0x16> */
+		/*ç‰¹æ®Šæƒ…å†µ  blt.n	124e <Java_com_example_myandroid_MainActivity_forsentence+0x16> */
 		if (args.length == 1) {
 			args = args[0].split(" ");
 		}

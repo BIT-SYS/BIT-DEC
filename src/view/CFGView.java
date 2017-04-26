@@ -69,14 +69,14 @@ public class CFGView extends ViewPart {
 		// use ECharts to draw charts
 		
 		EnhancedOption option = new EnhancedOption();
-	    option.title().text("人物关系：乔布斯").subtext("数据来自人立方").x(X.right).y(Y.bottom);
+	    option.title().text(funcModel.getFuncName()).subtext("鍑芥暟鎺у埗娴佸浘").x(X.right).y(Y.bottom);
 	    option.tooltip().trigger(Trigger.item).formatter("{a} : {b}");
 	    option.toolbox().show(true).feature(Tool.restore, Tool.saveAsImage);
-	    option.legend("家人", "朋友").legend().x(X.left);
+	    option.legend("瀹朵汉", "鏈嬪弸").legend().x(X.left);
 	
-	    //数据
-	    Force force = new Force("人物关系");
-	    force.categories("人物", "家人", "朋友");
+	    //鏁版嵁
+	    Force force = new Force("璋冪敤鍏崇郴");
+	    force.categories("浜虹墿", "瀹朵汉", "鏈嬪弸");
 	    force.itemStyle().normal()
 	            .label(new Label().show(true).textStyle(new TextStyle().color("#333")))
 	            .nodeStyle().brushType(BrushType.both).color("rgba(255,215,0,0.4)").borderWidth(1);
@@ -87,21 +87,16 @@ public class CFGView extends ViewPart {
 	            .label().show(true);
 	    force.useWorker(false).minRadius(15).maxRadius(25).gravity(1.1).scaling(1.1).linkSymbol(Symbol.arrow);
 	    
-	    force.nodes(new Node(1, "1", 15));
-	    force.nodes(new Node(2, "1-1", 10));
-	    force.nodes(new Node(2, "1-2", 10));
-	    force.links(new Link("1", "1-1", 10));
-	    force.links(new Link("1", "1-2", 10));
-	    force.nodes(new Node(1, "2", 15));
-	
-	    option.series(force);
-	    option.exportToHtml(Constant.OUTPUTFOLDER+"CFG.html");
-	    browser.setUrl(Constant.OUTPUTFOLDER+"CFG.html");
+	    //force.nodes(new Node(1, "1", 15));
+	    //force.nodes(new Node(2, "1-1", 10));
+	    //force.nodes(new Node(2, "1-2", 10));
+	    //force.links(new Link("1", "1-1", 10));
+	    //force.links(new Link("1", "1-2", 10));
+	    //force.nodes(new Node(1, "2", 15));
 	    
 		ArrayList<AsmBlockModel> blockList = funcModel.getBlockList();
 		int blockListSize = blockList.size();
 		
-		/*
 		for (int i = 1; i < blockListSize; i++) {
 			AsmBlockModel block = blockList.get(i);
 			force.nodes(new Node(1, ""+block.getbNo(), 15));
@@ -116,7 +111,10 @@ public class CFGView extends ViewPart {
 				System.out.println("force.nodes(new Node(2, \""+block.getbNo()+"-"+sublock.getbNo()+"\", 10));");
 				System.out.println("force.links(new Link(\""+block.getbNo()+"\", \""+block.getbNo()+"-"+sublock.getbNo()+"\", 10));");
 			}
-		}*/
+		}
+		option.series(force);
+	    option.exportToHtml(Constant.OUTPUTFOLDER+"CFG.html");
+	    browser.setUrl(Constant.OUTPUTFOLDER+"CFG.html");
 		
  	}
 

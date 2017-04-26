@@ -17,12 +17,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-/**
- * ZIP鍘嬬缉宸ュ叿
- * 
- * @author <a href="mailto:zlex.dongliang@gmail.com">姊佹�?</a>
- * @since 1.0
- */
 public abstract class ZipUtils {
 
 	public static final String EXT = ".zip";
@@ -31,12 +25,6 @@ public abstract class ZipUtils {
 	private static final String PATH = "/";
 	private static final int BUFFER = 1024;
 
-	/**
-	 * 鍘嬬�?
-	 * 
-	 * @param srcFile
-	 * @throws Exception
-	 */
 	public static void compress(File srcFile) throws Exception {
 		String name = srcFile.getName();
 		String basePath = srcFile.getParent();
@@ -44,18 +32,7 @@ public abstract class ZipUtils {
 		compress(srcFile, destPath);
 	}
 
-	/**
-	 * 鍘嬬�?
-	 * 
-	 * @param srcFile
-	 *            婧愯矾寰�?
-	 * @param destPath
-	 *            鐩爣璺緞
-	 * @throws Exception
-	 */
 	public static void compress(File srcFile, File destFile) throws Exception {
-
-		// 瀵硅緭鍑烘枃浠跺仛CRC32鏍￠�?
 		CheckedOutputStream cos = new CheckedOutputStream(new FileOutputStream(
 				destFile), new CRC32());
 
@@ -67,28 +44,10 @@ public abstract class ZipUtils {
 		zos.close();
 	}
 
-	/**
-	 * 鍘嬬缉鏂囦欢
-	 * 
-	 * @param srcFile
-	 * @param destPath
-	 * @throws Exception
-	 */
 	public static void compress(File srcFile, String destPath) throws Exception {
 		compress(srcFile, new File(destPath));
 	}
 
-	/**
-	 * 鍘嬬�?
-	 * 
-	 * @param srcFile
-	 *            婧愯矾寰�?
-	 * @param zos
-	 *            ZipOutputStream
-	 * @param basePath
-	 *            鍘嬬缉鍖呭唴鐩稿璺緞
-	 * @throws Exception
-	 */
 	private static void compress(File srcFile, ZipOutputStream zos,
 			String basePath) throws Exception {
 		if (srcFile.isDirectory()) {
@@ -98,27 +57,12 @@ public abstract class ZipUtils {
 		}
 	}
 
-	/**
-	 * 鍘嬬�?
-	 * 
-	 * @param srcPath
-	 * @throws Exception
-	 */
 	public static void compress(String srcPath) throws Exception {
 		File srcFile = new File(srcPath);
 
 		compress(srcFile);
 	}
 
-	/**
-	 * 鏂囦欢鍘嬬缉
-	 * 
-	 * @param srcPath
-	 *            婧愭枃浠惰矾寰�
-	 * @param destPath
-	 *            鐩爣鏂囦欢璺�?
-	 * 
-	 */
 	public static void compress(String srcPath, String destPath)
 			throws Exception {
 		File srcFile = new File(srcPath);
@@ -126,20 +70,10 @@ public abstract class ZipUtils {
 		compress(srcFile, destPath);
 	}
 
-	/**
-	 * 鍘嬬缉鐩綍
-	 * 
-	 * @param dir
-	 * @param zos
-	 * @param basePath
-	 * @throws Exception
-	 */
 	private static void compressDir(File dir, ZipOutputStream zos,
 			String basePath) throws Exception {
 
 		File[] files = dir.listFiles();
-
-		// 鏋勫缓绌虹洰褰�
 		if (files.length < 1) {
 			ZipEntry entry = new ZipEntry(basePath + dir.getName() + PATH);
 
@@ -148,35 +82,13 @@ public abstract class ZipUtils {
 		}
 
 		for (File file : files) {
-
-			// 閫掑綊鍘嬬缉
 			compress(file, zos, basePath + dir.getName() + PATH);
 
 		}
 	}
-
-	/**
-	 * 鏂囦欢鍘嬬缉
-	 * 
-	 * @param file
-	 *            寰呭帇缂╂枃浠�
-	 * @param zos
-	 *            ZipOutputStream
-	 * @param dir
-	 *            鍘嬬缉鏂囦欢涓殑褰撳墠璺�?
-	 * @throws Exception
-	 */
+	
 	private static void compressFile(File file, ZipOutputStream zos, String dir)
 			throws Exception {
-
-		/**
-		 * 鍘嬬缉鍖呭唴鏂囦欢鍚嶅畾涔�
-		 * 
-		 * <pre>
-		 * 濡傛灉鏈夊绾х洰褰曪紝閭ｄ箞杩欓噷灏遍渶瑕佺粰鍑哄寘鍚洰褰曠殑鏂囦欢鍚�?
-		 * 濡傛灉鐢╓inRAR鎵撳紑鍘嬬缉鍖咃紝涓枃鍚嶅皢鏄剧ず涓轰贡鐮�?
-		 * </pre>
-		 */
 		ZipEntry entry = new ZipEntry(dir + file.getName());
 
 		zos.putNextEntry(entry);
@@ -194,24 +106,11 @@ public abstract class ZipUtils {
 		zos.closeEntry();
 	}
 
-	/**
-	 * 瑙ｅ帇缂�?
-	 * 
-	 * @param srcFile
-	 * @throws Exception
-	 */
 	public static void decompress(File srcFile) throws Exception {
 		String basePath = srcFile.getParent();
 		decompress(srcFile, basePath);
 	}
 
-	/**
-	 * 瑙ｅ帇缂�?
-	 * 
-	 * @param srcFile
-	 * @param destFile
-	 * @throws Exception
-	 */
 	public static void decompress(File srcFile, File destFile) throws Exception {
 
 		CheckedInputStream cis = new CheckedInputStream(new FileInputStream(
@@ -225,40 +124,20 @@ public abstract class ZipUtils {
 
 	}
 
-	/**
-	 * 瑙ｅ帇缂�?
-	 * 
-	 * @param srcFile
-	 * @param destPath
-	 * @throws Exception
-	 */
 	public static void decompress(File srcFile, String destPath)
 			throws Exception {
 		decompress(srcFile, new File(destPath));
 
 	}
 
-	/**
-	 * 鏂囦�? 瑙ｅ帇缂�?
-	 * 
-	 * @param destFile
-	 *            鐩爣鏂囦欢
-	 * @param zis
-	 *            ZipInputStream
-	 * @throws Exception
-	 */
 	private static void decompress(File destFile, ZipInputStream zis)
 			throws Exception {
 
 		ZipEntry entry = null;
 		while ((entry = zis.getNextEntry()) != null) {
-
-			// 鏂囦�?
 			String dir = destFile.getPath() + File.separator + entry.getName();
 
 			File dirFile = new File(dir);
-
-			// 鏂囦欢妫�煡
 			fileProber(dirFile);
 
 			if (entry.isDirectory()) {
@@ -270,29 +149,12 @@ public abstract class ZipUtils {
 		}
 	}
 
-	/**
-	 * 鏂囦�? 瑙ｅ帇缂�?
-	 * 
-	 * @param srcPath
-	 *            婧愭枃浠惰矾寰�
-	 * 
-	 * @throws Exception
-	 */
 	public static void decompress(String srcPath) throws Exception {
 		File srcFile = new File(srcPath);
 
 		decompress(srcFile);
 	}
 
-	/**
-	 * 鏂囦�? 瑙ｅ帇缂�?
-	 * 
-	 * @param srcPath
-	 *            婧愭枃浠惰矾寰�
-	 * @param destPath
-	 *            鐩爣鏂囦欢璺�?
-	 * @throws Exception
-	 */
 	public static void decompress(String srcPath, String destPath)
 			throws Exception {
 
@@ -300,15 +162,6 @@ public abstract class ZipUtils {
 		decompress(srcFile, destPath);
 	}
 
-	/**
-	 * 鏂囦欢瑙ｅ帇缂�
-	 * 
-	 * @param destFile
-	 *            鐩爣鏂囦欢
-	 * @param zis
-	 *            ZipInputStream
-	 * @throws Exception
-	 */
 	private static void decompressFile(File destFile, ZipInputStream zis)
 			throws Exception {
 
@@ -326,21 +179,11 @@ public abstract class ZipUtils {
 		bos.close();
 	}
 
-	/**
-	 * 鏂囦欢鎺㈤拡
-	 * 
-	 * <pre>
-	 * 褰撶埗鐩綍涓嶅瓨鍦ㄦ椂锛屽垱寤虹洰褰曪�?
-	 * </pre>
-	 * 
-	 * @param dirFile
-	 */
 	private static void fileProber(File dirFile) {
 
 		File parentFile = dirFile.getParentFile();
 		if (!parentFile.exists()) {
 
-			// 閫掑綊�?�绘壘涓婄骇鐩�?
 			fileProber(parentFile);
 
 			parentFile.mkdir();

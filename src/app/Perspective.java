@@ -14,17 +14,18 @@ public class Perspective implements IPerspectiveFactory {
 		String editorArea = layout.getEditorArea();
 		layout.setEditorAreaVisible(true);
 		
-		IFolderLayout rightFolder = layout.createFolder("", IPageLayout.RIGHT, 0.5f, editorArea);
-		layout.addView(IConsoleConstants.ID_CONSOLE_VIEW, IPageLayout.BOTTOM,0.8f, editorArea);
-		IFolderLayout leftFolder = layout.createFolder("", IPageLayout.LEFT,  0.3f, editorArea);
-		rightFolder.addView(Constant.VIEW_FUNCSVIEW);
-		rightFolder.addView(Constant.VIEW_CALLGRAPH);
+		IFolderLayout rightFolder = layout.createFolder("", IPageLayout.RIGHT, 0.6f, editorArea);
 		rightFolder.addView(Constant.VIEW_ADVANCEDCODE);
+		rightFolder.addView(Constant.VIEW_CALLGRAPH);
 		rightFolder.addView(Constant.VIEW_CGF);
-		//rightFolder.addView("bit_dec.ASMeditors.ASMEditor");
+		
+		layout.addView(IConsoleConstants.ID_CONSOLE_VIEW, IPageLayout.BOTTOM,0.8f, editorArea);
+		
+		IFolderLayout FuncFolder  = layout.createFolder("", IPageLayout.RIGHT, 0.8f, editorArea);
+		FuncFolder.addView(Constant.VIEW_FUNCSVIEW);
+		
+		IFolderLayout leftFolder = layout.createFolder("", IPageLayout.LEFT,  0.3f, editorArea);
 		leftFolder.addView(Constant.VIEW_NAVIGATOR);
-		//srcfolder.addView(Constant.VIEW_ADVANCEDCODE);
-		//srcfolder.addView(Constant.VIEW_CGF);
 		
 		ConsoleFactory consoleFactory = new ConsoleFactory();
 		consoleFactory.openConsole();	

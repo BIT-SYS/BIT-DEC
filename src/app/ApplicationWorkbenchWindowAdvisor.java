@@ -23,7 +23,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
         configurer.getWindow().getShell().setMaximized(true);
         configurer.setShowCoolBar(true);
         configurer.setShowStatusLine(true);
-        configurer.setTitle("ÕâÊÇÒ»¸öºÜ³¤µÄ±êÌâÓÃÀ´²âÊÔµÄ");
+        configurer.setTitle("è¿™æ˜¯ä¸€ä¸ªå¾ˆé•¿çš„æ ‡é¢˜ç”¨æ¥æµ‹è¯•çš„");
         configurer.setShowPerspectiveBar(true);
         
         

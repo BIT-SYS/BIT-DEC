@@ -373,7 +373,7 @@ public class NavigatorActionGroup extends ResourceNavigatorActionGroup {
 
 	
 	/**
-	 * Ë«»÷.asmÎÄ¼şÉú³É²¢ÏÔÊ¾º¯ÊıÁĞ±í
+	 * åŒå‡».asmæ–‡ä»¶ç”Ÿæˆå¹¶æ˜¾ç¤ºå‡½æ•°åˆ—è¡¨
 	 */
 	@Override
 	public void runDefaultAction(IStructuredSelection selection) {
@@ -387,9 +387,9 @@ public class NavigatorActionGroup extends ResourceNavigatorActionGroup {
 			if(selectedFile != null && !selectedFile.equals("")){
 				extention = selectedFile.substring(selectedFile.lastIndexOf('.'));
 			}
-			//Èç¹ûÊÇASM»òÕßSMALIÎÄ¼şÊ±£¬µÃµ½º¯ÊıÁĞ±í && ½«ÎÄ¼şÄÚÈİÍ¶Éäµ½MainEditView
+			//å¦‚æœæ˜¯ASMæˆ–è€…SMALIæ–‡ä»¶æ—¶ï¼Œå¾—åˆ°å‡½æ•°åˆ—è¡¨ && å°†æ–‡ä»¶å†…å®¹æŠ•å°„åˆ°MainEditView
 			if (extention.equals(".asm")) {
-				//½á¹¹»¯Ñ¡ÖĞµÄasmÎÄ¼ş(»ñµÃAsmTestSectionStruct)
+				//ç»“æ„åŒ–é€‰ä¸­çš„asmæ–‡ä»¶(è·å¾—AsmTestSectionStruct)
 				AsmTextSectionStruct.struct(selectedFile);
 				
 				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
@@ -398,7 +398,7 @@ public class NavigatorActionGroup extends ResourceNavigatorActionGroup {
 				myView.showFunctions();
 				
 				/*
-				 * ÏÔÊ¾´ø¸ßÁÁµÄ»ã±àÂë
+				 * æ˜¾ç¤ºå¸¦é«˜äº®çš„æ±‡ç¼–ç 
 				 */
 			}
 		}

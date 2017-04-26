@@ -95,7 +95,7 @@ public class FuncModel {
 	}
 	
 	/**
-	 * ¶¯Ì¬Ìí¼Ó²ÎÊı
+	 * åŠ¨æ€æ·»åŠ å‚æ•°
 	 * @param temp
 	 */
 	public void addArgType(String temp){
@@ -103,7 +103,7 @@ public class FuncModel {
 	}
 	
 	/**
-	 * ¶¯Ì¬Ìí¼Ó±»µ÷ÓÃµÄº¯Êı
+	 * åŠ¨æ€æ·»åŠ è¢«è°ƒç”¨çš„å‡½æ•°
 	 * @param funcModel
 	 */
 	public void addCalledFuncModel(FuncModel funcModel){
@@ -111,7 +111,7 @@ public class FuncModel {
 	}
 
 	/**
-	 * ÏÔÊ¾º¯ÊıÏêÏ¸ĞÅÏ¢
+	 * æ˜¾ç¤ºå‡½æ•°è¯¦ç»†ä¿¡æ¯
 	 */
 	@Override
 	public String toString(){
@@ -123,7 +123,7 @@ public class FuncModel {
 	}
 	
 	/**
-	 * ÏÔÊ¾º¯Êı¼òµ¥ĞÅÏ¢
+	 * æ˜¾ç¤ºå‡½æ•°ç®€å•ä¿¡æ¯
 	 * @return
 	 */
 	public String toString1(){
@@ -133,7 +133,7 @@ public class FuncModel {
 	}
 	
 	/**
-	 * ÏÔÊ¾¸Ãº¯Êıµ÷ÓÃµÄº¯Êı
+	 * æ˜¾ç¤ºè¯¥å‡½æ•°è°ƒç”¨çš„å‡½æ•°
 	 * @return
 	 */
 	public String toString2(){
@@ -146,7 +146,7 @@ public class FuncModel {
 		return res;
 	}
 	/**
-	 * ´òÓ¡µ¥¸öº¯ÊıµÄĞÅÏ¢
+	 * æ‰“å°å•ä¸ªå‡½æ•°çš„ä¿¡æ¯
 	 */
 	public void Print(){
 		System.out.println(this.toString());

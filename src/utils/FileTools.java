@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 public class FileTools {
 	/**
-	 * ¸´ÖÆÒ»¸öÄ¿Â¼¼°Æä×ÓÄ¿Â¼¡¢ÎÄ¼şµ½ÁíÍâÒ»¸öÄ¿Â¼
+	 * å¤åˆ¶ä¸€ä¸ªç›®å½•åŠå…¶å­ç›®å½•ã€æ–‡ä»¶åˆ°å¦å¤–ä¸€ä¸ªç›®å½•
 	 * @param src
 	 * @param dest
 	 * @throws IOException
@@ -51,7 +51,7 @@ public class FileTools {
 	}
 	
 	/**
-	 * ¸´ÖÆÒ»¸öÎÄ¼ş
+	 * å¤åˆ¶ä¸€ä¸ªæ–‡ä»¶
 	 * @param src
 	 * @param dest
 	 * @throws IOException
@@ -69,7 +69,7 @@ public class FileTools {
 	}
 	
 	/**
-	 * É¾³ıÎÄ¼ş¼Ğ
+	 * åˆ é™¤æ–‡ä»¶å¤¹
 	 * @param file
 	 */
 	public static void deleteFile(File file) {
@@ -90,7 +90,7 @@ public class FileTools {
 	
 	
 	/**
-	 * JavaÎÄ¼şÈ¥×¢ÊÍÒÔ¼°È¥µôÌØÊâµÄ×Ö¶Î£¨ÀıÈç£ºsuper()|gotoµÈ£©
+	 * Javaæ–‡ä»¶å»æ³¨é‡Šä»¥åŠå»æ‰ç‰¹æ®Šçš„å­—æ®µï¼ˆä¾‹å¦‚ï¼šsuper()|gotoç­‰ï¼‰
 	 * @param filePathAndName
 	 * @throws FileNotFoundException
 	 * @throws UnsupportedEncodingException

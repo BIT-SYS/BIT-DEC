@@ -48,7 +48,7 @@ public class FunctionDecAction extends Action implements IWorkbenchAction, Runna
 					shell, new LabelProvider());
 			dialog.setElements(funcsView.getList());
 			/*
-			 * Ñ¡ÔñÒ»¸öº¯Êı½øĞĞ¿ØÖÆÁ÷ºÍ¸ß¼¶´úÂëµÄÊä³ö
+			 * é€‰æ‹©ä¸€ä¸ªå‡½æ•°è¿›è¡Œæ§åˆ¶æµå’Œé«˜çº§ä»£ç çš„è¾“å‡º
 			 */
 			dialog.setTitle("Which function do you want to dec");
 			if (dialog.open() != Window.OK) {
@@ -62,29 +62,29 @@ public class FunctionDecAction extends Action implements IWorkbenchAction, Runna
 		}
 	}
 	/**
-	 * ¶ÔÄ³¸öº¯Êı½øĞĞ¿ØÖÆÁ÷¹¹½¨ºÍ¸ß¼¶´úÂëµÄÊä³ö
+	 * å¯¹æŸä¸ªå‡½æ•°è¿›è¡Œæ§åˆ¶æµæ„å»ºå’Œé«˜çº§ä»£ç çš„è¾“å‡º
 	 * @param funcName
 	 */
-	//´ËµØÄËÊÇ´íÎó¸ß·¢Çø £¨ÌïÔóÃñ×¢£¨¿àĞ¦£©£©
+	//æ­¤åœ°ä¹ƒæ˜¯é”™è¯¯é«˜å‘åŒº ï¼ˆç”°æ³½æ°‘æ³¨ï¼ˆè‹¦ç¬‘ï¼‰ï¼‰
 	public static void decAction(String funcName,IWorkbenchPage workbenchPage){
 		HashMap<String, AsmFuncModel> funcMap = AsmTextSectionStruct.textSectionModel.getFuncMap();
 		AsmStructAna structAna = new AsmStructAna();
 		try {
 			AsmFuncModel funcModel = structAna.genCfg(funcMap.get(funcName));
 			//AsmFuncModel funcModel = funcMap.get(funcName);
-			//==============¹¹½¨¿ØÖÆÁ÷Í¼================//
+			//==============æ„å»ºæ§åˆ¶æµå›¾================//
 			CFGView graphView = (CFGView)workbenchPage.findView(Constant.VIEW_CGF); 
 			graphView.drawCFG(funcModel);
-			//==============Êä³ö¸ß¼¶´úÂë================//
+			//==============è¾“å‡ºé«˜çº§ä»£ç ================//
 			AsmAdCode showHighCode = new AsmAdCode(); 
 			String highcodeContent =  showHighCode.cfgAna(funcName);
 			AdvancedCodeView adCodeView = (AdvancedCodeView) workbenchPage.findView(Constant.VIEW_ADVANCEDCODE);
 			adCodeView.init();
 			adCodeView.showContent(highcodeContent, 0);
 		} catch (Exception e) {
-			//MessageDialog.openInformation(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "ÌáÊ¾", e.toString());
+			//MessageDialog.openInformation(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "æç¤º", e.toString());
 			MessageConsoleStream  printer =ConsoleFactory.getConsole().newMessageStream();
-			printer.println("ÎŞ·¨´¦Àíº¯Êı"+funcName);
+			printer.println("æ— æ³•å¤„ç†å‡½æ•°"+funcName);
 		}
 	}
 

@@ -22,7 +22,7 @@ public class debugPerspective implements IPerspectiveFactory {
 		ConsoleFactory consoleFactory = new ConsoleFactory();
 		consoleFactory.openConsole();
 		   
-		IFolderLayout mainfolder = layout.createFolder("mainfolder", IPageLayout.LEFT, 0.80f, editorArea);//新建一个Folder 
+		IFolderLayout mainfolder = layout.createFolder("mainfolder", IPageLayout.LEFT, 0.80f, editorArea);//鏂板缓涓�涓狥older 
 		mainfolder.addView("BIT_DEC.callgraphView");//resource navigator
 		mainfolder.addView("BIT_DEC.cfgView");//resource navigator 
 		

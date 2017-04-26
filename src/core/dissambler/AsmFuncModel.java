@@ -13,8 +13,8 @@ public class AsmFuncModel {
 	private ArrayList<AsmInstModel> instList;
 	private ArrayList<AsmBlockModel> blockList;
 	//
-	private HashMap<Long, AsmInstModel> instMap;//Long表示指令的地址
-	private HashMap<Integer, AsmBlockModel> blockMap;//Integer表示基本块的编号
+	private HashMap<Long, AsmInstModel> instMap;//Long琛ㄧず鎸囦护鐨勫湴鍧�
+	private HashMap<Integer, AsmBlockModel> blockMap;//Integer琛ㄧず鍩烘湰鍧楃殑缂栧彿
 	
 	/**
 	 * Instruct

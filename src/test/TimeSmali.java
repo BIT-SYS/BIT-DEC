@@ -26,7 +26,7 @@ public class TimeSmali {
 		smali2java();
 		long end = System.currentTimeMillis();
 		long javaTime = end - start;
-		System.out.println(apkname+"-Java·´±àÒëºÄÊ±:" + javaTime/1000+"Ãë");
+		System.out.println(apkname+"-Javaåç¼–è¯‘è€—æ—¶:" + javaTime/1000+"ç§’");
 		
 		start = System.currentTimeMillis();
 		File soDiassembler = new File(so2cPath);
@@ -34,8 +34,8 @@ public class TimeSmali {
 		TimeClass.listSo(new File(soPath), so2cPath);
 		end = System.currentTimeMillis();
 		long soTime = end - start;
-		System.out.println(apkname+"-so·´»ã±àºÄÊ±:" + soTime/1000+"Ãë");
-		System.out.println(apkname+"-×Ü¹²·´±àÒëºÄÊ±£º"+(javaTime+soTime)/1000+"Ãë");
+		System.out.println(apkname+"-soåæ±‡ç¼–è€—æ—¶:" + soTime/1000+"ç§’");
+		System.out.println(apkname+"-æ€»å…±åç¼–è¯‘è€—æ—¶ï¼š"+(javaTime+soTime)/1000+"ç§’");
 	}
 	
 	public static void apk2smali(String apkPath){

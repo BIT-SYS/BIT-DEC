@@ -35,7 +35,7 @@ public class JavaCalledList {
 		javaCalledList = new ArrayList<FuncModel>();
 	}
 	/**
-	 * ¹¹½¨JavaµÄº¯Êıµ÷ÓÃ±í(²»°üº¬androidÎÄ¼ş¼Ğ)
+	 * æ„å»ºJavaçš„å‡½æ•°è°ƒç”¨è¡¨(ä¸åŒ…å«androidæ–‡ä»¶å¤¹)
 	 * @param file project+"/src"
 	 */
 	public void listJavaFile(File file){
@@ -70,10 +70,10 @@ public class JavaCalledList {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 			String line = reader.readLine();
 			do {
-				//»ñµÃ°üÃû
+				//è·å¾—åŒ…å
 				if (line.startsWith("package ")) {
 					packName = line.substring(8, line.lastIndexOf(";"));
-				//»ñµÃÀàÃû
+				//è·å¾—ç±»å
 				} else if (line.contains("class") && stack.size() == 0) {
 					String[] arrStrings = line.split(" ");
 					for (int i = 0; i < arrStrings.length; i++) {
@@ -84,17 +84,17 @@ public class JavaCalledList {
 					}
 				}
 				boolean flag = false;
-				//¼ì²âµ½º¯Êı
+				//æ£€æµ‹åˆ°å‡½æ•°
 				if (line.contains(" native ") || 
 					(flag = (line.contains("{") && stack.size() == 1 && line_pre.trim().endsWith(")")))) {
 					ArrayList<String> funcInfo = new ArrayList<String>();
 					funcModel = new FuncModel();
-					//°üº¬nativeµÄÒ»¸öº¯ÊıÉêÃ÷
+					//åŒ…å«nativeçš„ä¸€ä¸ªå‡½æ•°ç”³æ˜
 					if (!flag) {
 						funcInfo = getFunc(line);
-					//Ò»°ãµÄº¯ÊıĞĞ
+					//ä¸€èˆ¬çš„å‡½æ•°è¡Œ
 					} else {
-						//º¯ÊıÌå¿ªÊ¼ÁË
+						//å‡½æ•°ä½“å¼€å§‹äº†
 						funcStart = 1;
 						funcBodyStr = "";
 						funcInfo = getFunc(line_pre);
@@ -126,15 +126,15 @@ public class JavaCalledList {
 				line_pre = line;
 				
 				
-				//»ñÈ¡º¯ÊıÌå
+				//è·å–å‡½æ•°ä½“
 				if (funcStart == 1 && stack.size() >= 2){
 					funcBodyStr += line;
 				} 
-				//º¯ÊıÌå½áÊø
+				//å‡½æ•°ä½“ç»“æŸ
 				else if (funcStart == 1 && stack.size() == 1){
 					funcStart = 0;
-					//¶Ôº¯ÊıÌå½øĞĞÌØÊâÇé¿öµÄÅĞ¶Ï
-					//BUG:Ñ°ÕÒactivityÈ»ºóÌø×ª,¶øÇÒ»¹ÓĞsetClass µÈ
+					//å¯¹å‡½æ•°ä½“è¿›è¡Œç‰¹æ®Šæƒ…å†µçš„åˆ¤æ–­
+					//BUG:å¯»æ‰¾activityç„¶åè·³è½¬,è€Œä¸”è¿˜æœ‰setClass ç­‰
 					if(funcBodyStr.contains("setClass")){
 						setclassStr = funcBodyStr.substring(funcBodyStr.indexOf("setClass"));
 						setclassStr = setclassStr.substring(setclassStr.indexOf(',')+1, setclassStr.indexOf(')'));
@@ -156,7 +156,7 @@ public class JavaCalledList {
 //							}
 //						}
 //					}
-					//Ñ°ÕÒµ÷ÓÃº¯Êı²¢·ÖÀë³ö²ÎÊı£¨ÌØ±ğÊÇÎªÁËcÓïÑÔµÄ²ÎÊıÍÆ¶Ï£©
+					//å¯»æ‰¾è°ƒç”¨å‡½æ•°å¹¶åˆ†ç¦»å‡ºå‚æ•°ï¼ˆç‰¹åˆ«æ˜¯ä¸ºäº†cè¯­è¨€çš„å‚æ•°æ¨æ–­ï¼‰
 					if (!funcBodyStr.equals("")) {
 						seekFuncs(funcBodyStr);
 					}
@@ -201,21 +201,21 @@ public class JavaCalledList {
 	}
 
 	/**
-	 * »ñÈ¡µ±Ç°º¯ÊıÌåµ±ÖĞµ÷ÓÃµÄjavaº¯ÊıºÍcº¯Êı
-	 * @param funcBodyStr º¯ÊıÌå×Ö·û´®
+	 * è·å–å½“å‰å‡½æ•°ä½“å½“ä¸­è°ƒç”¨çš„javaå‡½æ•°å’Œcå‡½æ•°
+	 * @param funcBodyStr å‡½æ•°ä½“å­—ç¬¦ä¸²
 	 */
 	public void seekFuncs(String funcBodyStr){
-		//É¨Ãæjavaµ÷ÓÃµÄjava
+		//æ‰«é¢javaè°ƒç”¨çš„java
 		if (JavaFuncList.funcModelList != null && JavaFuncList.funcModelList.size() !=0) {
 			int funcSize = JavaFuncList.funcModelList.size();
 			for(int i=0;i<funcSize;i++){
-				//BUG:1.²»Í¬ÀàÏàÍ¬µÄº¯Êı 2.ÏàÍ¬º¯Êı²»Í¬²ÎÊı
+				//BUG:1.ä¸åŒç±»ç›¸åŒçš„å‡½æ•° 2.ç›¸åŒå‡½æ•°ä¸åŒå‚æ•°
 				if(funcBodyStr.contains(JavaFuncList.funcModelList.get(i).getFuncName())){
 					funcModel.addCalledFuncModel(JavaFuncList.funcModelList.get(i));
 				}
 			}
 		}
-		//É¨Ãèjavaµ÷ÓÃµÄSo
+		//æ‰«æjavaè°ƒç”¨çš„So
 		if (FuncParser.asmfuncList != null && FuncParser.asmfuncList.size() != 0) {
 			int funcSize = FuncParser.asmfuncList.size();
 			int CfuncIndex;
@@ -228,7 +228,7 @@ public class JavaCalledList {
 				String asmfuncName = FuncParser.asmfuncList.get(i).getFuncName();
 				if(asmfuncName.startsWith("Java_")){
 					if(funcBodyStr.contains(asmfuncName)){
-						//ÌáÈ¡Cº¯ÊıµÄ²ÎÊıÎª²ÎÊı´«µİ×ö×¼±¸
+						//æå–Cå‡½æ•°çš„å‚æ•°ä¸ºå‚æ•°ä¼ é€’åšå‡†å¤‡
 						CfuncIndex = funcBodyStr.indexOf(asmfuncName);
 						rest = funcBodyStr.substring(CfuncIndex);
 						kuoInner = rest.substring(rest.indexOf('(')+1, rest.indexOf(')')).trim();

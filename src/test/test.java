@@ -16,20 +16,20 @@ public class test {
 
 	
 	public void run(){
-	    //µØÖ·£ºhttp://echarts.baidu.com/doc/example/force1.html
+	    //åœ°å€ï¼šhttp://echarts.baidu.com/doc/example/force1.html
 		EnhancedOption option = new EnhancedOption();
 		EnhancedOption option1 = new EnhancedOption();
 		EnhancedOption option2 = new EnhancedOption();
 		EnhancedOption option3 = new EnhancedOption();
 		EnhancedOption option4 = new EnhancedOption();
-	    option.title().text("ÈËÎï¹ØÏµ£ºÇÇ²¼Ë¹").subtext("Êı¾İÀ´×ÔÈËÁ¢·½").x(X.right).y(Y.bottom);
+	    option.title().text("äººç‰©å…³ç³»ï¼šä¹”å¸ƒæ–¯").subtext("æ•°æ®æ¥è‡ªäººç«‹æ–¹").x(X.right).y(Y.bottom);
 	    option.tooltip().trigger(Trigger.item).formatter("{a} : {b}");
 	    option.toolbox().show(true).feature(Tool.restore, Tool.saveAsImage);
-	    option.legend("¼ÒÈË", "ÅóÓÑ").legend().x(X.left);
+	    option.legend("å®¶äºº", "æœ‹å‹").legend().x(X.left);
 	
-	    //Êı¾İ
-	    Force force = new Force("ÈËÎï¹ØÏµ");
-	    force.categories("ÈËÎï", "¼ÒÈË", "ÅóÓÑ");
+	    //æ•°æ®
+	    Force force = new Force("äººç‰©å…³ç³»");
+	    force.categories("äººç‰©", "å®¶äºº", "æœ‹å‹");
 	    force.itemStyle().normal()
 	            .label(new Label().show(true).textStyle(new TextStyle().color("#333")))
 	            .nodeStyle().brushType(BrushType.both).color("rgba(255,215,0,0.4)").borderWidth(1);

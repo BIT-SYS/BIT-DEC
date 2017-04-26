@@ -74,7 +74,7 @@ public class CallGraphView extends ViewPart {
 		graph.getModel().beginUpdate();
 		
 		try {
-			//¶ÔjavaµÄº¯Êýµ÷ÓÃÍ¼½øÐÐ»æÖÆ
+			//å¯¹javaçš„å‡½æ•°è°ƒç”¨å›¾è¿›è¡Œç»˜åˆ¶
 			int count = JavaCalledList.javaCalledList.size();
 			for (int i = 0; i < count; i++) {
 				temp = JavaCalledList.javaCalledList.get(i).getFuncName() + "."
@@ -91,7 +91,7 @@ public class CallGraphView extends ViewPart {
 					FuncModel jfuncModel = JavaCalledList.javaCalledList.get(i);
 					if (jfuncModel.getCalledFuncList().size() != 0) {
 						node1 = (mxCell) graph.insertVertex(parent, null, temp,20, 20, width, height, shap);
-						//BUG:Ã»ÓÐ¿¼ÂÇÀà²»Í¬
+						//BUG:æ²¡æœ‰è€ƒè™‘ç±»ä¸åŒ
 						NodeListText.add(temp);
 						graph.updateCellSize(node1);
 						NodeList.add(node1);
@@ -109,7 +109,7 @@ public class CallGraphView extends ViewPart {
 							} else {
 								node2 = (mxCell) graph.insertVertex(parent, null, temp, 20,20, width, height, shap);
 								graph.updateCellSize(node2);
-								//BUG:Ã»ÓÐ¿¼ÂÇÀà²»Í¬
+								//BUG:æ²¡æœ‰è€ƒè™‘ç±»ä¸åŒ
 								NodeListText.add(temp);
 								NodeList.add(node2);
 							}
@@ -120,7 +120,7 @@ public class CallGraphView extends ViewPart {
 					}
 				}
 			}
-			//¶ÔsoµÄº¯Êýµ÷ÓÃÍ¼½øÐÐ»æÖÆ
+			//å¯¹soçš„å‡½æ•°è°ƒç”¨å›¾è¿›è¡Œç»˜åˆ¶
 			if (FuncParser.asmfuncList.size() != 0) {
 				int count1 = FuncParser.asmfuncList.size();
 				for (int i = 0; i < count1; i++) {
@@ -140,7 +140,7 @@ public class CallGraphView extends ViewPart {
 							node1 = (mxCell) graph.insertVertex(parent, null,temp, 20, 20, width, height, shap);
 							temp8 = temp;
 							graph.updateCellSize(node1);
-							//BUG:Ã»ÓÐ¿¼ÂÇÀà²»Í¬
+							//BUG:æ²¡æœ‰è€ƒè™‘ç±»ä¸åŒ
 							NodeListText.add(temp);
 							NodeList.add(node1);
 							
@@ -158,7 +158,7 @@ public class CallGraphView extends ViewPart {
 								} else {
 									node2 = (mxCell) graph.insertVertex(parent,null, temp, 20, 20, width, height,shap);
 									graph.updateCellSize(node2);
-									//BUG:Ã»ÓÐ¿¼ÂÇÀà²»Í¬
+									//BUG:æ²¡æœ‰è€ƒè™‘ç±»ä¸åŒ
 									NodeListText.add(temp);
 									NodeList.add(node2);
 								}

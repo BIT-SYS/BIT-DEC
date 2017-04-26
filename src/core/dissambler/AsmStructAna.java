@@ -8,18 +8,18 @@ import org.eclipse.ui.console.MessageConsoleStream;
 
 import view.ConsoleFactory;
 /**
- * ¶Ôµ¥¸öº¯Êı½øĞĞ»ù±¾¿éµÄ»®·Ö£»¿ØÖÆÁ÷µÄ·ÖÎö
+ * å¯¹å•ä¸ªå‡½æ•°è¿›è¡ŒåŸºæœ¬å—çš„åˆ’åˆ†ï¼›æ§åˆ¶æµçš„åˆ†æ
  * @author zxs
  *
  */
 public class AsmStructAna{
 	
 	/**
-	 * Éú³É¿ØÖÆÁ÷Í¼
+	 * ç”Ÿæˆæ§åˆ¶æµå›¾
 	 * @param
-	 * 1¡¢»ù±¾¿ékÔÚÁ÷Í¼ÖĞµÄÎ»ÖÃ½ô¸úÔÚ»ù±¾¿éiÖ®ºóÇÒiµÄ³ö¿ÚÓï¾ä²»ÊÇÎŞÌõ¼ş×ªÒÆ»òÍ£Ö¹Óï¾ä
-	 * 2¡¢»ù±¾¿éiµÄ³ö¿ÚÓï¾äÊÇgoto(s)»òÕßif...goto(s)ÇÒ(s)ÊÇ»ù±¾¿ékµÄÈë¿ÚÓï¾ä
-	 * iÎªkµÄÇ°Çı£¬kÎªiµÄºó¼Ì 
+	 * 1ã€åŸºæœ¬å—kåœ¨æµå›¾ä¸­çš„ä½ç½®ç´§è·Ÿåœ¨åŸºæœ¬å—iä¹‹åä¸”içš„å‡ºå£è¯­å¥ä¸æ˜¯æ— æ¡ä»¶è½¬ç§»æˆ–åœæ­¢è¯­å¥
+	 * 2ã€åŸºæœ¬å—içš„å‡ºå£è¯­å¥æ˜¯goto(s)æˆ–è€…if...goto(s)ä¸”(s)æ˜¯åŸºæœ¬å—kçš„å…¥å£è¯­å¥
+	 * iä¸ºkçš„å‰é©±ï¼Œkä¸ºiçš„åç»§ 
 	 */
 	public AsmFuncModel genCfg(AsmFuncModel funcModel){
 		
@@ -33,7 +33,7 @@ public class AsmStructAna{
 			ArrayList<AsmInstModel> instList = block.getInstList();
 			AsmInstModel lastInstModel = instList.get(instList.size()-1);
 			String lastInstOp = lastInstModel.getOp();
-			//»ù±¾¿éiµÄ×îºóÒ»ÌõÓï¾äÊÇÌø×ªÓï¾ä
+			//åŸºæœ¬å—içš„æœ€åä¸€æ¡è¯­å¥æ˜¯è·³è½¬è¯­å¥
 			if(isJumpIns(lastInstModel)){
 				long jumpedAddr = 0L;
 				try {
@@ -44,7 +44,7 @@ public class AsmStructAna{
 				for(int k=0;k<blockListSize;k++){
 					AsmBlockModel jumpedBlock = blockList.get(k);
 					long jumpedBlockAddr = jumpedBlock.getInstList().get(0).getAddr();
-					//2¡¢»ù±¾¿éiµÄ³ö¿ÚÓï¾äÊÇgoto(s)»òÕßif...goto(s)ÇÒ(s)ÊÇ»ù±¾¿ékµÄÈë¿ÚÓï¾ä
+					//2ã€åŸºæœ¬å—içš„å‡ºå£è¯­å¥æ˜¯goto(s)æˆ–è€…if...goto(s)ä¸”(s)æ˜¯åŸºæœ¬å—kçš„å…¥å£è¯­å¥
 					if ( jumpedBlockAddr == jumpedAddr) {
 						block.addSubBlockIndex(jumpedBlock);
 						jumpedBlock.addPreBlockIndex(block);
@@ -52,8 +52,8 @@ public class AsmStructAna{
 					}
 				}
 			}
-			//1¡¢»ù±¾¿ékÔÚÁ÷Í¼ÖĞµÄÎ»ÖÃ½ô¸úÔÚ»ù±¾¿éiÖ®ºóÇÒiµÄ³ö¿ÚÓï¾ä²»ÊÇÎŞÌõ¼ş×ªÒÆ»òÍ£Ö¹Óï¾ä
-			//BUG:Ã»ÓĞ½«POPµ±×öÍ£Ö¹Óï¾ä
+			//1ã€åŸºæœ¬å—kåœ¨æµå›¾ä¸­çš„ä½ç½®ç´§è·Ÿåœ¨åŸºæœ¬å—iä¹‹åä¸”içš„å‡ºå£è¯­å¥ä¸æ˜¯æ— æ¡ä»¶è½¬ç§»æˆ–åœæ­¢è¯­å¥
+			//BUG:æ²¡æœ‰å°†POPå½“åšåœæ­¢è¯­å¥
 			if (!isNoConsJumpIns(lastInstModel)) {
 				if (i+1 < blockListSize) {
 					AsmBlockModel nextBlockModel = blockList.get(i+1);
@@ -66,11 +66,11 @@ public class AsmStructAna{
 	}
 	
 	/**
-	 * ¸ù¾İº¯ÊıÃû»®·Ö»ù±¾¿é
+	 * æ ¹æ®å‡½æ•°ååˆ’åˆ†åŸºæœ¬å—
 	 * @param funcName
-	 * 1¡¢ÓÉ¸ÃÈë¿ÚÓï¾äÖ±µ½ÏÂÒ»¸öÈë¿ÚÓï¾ä£¨²»°üº¬ÏÂÒ»¸öÈë¿ÚÓï¾ä£©Ö®¼äµÄËùÓĞÓï¾ä¹¹³ÉÒ»¸ö»ù±¾¿é¡£
-	 * 2¡¢ÓÉ¸ÃÈë¿ÚÓï¾äµ½Ò»×ªÒÆÓï¾ä£¨º¬¸Ã×ªÒÆÓï¾ä£©Ö®¼äµÄËùÓĞÓï¾ä¹¹³ÉÒ»¸ö»ù±¾¿é£»»òµ½³ÌĞòÖĞµÄ
-	 * Í£Ö¹»òÔİÍ£Óï¾ä£¨°üº¬¸ÃÍ£Ö¹»òÔİÍ£Óï¾ä£©Ö®¼äµÄÓï¾äĞòÁĞ×é³ÉµÄ¡£
+	 * 1ã€ç”±è¯¥å…¥å£è¯­å¥ç›´åˆ°ä¸‹ä¸€ä¸ªå…¥å£è¯­å¥ï¼ˆä¸åŒ…å«ä¸‹ä¸€ä¸ªå…¥å£è¯­å¥ï¼‰ä¹‹é—´çš„æ‰€æœ‰è¯­å¥æ„æˆä¸€ä¸ªåŸºæœ¬å—ã€‚
+	 * 2ã€ç”±è¯¥å…¥å£è¯­å¥åˆ°ä¸€è½¬ç§»è¯­å¥ï¼ˆå«è¯¥è½¬ç§»è¯­å¥ï¼‰ä¹‹é—´çš„æ‰€æœ‰è¯­å¥æ„æˆä¸€ä¸ªåŸºæœ¬å—ï¼›æˆ–åˆ°ç¨‹åºä¸­çš„
+	 * åœæ­¢æˆ–æš‚åœè¯­å¥ï¼ˆåŒ…å«è¯¥åœæ­¢æˆ–æš‚åœè¯­å¥ï¼‰ä¹‹é—´çš„è¯­å¥åºåˆ—ç»„æˆçš„ã€‚
 	 */
 	private void genBasicBlock(AsmFuncModel funcModel){
 		int bNo = 0;
@@ -78,16 +78,16 @@ public class AsmStructAna{
 		Stack<AsmInstModel> stack = new Stack<>();
 		ArrayList<AsmBlockModel> blockList = new ArrayList<>();
 		HashMap<Integer, AsmBlockModel> blockMap = new HashMap<>();
-		//±ê¼Çº¯ÊıµÄ»ù±¾¿éÈë¿Ú
+		//æ ‡è®°å‡½æ•°çš„åŸºæœ¬å—å…¥å£
 		markBhead(funcModel);
 		
 		ArrayList<AsmInstModel> instList = funcModel.getInstList();
 		int instListSize = instList.size();
 		for (int i = 0; i < instListSize; i++) {
 			AsmInstModel instModel = instList.get(i);
-			//»ù±¾¿éµÄÈë¿ÚÓï¾ä
+			//åŸºæœ¬å—çš„å…¥å£è¯­å¥
 			if (instModel.isHead()) {
-				//Çå¿ÕblockModel
+				//æ¸…ç©ºblockModel
 				if (blockModel != null) {
 					blockList.add(blockModel);
 					blockMap.put(blockModel.getbNo(), blockModel);
@@ -98,21 +98,21 @@ public class AsmStructAna{
 				blockModel.addInstModel(instModel);
 				continue;
 			}
-//			//ÏÂÒ»¸öÈë¿ÚÓï¾ä
+//			//ä¸‹ä¸€ä¸ªå…¥å£è¯­å¥
 //			if (instModel.isHead() && !stack.isEmpty()) {
 //				stack.pop();
 //				blockModel.addInstModel(instModel);
-//				//½«block´æÈëblocklistÖĞ
+//				//å°†blockå­˜å…¥blocklistä¸­
 //				blockList.add(blockModel);
 //				blockMap.put(blockModel.getbNo(), blockModel);
 //				continue;
 //			}
-			//×ªÒÆÓï¾ä»òÍ£Ö¹ÔİÍ£Óï¾ä
+			//è½¬ç§»è¯­å¥æˆ–åœæ­¢æš‚åœè¯­å¥
 			if (isJumpIns(instModel)) {
 				/////
 				stack.pop();
 				blockModel.addInstModel(instModel);
-				//½«block´æÈëblocklistÖĞ
+				//å°†blockå­˜å…¥blocklistä¸­
 				blockList.add(blockModel);
 				blockMap.put(blockModel.getbNo(), blockModel);
 				blockModel = null;
@@ -131,28 +131,28 @@ public class AsmStructAna{
 	}
 	
 	/**
-	 * ±ê¼Ç»ù±¾¿éµÄÈë¿ÚµØÖ·
+	 * æ ‡è®°åŸºæœ¬å—çš„å…¥å£åœ°å€
 	 * @param curFunc
 	 */
 	private void markBhead(AsmFuncModel funcModel){
 		
 		ArrayList<AsmInstModel> instList = funcModel.getInstList();
 		long instListSize = instList.size();
-		//(1)³ÌĞòµÄµÚÒ»¸öÓï¾ä
+		//(1)ç¨‹åºçš„ç¬¬ä¸€ä¸ªè¯­å¥
 		AsmInstModel firstInstModel = instList.get(0);
 		firstInstModel.setHead();
 		for(int i=0;i<instListSize;i++){
 			AsmInstModel instModel = instList.get(i);
-			//µ±ÊÇÌø×ªÓï¾äÊ±
+			//å½“æ˜¯è·³è½¬è¯­å¥æ—¶
 			if(isJumpIns(instModel)){
-				//(2)½ô¸úÔÚÌõ¼ş×ªÒÆÓï¾äºóÃæµÄÓï¾ä 
+				//(2)ç´§è·Ÿåœ¨æ¡ä»¶è½¬ç§»è¯­å¥åé¢çš„è¯­å¥ 
 				if(isConsJumpIns(instModel) && i<(instListSize-1)){
 					AsmInstModel nextInstModel = instList.get(i+1);
 					nextInstModel.setHead();
 				}
 				ArrayList<String> args = instModel.getArgList();
-				//(3)Ìõ¼ş×ªÒÆÓï¾ä»òÎŞÌõ¼ş×ªÒÆÓï¾äµÄ×ªÒÆÄ¿±êÓï¾ä
-				//BUG:Ìø×ª¼Ä´æÆ÷Ã»ÓĞ¿¼ÂÇ
+				//(3)æ¡ä»¶è½¬ç§»è¯­å¥æˆ–æ— æ¡ä»¶è½¬ç§»è¯­å¥çš„è½¬ç§»ç›®æ ‡è¯­å¥
+				//BUG:è·³è½¬å¯„å­˜å™¨æ²¡æœ‰è€ƒè™‘
 				//System.out.println(args.toString());
 				if (args.size() > 0 && !args.get(0).contains("r")) {
 					long addr = Integer.parseInt(args.get(0), 16);
@@ -166,7 +166,7 @@ public class AsmStructAna{
 		}
 	}
 	/**
-	 * ÅĞ¶Ï¸ÃÖ¸ÁîÊÇ²»ÊÇ×ªÒÆÓï¾ä
+	 * åˆ¤æ–­è¯¥æŒ‡ä»¤æ˜¯ä¸æ˜¯è½¬ç§»è¯­å¥
 	 * @param instModel
 	 * @return
 	 */
@@ -179,7 +179,7 @@ public class AsmStructAna{
 		return false;
 	}
 	/**
-	 * ÅĞ¶ÏÊÇ²»ÊÇÎŞÌõ¼ş×ªÒÆÖ¸Áî
+	 * åˆ¤æ–­æ˜¯ä¸æ˜¯æ— æ¡ä»¶è½¬ç§»æŒ‡ä»¤
 	 * @param instModel
 	 * @return
 	 */
@@ -194,7 +194,7 @@ public class AsmStructAna{
 		return false;
 	}
 	/**
-	 * ÅĞ¶ÏÊÇ²»ÊÇÌõ¼ş×ªÒÆÖ¸Áî
+	 * åˆ¤æ–­æ˜¯ä¸æ˜¯æ¡ä»¶è½¬ç§»æŒ‡ä»¤
 	 * @param instModel
 	 * @return
 	 */

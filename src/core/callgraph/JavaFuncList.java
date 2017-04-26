@@ -43,13 +43,13 @@ public class JavaFuncList {
 	}
 	/**
 	 * 
-	 * @param file java/srcÄ¿Â¼ÎÄ¼ş 
+	 * @param file java/srcç›®å½•æ–‡ä»¶ 
 	 */
 	public void listJavaFile(File file) {
 		File[] files = file.listFiles();
 		for (int i = 0; i < files.length; i++) {
 			if (files[i].isFile() && files[i].getName().endsWith(".java")) {
-				//¶ÔjavaÔ­ÎÄ¼ş½øĞĞ¸´ÖÆ²¢Ô¤´¦Àí£¬È¥³ı×¢ÊÍ
+				//å¯¹javaåŸæ–‡ä»¶è¿›è¡Œå¤åˆ¶å¹¶é¢„å¤„ç†ï¼Œå»é™¤æ³¨é‡Š
 				//System.out.println(files[i].getAbsolutePath());
 				String srcPath = files[i].getAbsolutePath();
 				String destPath = srcPath+".copy";
@@ -62,7 +62,7 @@ public class JavaFuncList {
 				}
 				genFuncBean(new File(destPath));
 			} 
-			//¹¹½¨javaº¯ÊıÁĞ±í»¹ÊÇĞèÒªandoirdÎÄ¼ş¼ĞÏÂµÄÄÚÈİµÄ
+			//æ„å»ºjavaå‡½æ•°åˆ—è¡¨è¿˜æ˜¯éœ€è¦andoirdæ–‡ä»¶å¤¹ä¸‹çš„å†…å®¹çš„
 			else if (files[i].isDirectory()) {
 				listJavaFile(files[i]);
 			}
@@ -82,10 +82,10 @@ public class JavaFuncList {
 			reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 			line = reader.readLine().trim();
 			do {
-				//»ñµÃ°üÃû
+				//è·å¾—åŒ…å
 				if (line.startsWith("package ")) {
 					packName = line.substring(8, line.lastIndexOf(";"));
-				//»ñµÃÀàÃû
+				//è·å¾—ç±»å
 				} else if (line.contains("class") && stack.size() == 0) {
 					String[] arrStrings = line.split(" ");
 					for (int i = 0; i < arrStrings.length; i++) {
@@ -96,18 +96,18 @@ public class JavaFuncList {
 					}
 				}
 				boolean flag = false;
-				//¼ì²âµ½º¯Êı
+				//æ£€æµ‹åˆ°å‡½æ•°
 				if (line.contains(" native ")
 						|| (flag = (line.contains("{") && stack.size() == 1 && line_pre
 								.trim().endsWith(")")))) {
 					ArrayList<String> funcInfo = new ArrayList<String>();
 					FuncModel funcModel = new FuncModel();
-					//°üº¬nativeµÄÒ»¸öº¯ÊıÉêÃ÷
+					//åŒ…å«nativeçš„ä¸€ä¸ªå‡½æ•°ç”³æ˜
 					if (!flag) {
 						funcInfo = getFunc(line);
-					//Ò»°ãµÄº¯ÊıĞĞ
+					//ä¸€èˆ¬çš„å‡½æ•°è¡Œ
 					} else {
-						//BUG:¶ÏĞĞµÄÇé¿ö¿¼ÂÇÁËÈ´Ã»ÓĞ´¦Àí
+						//BUG:æ–­è¡Œçš„æƒ…å†µè€ƒè™‘äº†å´æ²¡æœ‰å¤„ç†
 						if (line_pre.indexOf("(") == -1) {
 							continue;
 						}

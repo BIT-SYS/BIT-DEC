@@ -6,7 +6,7 @@ import java.util.Iterator;
 public class StringTools {
 	
 	/**
-	 * ÅĞ¶ÏÒ»¸ö×Ö·û´®tmpÊÇ²»ÊÇ°üº¬×Ö·û´®Êı×éÖĞ
+	 * åˆ¤æ–­ä¸€ä¸ªå­—ç¬¦ä¸²tmpæ˜¯ä¸æ˜¯åŒ…å«å­—ç¬¦ä¸²æ•°ç»„ä¸­
 	 * @param strs
 	 * @param tmp
 	 * @return
@@ -23,7 +23,7 @@ public class StringTools {
 	}
 	
 	/**
-	 * ÅĞ¶ÏÁ½¸ö¼¯ºÏhashsetÀïµÄÔªËØÊÇ·ñÈ«²¿ÏàÍ¬
+	 * åˆ¤æ–­ä¸¤ä¸ªé›†åˆhashseté‡Œçš„å…ƒç´ æ˜¯å¦å…¨éƒ¨ç›¸åŒ
 	 * @param v
 	 * @param w
 	 * @return

@@ -67,7 +67,7 @@ public class AndroidCodeDecAction extends Action implements IWorkbenchAction{
 			String dex2jarPath = this.projectPath+"/classes-dex2jar.jar";
 			printer.println("parse classes.dex to "+dex2jarPath+" successfully");
 			
-			//½âÑ¹classes-dex2jar.jar
+			//è§£å‹classes-dex2jar.jar
 			printer.println("extracting " +dex2jarPath+"...");
 			dex2jarPath.replace(".jar", ".zip");
 			File directory = new File(this.projectPath+"/classes");
@@ -79,7 +79,7 @@ public class AndroidCodeDecAction extends Action implements IWorkbenchAction{
 			}
 			printer.println(dex2jarPath+" extracte has completed.");
 			
-			//·´±àÒëclasses
+			//åç¼–è¯‘classes
 			printer.println("decompiling *.class...");
 			File jadBat = new File(toolsFileUrl+"//jad//jad.bat");
 			BufferedWriter bw;
@@ -101,7 +101,7 @@ public class AndroidCodeDecAction extends Action implements IWorkbenchAction{
 	            p.waitFor();
 			} catch (IOException e) {
 				e.printStackTrace();
-				printer.println("decompile .class error£¡£¡");
+				printer.println("decompile .class errorï¼ï¼");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -120,7 +120,7 @@ public class AndroidCodeDecAction extends Action implements IWorkbenchAction{
 }
 
 
-//±£Ö¤exec³É¹¦Íê³ÉÀà
+//ä¿è¯execæˆåŠŸå®Œæˆç±»
 class StreamGobbler extends Thread {
 	 InputStream is;
 	 String type;

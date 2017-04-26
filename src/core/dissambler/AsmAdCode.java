@@ -26,26 +26,26 @@ public class AsmAdCode {
 	
 	public String cfgAna(String funcName) throws Exception {
 		AsmFuncModel funcModel = AsmTextSectionStruct.textSectionModel.getFuncMap().get(funcName);
-		// ================¶Ôº¯ÊıµÄ»ù±¾¿é½øĞĞÔ¤´¦Àí======================
+		// ================å¯¹å‡½æ•°çš„åŸºæœ¬å—è¿›è¡Œé¢„å¤„ç†======================
 		preDealBlocks(funcModel);
-		// ================±äÁ¿ÀàĞÍ·ÖÎö===============================
-		/* ·ÖÁ½ÖÖÀàĞÍ£º
-		 * 1¡¢Java_com_¸ñÊ½
-		 * 2¡¢_Z7GetTimev(ÔİÊ±²»¿¼ÂÇ)
+		// ================å˜é‡ç±»å‹åˆ†æ===============================
+		/* åˆ†ä¸¤ç§ç±»å‹ï¼š
+		 * 1ã€Java_com_æ ¼å¼
+		 * 2ã€_Z7GetTimev(æš‚æ—¶ä¸è€ƒè™‘)
 		 */
 		if (!funcName.contains("Java_")) {
-			throw new Exception("ÔİÊ±ÎŞ·¨´¦Àí´Ëº¯Êı");
+			throw new Exception("æš‚æ—¶æ— æ³•å¤„ç†æ­¤å‡½æ•°");
 		}
 		funcName = funcName.substring(funcName.lastIndexOf("_") + 1);
 		funcHeadStr = structFuncHead(funcName);
 		funcBodyStr = new StringBuilder();
 		//typeAnalysis1(argliststr);
-		// ================´òÓ¡±äÁ¿  =======================
+		// ================æ‰“å°å˜é‡  =======================
 		//printVars();
-		// ================¹æÔ¼ĞÎ³ÉÊ÷ ======================
+		// ================è§„çº¦å½¢æˆæ ‘ ======================
 		reduce(this);
-		// ================¸ß¼¶´úÂëÉú³É ====================
-//		System.out.println("/******    ¸ß¼¶´úÂë     *******/");
+		// ================é«˜çº§ä»£ç ç”Ÿæˆ ====================
+//		System.out.println("/******    é«˜çº§ä»£ç      *******/");
 //		System.out.println("/*************************/");
 //		funcContentStr = funcHeadStr +"\n"+"{"+funcBodyStr.toString()+"\n}";
 //		System.out.println(funcContentStr);
@@ -53,7 +53,7 @@ public class AsmAdCode {
 	}
 	
 	/**
-	 * ½«º¯ÊıµÄ»ù±¾¿é·ÅÔÚÁÚ½Ó±íÖĞ½øĞĞÔ¤´¦Àí
+	 * å°†å‡½æ•°çš„åŸºæœ¬å—æ”¾åœ¨é‚»æ¥è¡¨ä¸­è¿›è¡Œé¢„å¤„ç†
 	 * @param funcName
 	 */
 	private void preDealBlocks(AsmFuncModel funcModel){
@@ -74,14 +74,14 @@ public class AsmAdCode {
 			}
 		}
 		/* ???????????????????????????????
-		 * ¸ã¸ö¸´ÖÆÃ²ËÆÃ»É¶ÓÃ
+		 * æä¸ªå¤åˆ¶è²Œä¼¼æ²¡å•¥ç”¨
 		 */
 		copyedG = makeACopy();
 		printTable();
 	}
 	
 	private void printTable(){
-		System.out.println("/********»ù±¾¿éÁÚ½Ó±í********/");
+		System.out.println("/********åŸºæœ¬å—é‚»æ¥è¡¨********/");
 		System.out.println("/*************************/");
 		for (int i = 0; i < adjacentTable.size(); i++) {
 			ArrayList<Integer> row = adjacentTable.get(i);
@@ -90,13 +90,13 @@ public class AsmAdCode {
 	}
 	
 	/**
-	 * ¹¹½¨¸ß¼¶´úÂëµÄº¯ÊıÍ·
-	 * @param funcName º¯ÊıÃû
+	 * æ„å»ºé«˜çº§ä»£ç çš„å‡½æ•°å¤´
+	 * @param funcName å‡½æ•°å
 	 * @return
 	 * @throws Exception 
 	 */
 	private String structFuncHead(String funcName) throws Exception{
-		// ================¹¹½¨º¯ÊıÍ· =========================
+		// ================æ„å»ºå‡½æ•°å¤´ =========================
 		String headstr = "";
 		if (JavaCalledList.javaCalledList == null) {
 			throw new Exception("call graph operation first!");
@@ -128,14 +128,14 @@ public class AsmAdCode {
 	
 
 	/*
-	 * ÅĞ¶ÏÊÇ·ñ½øĞĞÁËcall graph²Ù×÷
+	 * åˆ¤æ–­æ˜¯å¦è¿›è¡Œäº†call graphæ“ä½œ
 	 */
 	public boolean judgeCallGraphed() {
 		return true;
 	}
 
 	/*
-	 * ¹éÔ¼ĞÎ³ÉÊ÷
+	 * å½’çº¦å½¢æˆæ ‘
 	 */
 	public void reduce(AsmAdCode g) {
 		ArrayList<Integer> visited = new ArrayList<Integer>();
@@ -158,7 +158,7 @@ public class AsmAdCode {
 			ArrayList<Integer> toList = g.getToList(v);
 			//test if it is a sequential path
 			/*
-			 * ²Å¿ªÊ¼ÊÇÃ»ÓĞË³Ğò½á¹¹µÄ£¨ÒòÎª»ù±¾¿éµÄÔ­ÒòÏû³ıÁËË³Ğò½á¹¹£©£¬¶øÔÚ¹æÔ¼µÄ¹ı³ÌÖĞ½«»á²úÉúË³Ğò½á¹¹£¬Ö»ÊÇÆğµ½ÖĞ¼ä¹ı¶ÉµÄ×÷ÓÃ
+			 * æ‰å¼€å§‹æ˜¯æ²¡æœ‰é¡ºåºç»“æ„çš„ï¼ˆå› ä¸ºåŸºæœ¬å—çš„åŸå› æ¶ˆé™¤äº†é¡ºåºç»“æ„ï¼‰ï¼Œè€Œåœ¨è§„çº¦çš„è¿‡ç¨‹ä¸­å°†ä¼šäº§ç”Ÿé¡ºåºç»“æ„ï¼Œåªæ˜¯èµ·åˆ°ä¸­é—´è¿‡æ¸¡çš„ä½œç”¨
 			 */
 			if(toList.size() == 1){
 				ArrayList<Integer> fromList = g.getFromList(toList.get(0));
@@ -284,17 +284,17 @@ public class AsmAdCode {
 			}
 			currPos += 1;
 		}
-		System.out.println("/******¸ß¼¶´úÂë¿ØÖÆ½á¹¹*******/");
+		System.out.println("/******é«˜çº§ä»£ç æ§åˆ¶ç»“æ„*******/");
 		System.out.println("/*************************/");
-		//´ÓĞòºÅÎª0µÄ»ù±¾¿é¿ªÊ¼»ñÈ¡½á¹¹Ê÷
+		//ä»åºå·ä¸º0çš„åŸºæœ¬å—å¼€å§‹è·å–ç»“æ„æ ‘
 		codeGen1(0, 0);
 	}
 
 	/**
-	 * ¸ß¼¶´úÂë½á¹¹Ê÷Éú³É
-	 * @param index »ù±¾¿éĞòºÅ
-	 * @param step Ëõ½ø¼¶±ğ
-	 * @return ½á¹¹»¯ÊÇ·ñÍê³É
+	 * é«˜çº§ä»£ç ç»“æ„æ ‘ç”Ÿæˆ
+	 * @param index åŸºæœ¬å—åºå·
+	 * @param step ç¼©è¿›çº§åˆ«
+	 * @return ç»“æ„åŒ–æ˜¯å¦å®Œæˆ
 	 */
 	public boolean codeGen1(int index, int step) {
 		nodeinfo root = getBranchNode(index);
@@ -303,7 +303,7 @@ public class AsmAdCode {
 		} else {
 			switch (root.type) {
 				case "seq": {
-					// µ±ÊÇÒ¶×Ó½ÚµãÊ±
+					// å½“æ˜¯å¶å­èŠ‚ç‚¹æ—¶
 					if (codeGen1(root.childlist.get(0), ++step) == true) {
 						ArrayList<highcode> highCodeList = block2code(root.childlist.get(0));
 						int listsize = highCodeList.size();
@@ -392,9 +392,9 @@ public class AsmAdCode {
 	}
 
 	/**
-	 * °´ÕÕ»ù±¾¿éĞòºÅ×ª»»³É¸ß¼¶´úÂë
-	 * @param blockIndex »ù±¾¿éµÄĞòºÅ
-	 * @return »ù±¾¿éµÄ¸ß¼¶´úÂëĞòÁĞ
+	 * æŒ‰ç…§åŸºæœ¬å—åºå·è½¬æ¢æˆé«˜çº§ä»£ç 
+	 * @param blockIndex åŸºæœ¬å—çš„åºå·
+	 * @return åŸºæœ¬å—çš„é«˜çº§ä»£ç åºåˆ—
 	 */
 	public ArrayList<highcode> block2code(int blockIndex) {
 		ArrayList<highcode> highCodeList = new ArrayList<highcode>();
@@ -403,7 +403,7 @@ public class AsmAdCode {
 			AsmInstModel inst = Inslist.get(i);
 			String opStr = inst.getOp();
 			switch (opStr) {
-			//±È½Ï
+			//æ¯”è¾ƒ
 			case "cmp": {
 				AsmInstModel nextInst = Inslist.get(i + 1);
 				String nextOpStr = nextInst.getOp();
@@ -426,7 +426,7 @@ public class AsmAdCode {
 				highCodeList.add(high);
 				break;
 			}
-			//¼Ó·¨
+			//åŠ æ³•
 			case "adds": {
 				ArrayList<String> argsList = inst.getArgList();
 				highcode high = new highcode();
@@ -442,7 +442,7 @@ public class AsmAdCode {
 				highCodeList.add(high);
 				break;
 			}
-			//³Ë·¨*2
+			//ä¹˜æ³•*2
 			case "lsls": {
 				ArrayList<String> argsList = inst.getArgList();
 				highcode high = new highcode();
@@ -452,13 +452,13 @@ public class AsmAdCode {
 				highCodeList.add(high);
 				break;
 			}
-			//¸ù¾İº¯ÊıÉêÃ÷ÊÇ·ñÓĞ·µ»ØÀàĞÍÅĞ¶ÏÊÇ·ñÓĞreturn
+			//æ ¹æ®å‡½æ•°ç”³æ˜æ˜¯å¦æœ‰è¿”å›ç±»å‹åˆ¤æ–­æ˜¯å¦æœ‰return
 			case "bx": {
 				ArrayList<String> argsList = inst.getArgList();
 				String arg0 = argsList.get(0);
 				highcode high = new highcode();
 				high.hightype = opStr;
-				//Ìø×ªµ½·µ»ØµØÖ·
+				//è·³è½¬åˆ°è¿”å›åœ°å€
 				if (arg0.equals("lr")) {
 					if (funcHeadStr.contains("void")) {
 						high.highstring = "return";
@@ -500,7 +500,7 @@ public class AsmAdCode {
 	}
 	
 	/**
-	 * ±äÁ¿Àà
+	 * å˜é‡ç±»
 	 * @author zxs
 	 *
 	 */
@@ -535,52 +535,52 @@ public class AsmAdCode {
 		}
 	}
 	
-	public static final String[] binOps = {"mov","cmp"};//¶şÔªÔËËã·ûÊı×é
-	public static final String[] triOps = {"add","sub"};//ÈıÔªÔËËã·ûÊı×é
+	public static final String[] binOps = {"mov","cmp"};//äºŒå…ƒè¿ç®—ç¬¦æ•°ç»„
+	public static final String[] triOps = {"add","sub"};//ä¸‰å…ƒè¿ç®—ç¬¦æ•°ç»„
 	/**
-	 * ¸ù¾İº¯Êı²ÎÊıÁĞ±í½øĞĞ±äÁ¿ÀàĞÍµÄÀàĞÍ´«µİ·ÖÎö
-	 * @param argsType º¯ÊıµÄ²ÎÊıÁĞ±í(±äÁ¿ÃûÎª¼Ä´æÆ÷Ãû)
-	 * BUG:ÏÖÔÚÖ»¿¼ÂÇ¼òµ¥ÀàĞÍµÄ´«µİ·ÖÎö£¬²»°üº¬¸´ºÏ²ÎÊıÀàĞÍµÄ·ÖÎö
-	 * ²ÎÊı´«µİÈë¿Ú£º
-	 * 1¡¢×Óº¯ÊıµÄ²ÎÊıÁĞ±í
-	 * 		a/²ÎÊıÁĞ±íÊıÄ¿Ğ¡ÓÚ4£¬r0~r3
-	 * 		b/²ÎÊıÁĞ±íÊıÄ¿´óÓÚ4£¬¶àÓàµÄ²¿·Ö´æ¶ÑÕ»ÖĞ
-	 * 2¡¢¾Ö²¿±äÁ¿
-	 * 3¡¢³£Á¿
+	 * æ ¹æ®å‡½æ•°å‚æ•°åˆ—è¡¨è¿›è¡Œå˜é‡ç±»å‹çš„ç±»å‹ä¼ é€’åˆ†æ
+	 * @param argsType å‡½æ•°çš„å‚æ•°åˆ—è¡¨(å˜é‡åä¸ºå¯„å­˜å™¨å)
+	 * BUG:ç°åœ¨åªè€ƒè™‘ç®€å•ç±»å‹çš„ä¼ é€’åˆ†æï¼Œä¸åŒ…å«å¤åˆå‚æ•°ç±»å‹çš„åˆ†æ
+	 * å‚æ•°ä¼ é€’å…¥å£ï¼š
+	 * 1ã€å­å‡½æ•°çš„å‚æ•°åˆ—è¡¨
+	 * 		a/å‚æ•°åˆ—è¡¨æ•°ç›®å°äº4ï¼Œr0~r3
+	 * 		b/å‚æ•°åˆ—è¡¨æ•°ç›®å¤§äº4ï¼Œå¤šä½™çš„éƒ¨åˆ†å­˜å †æ ˆä¸­
+	 * 2ã€å±€éƒ¨å˜é‡
+	 * 3ã€å¸¸é‡
 	 * 
 	 */
 	public HashSet<Var> propagationType(ArrayList<String> argsType,AsmFuncModel funcModel){
 		if (funcModel == null) {
 			return null;
 		}
-		//³õÊ¼»¯V¼¯ºÏ
+		//åˆå§‹åŒ–Vé›†åˆ
 		HashSet<Var> V = new HashSet<>();
 		for (int i = 0; i < argsType.size(); i++) {
 			Var var = new Var();
-			//Ö»¿¼ÂÇJava_ÇÒ²ÎÊı¸öÊıĞ¡ÓÚµÈÓÚ2µÄÇé¿ö£¨ÓĞÁ½¸öÄ¬ÈÏµÄ²ÎÊıJNIEnv* env,jobject thiz´æ·ÅÔÚr0ºÍr1ÖĞ£©
+			//åªè€ƒè™‘Java_ä¸”å‚æ•°ä¸ªæ•°å°äºç­‰äº2çš„æƒ…å†µï¼ˆæœ‰ä¸¤ä¸ªé»˜è®¤çš„å‚æ•°JNIEnv* env,jobject thizå­˜æ”¾åœ¨r0å’Œr1ä¸­ï¼‰
 			var.varName = "r"+(i+2);
 			var.addVarType(argsType.get(i));
 			V.add(var);
 		}
-		//²ÎÊıÊÕ¼¯
+		//å‚æ•°æ”¶é›†
 		ArrayList<AsmInstModel> instList = funcModel.getInstList();
 		for (int i = 0; i < instList.size(); i++) {
 			AsmInstModel instModel = instList.get(i);
 			ArrayList<String> argsList = instModel.getArgList();
 			/* ??????????????????????????????
-			 * add(adds)¼ÈÊÇ¶şÔªÔËËã·ûÓÖÊÇÈıÔªÔËËã·û
+			 * add(adds)æ—¢æ˜¯äºŒå…ƒè¿ç®—ç¬¦åˆæ˜¯ä¸‰å…ƒè¿ç®—ç¬¦
 			 */
-			//¶şÔªÔËËã·ûµÄÇé¿ö
+			//äºŒå…ƒè¿ç®—ç¬¦çš„æƒ…å†µ
 			if (StringTools.isInStrings(binOps, instModel.getOp())) {
 				int consIndex = argsList.get(0).startsWith("#") ? 0 : (argsList.get(1).startsWith("#") ? 1 : -1);
-				//º¬ÓĞ³£Á¿µÄÇé¿ö
+				//å«æœ‰å¸¸é‡çš„æƒ…å†µ
 				if (consIndex != -1) {
 					Var var1 = new Var();
 					var1.varName = argsList.get(1-consIndex);
 					var1.addVarType("int");
 					V.add(var1);
 				}
-				//²»º¬³£Á¿µÄÇé¿ö
+				//ä¸å«å¸¸é‡çš„æƒ…å†µ
 				else {
 					Var var1 = new Var(argsList.get(0));
 					Var var2 = new Var(argsList.get(1));
@@ -590,11 +590,11 @@ public class AsmAdCode {
 					V.add(var2);
 				}
 			}
-			//ÈıÔªÔËËã·ûµÄÇé¿ö
+			//ä¸‰å…ƒè¿ç®—ç¬¦çš„æƒ…å†µ
 			else if (StringTools.isInStrings(triOps, instModel.getOp())) {
 				int consIndex = argsList.get(0).startsWith("#") ? 0 : (argsList.get(1).startsWith("#") ? 1 : 
 					(argsList.get(2).startsWith("#") ? 2 : -1));
-				//º¬ÓĞ³£Á¿µÄÇé¿ö
+				//å«æœ‰å¸¸é‡çš„æƒ…å†µ
 				if (consIndex != -1) {
 					ArrayList<Var> tmpVarList = new ArrayList<>();
 					for (int j = 0; j < 3; j++) {
@@ -630,19 +630,19 @@ public class AsmAdCode {
 					V.add(var3);
 				}
 			}
-			//ÆäËûÇé¿ö.....
+			//å…¶ä»–æƒ…å†µ.....
 			else {
 				
 			}
 		}
-		//²ÎÊıÀàĞÍ´«µİ
+		//å‚æ•°ç±»å‹ä¼ é€’
 		boolean flag = false;
 		while ( !flag ) {
 			flag = true;
 			for ( Var v : V) {
 				for ( Var w : v.regsSet) {
 					/* ??????????????????????????????
-					 * T¼¯ºÏÖĞ°üº¬²»Í¬ÀàĞÍ
+					 * Té›†åˆä¸­åŒ…å«ä¸åŒç±»å‹
 					 */
 					if (!StringTools.isTequal(v.typeSet, w.typeSet)) {
 						flag = false;
@@ -656,11 +656,11 @@ public class AsmAdCode {
 	}
 
 	/*
-	 * ±äÁ¿ÀàĞÍ·ÖÎö
+	 * å˜é‡ç±»å‹åˆ†æ
 	 */
 	public void typeAnalysis1(String argString) {
 		
-		//³õÊ¼»¯
+		//åˆå§‹åŒ–
 		ArrayList<Node> L = new ArrayList<Node>();
 
 		ArrayList<AsmInstModel> instList = func.getInstList();
@@ -682,7 +682,7 @@ public class AsmAdCode {
 			var.varName = temp[i];
 			P.add(var);
 		}
-		// ============²ÎÊıÊÕ¼¯=============
+		// ============å‚æ•°æ”¶é›†=============
 		V1 = P;
 		int index;
 		int Lsize = L.size();
@@ -837,7 +837,7 @@ public class AsmAdCode {
 			}
 			// .....
 		}
-		// ============ÀàĞÍ´«µİ=============
+		// ============ç±»å‹ä¼ é€’=============
 		boolean flag = false;
 
 		int lun = 0;
@@ -845,7 +845,7 @@ public class AsmAdCode {
 		while (!flag) {
 			flag = true;
 			lun++;
-			System.out.println("==============" + "  µÚ" + lun + "ÂÖ  "
+			System.out.println("==============" + "  ç¬¬" + lun + "è½®  "
 					+ "===============");
 			int Vsize = V1.size();
 			for (int i = 0; i < Vsize; i++) {
@@ -891,7 +891,7 @@ public class AsmAdCode {
 	}
 
 	/*
-	 * ´òÓ¡±äÁ¿
+	 * æ‰“å°å˜é‡
 	 */
 	public void printVars() {
 		int V1_size = V1.size();
@@ -905,7 +905,7 @@ public class AsmAdCode {
 	}
 
 	/*
-	 * µÃµ½±äÁ¿ÀàĞÍ
+	 * å¾—åˆ°å˜é‡ç±»å‹
 	 */
 	public String getType(String r) {
 		int V1_size = V1.size();
@@ -918,14 +918,14 @@ public class AsmAdCode {
 	}
 
 	/*
-	 * º¯Êı»ù±¾¿é¶¨ÖµµãĞÎ³É
+	 * å‡½æ•°åŸºæœ¬å—å®šå€¼ç‚¹å½¢æˆ
 	 */
 	public void EPGen(AsmFuncModel func) {
 
 	}
 
 	// ====================================
-	// ±äÁ¿ÀàĞÍ·ÖÎöÓÃµ½µÄ½á¹¹ºÍ·½·¨
+	// å˜é‡ç±»å‹åˆ†æç”¨åˆ°çš„ç»“æ„å’Œæ–¹æ³•
 	// ====================================
 	class Node {
 		String op;
@@ -964,7 +964,7 @@ public class AsmAdCode {
 	}
 
 	// ====================================
-	// Éú³É½á¹¹Ê÷µÄ¹¤¾ßº¯Êı
+	// ç”Ÿæˆç»“æ„æ ‘çš„å·¥å…·å‡½æ•°
 	// ====================================
 	class nodeinfo {
 		String type = null;
@@ -1097,11 +1097,11 @@ public class AsmAdCode {
 	}
 
 	// ====================================
-	// »ù±¾¿é×ª¸ß¼¶´úÂëÓÃµ½µÄ½á¹¹ºÍº¯Êı
+	// åŸºæœ¬å—è½¬é«˜çº§ä»£ç ç”¨åˆ°çš„ç»“æ„å’Œå‡½æ•°
 	// ====================================
 	/**
-	 * °´ÕÕ»ù±¾¿éĞòºÅ»ñÈ¡¹æÔ¼Ê±µÄ×Ó¹æÔ¼ÆğÊ¼µã£¬²¢½«Æä´ÓtreeListÖĞÉ¾³ı
-	 * @param node »ù±¾¿éĞòºÅ
+	 * æŒ‰ç…§åŸºæœ¬å—åºå·è·å–è§„çº¦æ—¶çš„å­è§„çº¦èµ·å§‹ç‚¹ï¼Œå¹¶å°†å…¶ä»treeListä¸­åˆ é™¤
+	 * @param node åŸºæœ¬å—åºå·
 	 * @return
 	 */
 	public nodeinfo getBranchNode(int node) {

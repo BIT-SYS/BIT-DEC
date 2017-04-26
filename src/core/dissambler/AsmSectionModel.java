@@ -7,7 +7,7 @@ public class AsmSectionModel {
 	
 	private String name = "";
 	private ArrayList<AsmFuncModel> funcList;
-	private HashMap<String, AsmFuncModel> funcMap;//String ±íÊ¾º¯ÊıÃû
+	private HashMap<String, AsmFuncModel> funcMap;//String è¡¨ç¤ºå‡½æ•°å
 	private long start;
 	private long end;
 	

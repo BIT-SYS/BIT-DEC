@@ -31,10 +31,10 @@ public class CallGraphAction extends Action implements IWorkbenchAction{
 	@Override
 	public void run(){
 		String projectPath = PathTools.getProjectPath(workbenchWindow);
-		//构建java和so的函数调用图
+		//鏋勫缓java鍜宻o鐨勫嚱鏁拌皟鐢ㄥ浘
 		FuncParser funcParser = new FuncParser(projectPath);
 		funcParser.parse();
-		//绘制并显示函数调用图
+		//缁樺埗骞舵樉绀哄嚱鏁拌皟鐢ㄥ浘
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		try {
 			IViewPart viewPart = page.showView(Constant.VIEW_CALLGRAPH);
