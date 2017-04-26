@@ -38,18 +38,18 @@ import com.google.gson.JsonParser;
 public class GsonUtil {
 
     /**
-     * 鏍煎紡鍖栧璞′负Json
+     * 閺嶇厧绱￠崠鏍ь嚠鐠炩�茶礋Json
      *
      * @param object
      * @return
      */
     public static String format(Object object) {
-    	GsonBuilder gsonBuilder = new GsonBuilder();
-    	Gson gson = gsonBuilder.setPrettyPrinting().disableHtmlEscaping().create();
+    	//GsonBuilder gsonBuilder = 
+    	Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
         JsonParser jp = new JsonParser();
         JsonElement je = jp.parse(gson.toJson(object));
         String prettyJsonString = gson.toJson(je);
-        //绠�鍗曞鐞唂unction
+        //缁狅拷閸楁洖顦╅悶鍞倁nction
         String[] lines = prettyJsonString.split("\n");
         lines = replaceFunctionQuote(lines);
         StringBuilder stringBuilder = new StringBuilder();
@@ -60,7 +60,7 @@ public class GsonUtil {
     }
 
     /**
-     * 鏍煎紡鍖栧璞′负Json
+     * 閺嶇厧绱￠崠鏍ь嚠鐠炩�茶礋Json
      *
      * @param object
      * @return
@@ -70,7 +70,7 @@ public class GsonUtil {
         JsonParser jp = new JsonParser();
         JsonElement je = jp.parse(gson.toJson(object));
         String prettyJsonString = gson.toJson(je);
-        //绠�鍗曞鐞唂unction
+        //缁狅拷閸楁洖顦╅悶鍞倁nction
         String[] lines = prettyJsonString.split("\n");
         lines = replaceFunctionQuote(lines);
         StringBuilder stringBuilder = new StringBuilder();
@@ -81,7 +81,7 @@ public class GsonUtil {
     }
 
     /**
-     * 澶勭悊瀛楃涓蹭腑鐨刦unction鍜�(function(){})()锛岄櫎{}涓殑浠ｇ爜澶栵紝鍏朵粬鍦版柟涓嶅厑璁告湁绌烘牸
+     * 婢跺嫮鎮婄�涙顑佹稉韫厬閻ㄥ垿unction閸滐拷(function(){})()閿涘矂娅巤}娑擃厾娈戞禒锝囩垳婢舵牭绱濋崗鏈电铂閸︾増鏌熸稉宥呭帒鐠佸憡婀佺粚鐑樼壐
      *
      * @param lines
      * @return
@@ -114,7 +114,7 @@ public class GsonUtil {
     }
 
     /**
-     * 鍙嶅簭鍒楀寲
+     * 閸欏秴绨崚妤�瀵�
      *
      * @param json
      * @param type
@@ -129,7 +129,7 @@ public class GsonUtil {
     }
 
     /**
-     * 鍙嶅簭鍒楀寲
+     * 閸欏秴绨崚妤�瀵�
      *
      * @param json
      * @return
@@ -143,7 +143,7 @@ public class GsonUtil {
     }
 
     /**
-     * 杈撳嚭Json
+     * 鏉堟挸鍤璊son
      *
      * @param object
      * @return
@@ -153,7 +153,7 @@ public class GsonUtil {
     }
 
     /**
-     * 杈撳嚭Json
+     * 鏉堟挸鍤璊son
      *
      * @param object
      * @return

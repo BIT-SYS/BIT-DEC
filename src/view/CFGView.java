@@ -1,6 +1,15 @@
 package view;
 
-import test.test;
+import com.github.abel533.echarts.Label;
+import com.github.abel533.echarts.code.*;
+import com.github.abel533.echarts.series.Force;
+import com.github.abel533.echarts.series.force.Link;
+import com.github.abel533.echarts.series.force.Node;
+import com.github.abel533.echarts.style.LinkStyle;
+import com.github.abel533.echarts.style.NodeStyle;
+import com.github.abel533.echarts.style.TextStyle;
+import com.github.abel533.echarts.util.EnhancedOption;
+
 import java.util.ArrayList;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.TitleEvent;
@@ -58,7 +67,7 @@ public class CFGView extends ViewPart {
 	
 	public void drawCFG(AsmFuncModel funcModel) {
 		// use ECharts to draw charts
-		/*
+		
 		EnhancedOption option = new EnhancedOption();
 	    option.title().text("人物关系：乔布斯").subtext("数据来自人立方").x(X.right).y(Y.bottom);
 	    option.tooltip().trigger(Trigger.item).formatter("{a} : {b}");
@@ -86,8 +95,7 @@ public class CFGView extends ViewPart {
 	    force.nodes(new Node(1, "2", 15));
 	
 	    option.series(force);
-	    option.exportToHtml(Constant.OUTPUTFOLDER+"CFG.html");*/
-
+	    option.exportToHtml(Constant.OUTPUTFOLDER+"CFG.html");
 	    browser.setUrl(Constant.OUTPUTFOLDER+"CFG.html");
 	    
 		ArrayList<AsmBlockModel> blockList = funcModel.getBlockList();

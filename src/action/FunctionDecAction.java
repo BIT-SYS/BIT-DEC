@@ -2,18 +2,7 @@ package action;
 
 import java.util.HashMap;
 
-import com.github.abel533.echarts.Label;
-import com.github.abel533.echarts.code.*;
-import com.github.abel533.echarts.series.Force;
-import com.github.abel533.echarts.series.force.Link;
-import com.github.abel533.echarts.series.force.Node;
-import com.github.abel533.echarts.style.LinkStyle;
-import com.github.abel533.echarts.style.NodeStyle;
-import com.github.abel533.echarts.style.TextStyle;
-import com.github.abel533.echarts.util.EnhancedOption;
-
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
@@ -25,17 +14,15 @@ import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import app.Activator;
-import core.dissambler.AsmAdCode;
-import core.dissambler.AsmFuncModel;
-import core.dissambler.AsmStructAna;
-import core.dissambler.AsmTextSectionStruct;
-import test.test;
 import utils.Constant;
 import view.AdvancedCodeView;
 import view.CFGView;
 import view.ConsoleFactory;
 import view.FuncsView;
+import core.dissambler.AsmAdCode;
+import core.dissambler.AsmFuncModel;
+import core.dissambler.AsmStructAna;
+import core.dissambler.AsmTextSectionStruct;
 
 public class FunctionDecAction extends Action implements IWorkbenchAction, Runnable {
 	private IWorkbenchWindow workbenchWindow;
@@ -80,11 +67,6 @@ public class FunctionDecAction extends Action implements IWorkbenchAction, Runna
 	 */
 	//此地乃是错误高发区 （田泽民注（苦笑））
 	public static void decAction(String funcName,IWorkbenchPage workbenchPage){
-		//		
-		//new test().run();
-		
-		
-		
 		HashMap<String, AsmFuncModel> funcMap = AsmTextSectionStruct.textSectionModel.getFuncMap();
 		AsmStructAna structAna = new AsmStructAna();
 		try {

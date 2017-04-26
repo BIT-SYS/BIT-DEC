@@ -18,6 +18,10 @@ public class test {
 	public void run(){
 	    //地址：http://echarts.baidu.com/doc/example/force1.html
 		EnhancedOption option = new EnhancedOption();
+		EnhancedOption option1 = new EnhancedOption();
+		EnhancedOption option2 = new EnhancedOption();
+		EnhancedOption option3 = new EnhancedOption();
+		EnhancedOption option4 = new EnhancedOption();
 	    option.title().text("人物关系：乔布斯").subtext("数据来自人立方").x(X.right).y(Y.bottom);
 	    option.tooltip().trigger(Trigger.item).formatter("{a} : {b}");
 	    option.toolbox().show(true).feature(Tool.restore, Tool.saveAsImage);
