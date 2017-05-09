@@ -8,9 +8,9 @@
 <body>
 <div class="wrapper">
     <div class="middle">
-        <h1 style="padding: 70px 0 20px;">函数调用关系图</h1>
+        <h1 style="padding: 70px 0 20px;">函数控制流图图</h1>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="main" style="height:400px">函数调用关系图</div>
+        <div id="main" style="height:400px">函数控制流图图</div>
     </div>
     <div class="push"></div>
 </div>
@@ -21,7 +21,7 @@
 // 基于准备好的dom，初始化echarts图表
 var myChart = echarts.init(document.getElementById('main'));
 
-var option = {"title": {"text": "handle_list_size_larger","subtext": "函数控制流图","x": "right","y": "bottom"},"toolbox": {"feature": {"restore": {"show": true,"title": "还原"},"saveAsImage": {"show": true,"title": "保存为图片","type": "png","lang": ["点击保存"]}},"show": true},"tooltip": {"trigger": "item","formatter": "{a} : {b}"},"legend": {"data": ["家人","朋友"],"x": "left"},"series": [{"categories": [{"name": "人物"},{"name": "家人"},{"name": "朋友"}],"nodes": [{"name": "1","category": 1,"value": 15},{"name": "1-4","category": 2,"value": 10},{"name": "1-2","category": 2,"value": 10},{"name": "2","category": 1,"value": 15},{"name": "2-4","category": 2,"value": 10},{"name": "2-3","category": 2,"value": 10},{"name": "3","category": 1,"value": 15},{"name": "3-4","category": 2,"value": 10},{"name": "4","category": 1,"value": 15}],"links": [{"source": "1","target": "1-4","weight": 10},{"source": "1","target": "1-2","weight": 10},{"source": "2","target": "2-4","weight": 10},{"source": "2","target": "2-3","weight": 10},{"source": "3","target": "3-4","weight": 10}],"minRadius": 15,"maxRadius": 25,"linkSymbol": "arrow","scaling": 1.1,"gravity": 1.1,"useWorker": false,"name": "调用关系","type": "force","itemStyle": {"normal": {"label": {"show": true,"textStyle": {"color": "#333"}},"nodeStyle": {"brushType": "both","color": "rgba(255,215,0,0.4)","borderWidth": 1}},"emphasis": {"label": {"show": true},"nodeStyle": {},"linkStyle": {}}}}]};
+var option = {"title": {"text": "B6411","subtext": "函数控制流图","x": "right","y": "bottom"},"toolbox": {"feature": {"restore": {"show": true,"title": "还原"},"saveAsImage": {"show": true,"title": "保存为图片","type": "png","lang": ["点击保存"]}},"show": true},"tooltip": {"trigger": "item","formatter": "{a} : {b}"},"series": [{"nodes": [{"name": "\n","label": "0","category": 1,"value": 15},{"name": "\n\n\n","label": "1","category": 1,"value": 10},{"name": "\n\n\n","label": "2","category": 1,"value": 10},{"name": "\n","label": "3","category": 1,"value": 10}],"links": [{"source": "\n","target": "\n\n\n","weight": 10},{"source": "\n\n\n","target": "\n\n\n","weight": 10},{"source": "\n\n\n","target": "\n\n\n","weight": 10},{"source": "\n\n\n","target": "\n","weight": 10}],"minRadius": 15,"maxRadius": 25,"linkSymbol": "arrow","scaling": 1.1,"gravity": 1.1,"useWorker": false,"name": "调用关系","type": "force","itemStyle": {"normal": {"label": {"show": true,"textStyle": {"color": "#333"}},"nodeStyle": {"brushType": "both","color": "rgba(255,215,200,0.4)","borderWidth": 1}},"emphasis": {"label": {"show": true},"nodeStyle": {},"linkStyle": {}}}}]};
 
 // 为echarts对象加载数据
 myChart.setOption(option);

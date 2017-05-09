@@ -58,6 +58,14 @@ public class Node extends HashMap<String, Object> implements Serializable {
         put("name", name);
         put("value", value);
     }
+    
+    public Node(Integer category, String name, String label, Integer value) {
+        super();
+        put("category", category);
+        put("name", name);
+        put("label", label);
+        put("value", value);
+    }
 
     /**
      * 获取name值

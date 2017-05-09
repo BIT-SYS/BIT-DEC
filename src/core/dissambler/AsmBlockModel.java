@@ -3,7 +3,7 @@ package core.dissambler;
 import java.util.ArrayList;
 
 public class AsmBlockModel {
-	private int bNo; //»ù±¾¿é±àºÅ
+	private int bNo; 
 	private ArrayList<AsmBlockModel> preBlockSet;
 	private ArrayList<AsmBlockModel> subBlockSet;
 	private ArrayList<AsmInstModel> instList;
@@ -62,6 +62,18 @@ public class AsmBlockModel {
 
 	public void setInstList(ArrayList<AsmInstModel> instList) {
 		this.instList = instList;
+	}
+	
+	public String getbNoStr(){
+		return ""+bNo;
+	}
+	
+	public String getInstListStr(){
+		String ins="";
+		for(AsmInstModel i:instList){
+			ins+=ins.toString()+'\n';
+		}
+		return ins;
 	}
 	
 }

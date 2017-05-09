@@ -11,6 +11,8 @@ import com.github.abel533.echarts.style.TextStyle;
 import com.github.abel533.echarts.util.EnhancedOption;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.TitleEvent;
 import org.eclipse.swt.browser.TitleListener;
@@ -72,14 +74,14 @@ public class CFGView extends ViewPart {
 	    option.title().text(funcModel.getFuncName()).subtext("函数控制流图").x(X.right).y(Y.bottom);
 	    option.tooltip().trigger(Trigger.item).formatter("{a} : {b}");
 	    option.toolbox().show(true).feature(Tool.restore, Tool.saveAsImage);
-	    option.legend("家人", "朋友").legend().x(X.left);
+	    //option.legend("家人", "朋友").legend().x(X.left);
 	
 	    //数据
 	    Force force = new Force("调用关系");
-	    force.categories("人物", "家人", "朋友");
+	   // force.categories("人物", "家人", "朋友");
 	    force.itemStyle().normal()
 	            .label(new Label().show(true).textStyle(new TextStyle().color("#333")))
-	            .nodeStyle().brushType(BrushType.both).color("rgba(255,215,0,0.4)").borderWidth(1);
+	            .nodeStyle().brushType(BrushType.both).color("rgba(255,215,200,0.4)").borderWidth(1);
 	
 	    force.itemStyle().emphasis()
 	            .linkStyle(new LinkStyle())
@@ -87,35 +89,21 @@ public class CFGView extends ViewPart {
 	            .label().show(true);
 	    force.useWorker(false).minRadius(15).maxRadius(25).gravity(1.1).scaling(1.1).linkSymbol(Symbol.arrow);
 	    
-	    //force.nodes(new Node(1, "1", 15));
-	    //force.nodes(new Node(2, "1-1", 10));
-	    //force.nodes(new Node(2, "1-2", 10));
-	    //force.links(new Link("1", "1-1", 10));
-	    //force.links(new Link("1", "1-2", 10));
-	    //force.nodes(new Node(1, "2", 15));
-	    
-		ArrayList<AsmBlockModel> blockList = funcModel.getBlockList();
-		int blockListSize = blockList.size();
-		
-		for (int i = 1; i < blockListSize; i++) {
-			AsmBlockModel block = blockList.get(i);
-			force.nodes(new Node(1, ""+block.getbNo(), 15));
-			System.out.println("force.nodes(new Node(1, \""+block.getbNo()+"\", 15));");
-			
-			ArrayList<AsmBlockModel> subBlockSet = block.getSubBlockSet();
-			for (int j = 0; j < subBlockSet.size(); j++) { 
-				AsmBlockModel sublock = subBlockSet.get(j);
-				force.nodes(new Node(2, block.getbNo()+"-"+sublock.getbNo(), 10));
-				force.links(new Link(""+block.getbNo(), block.getbNo()+"-"+sublock.getbNo(), 10));
-				
-				System.out.println("force.nodes(new Node(2, \""+block.getbNo()+"-"+sublock.getbNo()+"\", 10));");
-				System.out.println("force.links(new Link(\""+block.getbNo()+"\", \""+block.getbNo()+"-"+sublock.getbNo()+"\", 10));");
+	    HashMap<String, Node> nodeMap = new HashMap<String, Node>();
+		for (AsmBlockModel block: funcModel.getBlockList()) {
+			if(!nodeMap.containsKey(block.toString()))    
+				nodeMap.put(block.getbNoStr(), new Node(1, block.getInstListStr() ,block.getbNoStr(), block.getbNo()==0?15:10));
+			for (AsmBlockModel sublock : block.getSubBlockSet()){
+				if(!nodeMap.containsKey(sublock.toString()))
+					nodeMap.put(sublock.getbNoStr(), new Node(1, sublock.getInstListStr() ,sublock.getbNoStr(), 10));
+				force.links(new Link(block.getInstListStr(), sublock.getInstListStr(), 10));
 			}
 		}
+		
+		force.nodes(new ArrayList(nodeMap.values()));
 		option.series(force);
 	    option.exportToHtml(Constant.OUTPUTFOLDER+"CFG.html");
 	    browser.setUrl(Constant.OUTPUTFOLDER+"CFG.html");
-		
  	}
 
 	/*
