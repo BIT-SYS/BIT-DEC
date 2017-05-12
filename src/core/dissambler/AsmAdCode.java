@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
-import utils.StringTools;
+import common.StringTools;
+
 import view.AdvancedCodeView;
 import core.callgraph.FuncModel;
 import core.callgraph.JavaCalledList;

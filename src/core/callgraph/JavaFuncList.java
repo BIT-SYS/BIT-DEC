@@ -11,7 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import utils.FileTools;
+import common.FileTools;
 
 
 public class JavaFuncList {

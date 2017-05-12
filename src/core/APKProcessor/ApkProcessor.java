@@ -1,24 +1,16 @@
 package core.APKProcessor;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.console.MessageConsoleStream;
 
-import utils.FileTools;
-import utils.ZipUtils;
-import view.ConsoleFactory;
-import app.Activator;
+import common.Global;
 
 public class ApkProcessor implements Runnable{
 	
@@ -33,24 +25,11 @@ public class ApkProcessor implements Runnable{
 		this.filePath = filePath;
 	}
 	
-	public void decompressionApk() throws Exception{
-//		this.apk2smali(this.filePath);
-//		this.smali2java(this.projectPath+"/smali");
-//		FileTools.deleteFile(new File(this.projectPath+"/smali"));
-		
-		MessageConsoleStream  printer =ConsoleFactory.getConsole().newMessageStream();
-		printer.println(this.filePath+" is being under decompression...");
-		this.filePath.replace(".apk", ".zip");
-		ZipUtils.decompress(this.filePath, this.projectPath);
-		printer.println(this.filePath+" decompressed completly.");
-	}
-	
 	@Override
 	public void run() {
 		try {
-			this.decompressionApk();
-			
-			AndroidCodeDecAction androidCodeDecAction = new AndroidCodeDecAction(workbenchWindow);
+			Global.unzipFile(this.filePath, this.projectPath);
+			getSourceCode androidCodeDecAction = new getSourceCode(workbenchWindow);
 			androidCodeDecAction.run();
 			Sodump sodump = new Sodump(projectPath);
 			sodump.run();

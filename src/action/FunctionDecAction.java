@@ -14,7 +14,8 @@ import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import utils.Constant;
+import common.Global;
+
 import view.AdvancedCodeView;
 import view.CFGView;
 import view.ConsoleFactory;
@@ -34,7 +35,7 @@ public class FunctionDecAction extends Action implements IWorkbenchAction, Runna
 		this.workbenchWindow = window;
 		//this.setText("Generate C Code");
 		this.setText("Function Call Graph");
-		setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(Constant.PLUGIN_ID, "icons/c.jpg"));
+		setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(Global.PLUGIN_ID, "icons/c.jpg"));
 		this.setToolTipText("Generate C Code");
 	}
 	
@@ -42,7 +43,7 @@ public class FunctionDecAction extends Action implements IWorkbenchAction, Runna
 	public void run() {
 		if (workbenchWindow != null) {
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			FuncsView funcsView = (FuncsView)page.findView(Constant.VIEW_FUNCSVIEW);
+			FuncsView funcsView = (FuncsView)page.findView(Global.VIEW_FUNCSVIEW);
 			Shell shell = workbenchWindow.getShell();
 			ElementListSelectionDialog dialog = new ElementListSelectionDialog(
 					shell, new LabelProvider());
@@ -73,12 +74,12 @@ public class FunctionDecAction extends Action implements IWorkbenchAction, Runna
 			AsmFuncModel funcModel = structAna.genCfg(funcMap.get(funcName));
 			//AsmFuncModel funcModel = funcMap.get(funcName);
 			//==============构建控制流图================//
-			CFGView graphView = (CFGView)workbenchPage.findView(Constant.VIEW_CGF); 
+			CFGView graphView = (CFGView)workbenchPage.findView(Global.VIEW_CGF); 
 			graphView.drawCFG(funcModel);
 			//==============输出高级代码================//
 			AsmAdCode showHighCode = new AsmAdCode(); 
 			String highcodeContent =  showHighCode.cfgAna(funcName);
-			AdvancedCodeView adCodeView = (AdvancedCodeView) workbenchPage.findView(Constant.VIEW_ADVANCEDCODE);
+			AdvancedCodeView adCodeView = (AdvancedCodeView) workbenchPage.findView(Global.VIEW_ADVANCEDCODE);
 			adCodeView.init();
 			adCodeView.showContent(highcodeContent, 0);
 		} catch (Exception e) {

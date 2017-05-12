@@ -16,11 +16,11 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.internal.ide.model.WorkbenchAdapterBuilder;
 import org.osgi.framework.Bundle;
 
-import utils.Constant;
+import common.Global;
 
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
-	private static final String PERSPECTIVE_ID = Constant.PERSPECTIVE_ID; //$NON-NLS-1$
+	private static final String PERSPECTIVE_ID = Global.PERSPECTIVE_ID; //$NON-NLS-1$
 
     @Override
 	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {

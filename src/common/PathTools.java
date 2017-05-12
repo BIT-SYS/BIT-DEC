@@ -75,10 +75,10 @@ public class PathTools {
 
 	private static void init(){
 		IWorkbenchPage page = _window.getActivePage();
-		NavigatorView viewPart = (NavigatorView)page.findView(Constant.VIEW_NAVIGATOR);
+		NavigatorView viewPart = (NavigatorView)page.findView(Global.VIEW_NAVIGATOR);
 		ISelectionService service = viewPart.getNavigatorActionGroup().getNavigator().getSite().getWorkbenchWindow()
 				.getSelectionService();
-		_selection = (IStructuredSelection) service.getSelection(Constant.VIEW_NAVIGATOR);
+		_selection = (IStructuredSelection) service.getSelection(Global.VIEW_NAVIGATOR);
 		
 	}
 	

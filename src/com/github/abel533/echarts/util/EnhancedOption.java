@@ -41,8 +41,7 @@ import com.github.abel533.echarts.TestConfig;
 import com.github.abel533.echarts.json.GsonOption;
 import com.github.abel533.echarts.json.GsonUtil;
 import com.github.abel533.echarts.json.OptionUtil;
-
-import utils.Constant;
+import common.Global;
 
 /**
  * 增强的Option - 主要用于测试、演示
@@ -130,7 +129,7 @@ public class EnhancedOption extends GsonOption implements TestConfig {
         List<String> lines = new ArrayList<String>();
         String line;
         try {
-            iReader = new InputStreamReader(new FileInputStream(Constant.TEMPLATE), "UTF-8");
+            iReader = new InputStreamReader(new FileInputStream(Global.TEMPLATE), "UTF-8");
             bufferedReader = new BufferedReader(iReader);
             while ((line = bufferedReader.readLine()) != null) {
                 if (line.contains("##option##")) {

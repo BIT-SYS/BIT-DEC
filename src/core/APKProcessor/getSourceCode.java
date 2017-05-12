@@ -14,7 +14,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import common.Constant;
+import common.Global;
 import common.PathTools;
 import common.ZipUtils;
 
@@ -39,47 +39,43 @@ public class getSourceCode extends Action implements IWorkbenchAction{
 	public void dex2jar(){
 		/////////////////////////////////////////////////////////
 		//dex ->jar
-		Constant.printer.println("parsing the classes.dex...");
+		Global.printer.println("parsing the classes.dex...");
 		try {
-		Process p = null;
-		p = Runtime.getRuntime().exec(toolsFileUrl+"/dex2jar-0.0.9.15/d2j-dex2jar.bat" +
-			" -f "+this.dexFilePath+
-			" -o "+this.projectPath+"/classes-dex2jar.jar");
-		System.out.println(toolsFileUrl+"/dex2jar-0.0.9.15/d2j-dex2jar.bat" +
-			" -f "+this.dexFilePath+
-			" -o "+this.projectPath+"/classes-dex2jar.jar");
-		StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "Error");            
-		StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "Output");
-		errorGobbler.start();
-		outputGobbler.start();
+			String cmd = toolsFileUrl+"/dex2jar-0.0.9.15/d2j-dex2jar.bat -f "+this.dexFilePath+	" -o "+this.projectPath+"/classes-dex2jar.jar";
+			Process p = Runtime.getRuntime().exec(cmd);
+			System.out.println(cmd);
+			StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "Error");            
+			StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "Output");
+			errorGobbler.start();
+			outputGobbler.start();
 		p.waitFor();
 		} catch (IOException e) {
 			e.printStackTrace();
-			Constant.printer.println("parse classes.dex error.");
+			Global.printer.println("parse classes.dex error.");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		
-		Constant.printer.println("parse classes.dex successfully");
+		Global.printer.println("parse classes.dex successfully");
 	}
 	
 	public void jar2java(){
 		//////////////////////////////////////////////////////////////
 		//解压classes-dex2jar.jar
 		String dex2jarPath = this.projectPath+"/classes-dex2jar.jar";
-		Constant.printer.println("extracting " +dex2jarPath+"...");
+		Global.printer.println("extracting " +dex2jarPath+"...");
 		//dex2jarPath.replace(".jar", ".zip");
 		File directory = new File(this.projectPath+"/classes");
 		directory.mkdir();
 		try {
-			Constant.unzipFile(dex2jarPath, directory.getAbsolutePath());
+			Global.unzipFile(dex2jarPath, directory.getAbsolutePath());
 		} catch (Exception e2) {
 			e2.printStackTrace();
 		}
-		Constant.printer.println(dex2jarPath+" extracte has completed.");
+		Global.printer.println(dex2jarPath+" extracte has completed.");
 		
 		//反编译classes
-		Constant.printer.println("decompiling *.class...");
+		Global.printer.println("decompiling *.class...");
 		File jadBat = new File(toolsFileUrl+"//jad//jad.bat");
 		BufferedWriter bw;
 		try {
@@ -100,7 +96,7 @@ public class getSourceCode extends Action implements IWorkbenchAction{
 			p.waitFor();
 		} catch (IOException e) {
 			e.printStackTrace();
-			Constant.printer.println("decompile .class error！！");
+			Global.printer.println("decompile .class error！！");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -108,7 +104,7 @@ public class getSourceCode extends Action implements IWorkbenchAction{
 			File jadFile = new File(toolsFileUrl+"//jad//jad.bat");
 			jadFile.delete();
 		}
-		Constant.printer.println(".class has decompiled completed, please refresh the project.");
+		Global.printer.println(".class has decompiled completed, please refresh the project.");
 	}
 	
 	public void run() {

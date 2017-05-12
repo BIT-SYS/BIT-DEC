@@ -9,8 +9,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import utils.Constant;
-import utils.PathTools;
+import common.Global;
+import common.PathTools;
+
 import view.CallGraphView;
 import core.callgraph.FuncParser;
 
@@ -23,7 +24,7 @@ public class CallGraphAction extends Action implements IWorkbenchAction{
 		   } 
 		this.setText("Generate Call Graph");
 	   this.workbenchWindow = window; 
-	   setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(Constant.PLUGIN_ID, "icons/graph.jpg"));
+	   setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(Global.PLUGIN_ID, "icons/graph.jpg"));
 	   this.setToolTipText("Generate Call Graph");
 	}
 	
@@ -37,7 +38,7 @@ public class CallGraphAction extends Action implements IWorkbenchAction{
 		//绘制并显示函数调用图
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		try {
-			IViewPart viewPart = page.showView(Constant.VIEW_CALLGRAPH);
+			IViewPart viewPart = page.showView(Global.VIEW_CALLGRAPH);
 			CallGraphView callgarphView = (CallGraphView)viewPart;
 			callgarphView.drawCallGraph();
 		} catch (PartInitException e) {

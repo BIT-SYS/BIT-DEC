@@ -52,9 +52,10 @@ import org.eclipse.ui.views.navigator.SortAndFilterActionGroup;
 import org.eclipse.ui.views.navigator.ToggleLinkingAction;
 import org.eclipse.ui.views.navigator.WorkspaceActionGroup;
 
+import common.Global;
+
 import core.dissambler.AsmStructAna;
 import core.dissambler.AsmTextSectionStruct;
-import utils.Constant;
 import view.FuncsView;
 /**
  * The main action group for the navigator. This contains a few actions and
@@ -393,7 +394,7 @@ public class NavigatorActionGroup extends ResourceNavigatorActionGroup {
 				AsmTextSectionStruct.struct(selectedFile);
 				
 				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				IViewPart viewPart = page.findView(Constant.VIEW_FUNCSVIEW);
+				IViewPart viewPart = page.findView(Global.VIEW_FUNCSVIEW);
 				FuncsView myView = (FuncsView) viewPart;
 				myView.showFunctions();
 				

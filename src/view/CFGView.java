@@ -9,6 +9,7 @@ import com.github.abel533.echarts.style.LinkStyle;
 import com.github.abel533.echarts.style.NodeStyle;
 import com.github.abel533.echarts.style.TextStyle;
 import com.github.abel533.echarts.util.EnhancedOption;
+import common.Global;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
-import utils.Constant;
+
 import core.dissambler.AsmBlockModel;
 import core.dissambler.AsmFuncModel;
 
@@ -102,8 +103,8 @@ public class CFGView extends ViewPart {
 		
 		force.nodes(new ArrayList(nodeMap.values()));
 		option.series(force);
-	    option.exportToHtml(Constant.OUTPUTFOLDER+"CFG.html");
-	    browser.setUrl(Constant.OUTPUTFOLDER+"CFG.html");
+	    option.exportToHtml(Global.OUTPUTFOLDER+"CFG.html");
+	    browser.setUrl(Global.OUTPUTFOLDER+"CFG.html");
  	}
 
 	/*

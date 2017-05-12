@@ -26,8 +26,9 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
-import utils.FileTools;
-import utils.PathTools;
+import common.FileTools;
+import common.PathTools;
+
 import view.CallGraphView;
 
 
