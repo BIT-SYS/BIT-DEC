@@ -33,11 +33,20 @@ public class ApkProcessor implements Runnable{
 	@Override
 	public void run() {
 		try {
-			Global.unzipFile(filePath, tmpPath);
+			new getResource(apkPath, filePath, apkName).run();
+			Global.printer.print("\ndecompressing "+apkName+" ...");
+			Global.unZipFile(filePath, tmpPath);
+			Global.printer.print("succeed!!");
+			//new Thread(new getSourceCode(apkPath)).start();;
+			//new Thread(new Sodump(apkPath)).start();
+			//new Thread(new getResource(apkPath, filePath, apkName)).start();
+			
 			new getSourceCode(apkPath).run();
 			new Sodump(apkPath).run();
-			Global.printer.println("APK has been preproced, please refresh the project");
+			
+			Global.printer.println("\nAPK has been preproced, please refresh the project");
 		} catch (Exception e) {
+			Global.printer.print("error!!");
 			e.printStackTrace();
 		}
 	}

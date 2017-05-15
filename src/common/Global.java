@@ -45,17 +45,21 @@ public class Global {
 	public static String D2J_BAT         = TOOLPATH+"dex2jar-0.0.9.15/d2j-dex2jar.bat";
 	public static String JAD_BAT         = TOOLPATH+"jad/jad.bat";
 	public static String JAD_EXE         = TOOLPATH+"jad/jad.exe";
+	public static String APKTOOL         = TOOLPATH+"apktool.jar"; 
+	
+	public static boolean getSourceCodeSucceed = false; //indicate whether getSourceCode succeed
+	public static boolean SOdumpSucceed = false; 		//indicate whether SOdump succeed
 	
 	public static ArrayList<String> APKPATH = new ArrayList<String>();
 	public static MessageConsoleStream  printer =ConsoleFactory.getConsole().newMessageStream();
 	
-	public static void unzipFile(String filePath, String projectPath) throws Exception{
+	public static void unZipFile(String filePath, String projectPath) throws Exception{
 //		this.apk2smali(this.filePath);
 //		this.smali2java(this.projectPath+"/smali");
 //		FileTools.deleteFile(new File(this.projectPath+"/smali"));
 				
-		Global.printer.println(filePath+" is being under decompression...");
-		long startTime=System.currentTimeMillis();  
+		//Global.printer.println(filePath+" is being under decompression...");
+		//long startTime=System.currentTimeMillis();  
         ZipInputStream Zin=new ZipInputStream(new FileInputStream(filePath));
         BufferedInputStream Bin=new BufferedInputStream(Zin);  
         File Fout=null;  
@@ -77,12 +81,10 @@ public class Global {
         }  
         Bin.close();  
         Zin.close();  
-
-        long endTime=System.currentTimeMillis();  
-        Global.printer.println("decompression used time： "+(endTime-startTime)+" ms");  
- 
+        //long endTime=System.currentTimeMillis();  
+        //Global.printer.println("decompression used time： "+(endTime-startTime)+" ms");  
 		//ZipUtils.decompress(this.filePath, this.projectPath);
-		Global.printer.println(filePath+" decompressed completly.");
+		//Global.printer.println(filePath+" decompressed completly.");
 	}
 	
 	public static  void unZipJar(String filePath, String outDir) throws IOException{  
@@ -125,6 +127,9 @@ public class Global {
 	public static void copyDir(String src, String des) {  
         File file1=new File(src);  
         File file2=new File(des);  
+        if(!file1.exists()){  
+            return ;
+        } 
         if(!file2.exists()){  
             file2.mkdirs();  
         }  
@@ -169,6 +174,27 @@ public class Global {
 		outputGobbler.start();
 		p.waitFor();
 	}
-  
+	
+	public static void sysCmd(String cmd, String outFile) throws Exception{
+		Process p = Runtime.getRuntime().exec(cmd);
+		//System.out.println(cmd);
+		StreamGobbler errorGobbler  = new StreamGobbler(p.getErrorStream(), "Error");            
+		StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "Output", outFile);
+		errorGobbler.start();
+		outputGobbler.start();
+		p.waitFor();
+	}
+    
+	public static void sysCmd(String cmd, MessageConsoleStream printer) throws Exception{
+		Process p = Runtime.getRuntime().exec(cmd);
+		//System.out.println(cmd);
+		StreamGobbler errorGobbler  = new StreamGobbler(p.getErrorStream(), "Error",  printer);            
+		StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "Output", printer);
+		errorGobbler.start();
+		outputGobbler.start();
+		p.waitFor();
+	}
+
+
 }
 

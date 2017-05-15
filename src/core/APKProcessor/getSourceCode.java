@@ -1,13 +1,6 @@
 package core.APKProcessor;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -15,11 +8,8 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import common.Global;
-import common.PathTools;
-import common.StreamGobbler;
-import common.ZipUtils;
 
-public class getSourceCode extends Action implements IWorkbenchAction{
+public class getSourceCode extends Action implements IWorkbenchAction, Runnable{
 	private IWorkbenchWindow workbenchWindow;
 	private String apkPath = "";
 	private String tmpPath = "";
@@ -29,7 +19,6 @@ public class getSourceCode extends Action implements IWorkbenchAction{
 	private String javaPath = "";
 	private String tmpJavaPath = "";
 	private String D2J_BAT = Global.D2J_BAT;
-	private String JAD_BAT = Global.JAD_BAT;
 	private String JAD_EXE = Global.JAD_EXE;
 	
 	public getSourceCode(IWorkbenchWindow window) {
@@ -50,7 +39,7 @@ public class getSourceCode extends Action implements IWorkbenchAction{
 		this.dexFilePath = this.tmpPath+"/classes.dex";
 		this.dex2jarPath = this.tmpPath+"/classes-dex2jar.jar";
 		this.classPath   = Global.TMP+"/DecompileClass";
-		this.tmpJavaPath = Global.TMP+"/JavaCode";
+		this.tmpJavaPath = Global.TMP+"/JAVACODE";
 		
 		//delete decompileClass & JavaSourceCode of other apk
 		File dir = new File(Global.TMP);
@@ -58,53 +47,42 @@ public class getSourceCode extends Action implements IWorkbenchAction{
 		dir.mkdir();
 	}
 	
-	public void dex2jar(){
-		/////////////////////////////////////////////////////////
-		//dex ->jar
-		Global.printer.println("parsing the classes.dex...");
-		try {
-			String cmd = Global.D2J_BAT +" -f \""+this.dexFilePath+"\" -o \""+this.dex2jarPath+'\"';
-			Global.sysCmd(cmd);
-		} catch (Exception e) {
-			e.printStackTrace();
-			Global.printer.println("parse classes.dex error.");
-		}
-		
-		Global.printer.println("parse classes.dex successfully");
+	//dex ->jar
+	public void dex2jar() throws Exception{
+		String cmd = Global.D2J_BAT +" -f \""+this.dexFilePath+"\" -o \""+this.dex2jarPath+'\"';
+		Global.sysCmd(cmd);
 	}
 	
-	public void jar2java(){
-		//////////////////////////////////////////////////////////////
-		//解压classes-dex2jar.jar
-		Global.printer.println("extracting " +dex2jarPath+"...");
-		//dex2jarPath.replace(".jar", ".zip");
-		try {
-			Global.unZipJar(dex2jarPath, classPath);
-		} catch (Exception e2) {
-			Global.printer.println(e2.getMessage());
-			return ;
-		}
-		Global.printer.println(dex2jarPath+" extracte has completed.");
-		
-		//反编译classes
-		Global.printer.println("decompiling *.class...");
-		try {
-			new File(this.javaPath).mkdirs();
-			String cmd = JAD_EXE+" -r -ff -d \""+this.tmpJavaPath+"\" -s java \""+this.classPath+"/**/*.class\"";
-			Global.sysCmd(cmd);
-
-			//JAD can't handle chinese path, so use tmp dir
-			Global.copyDir(this.tmpJavaPath, this.javaPath);
-		} catch (Exception e) {
-			e.printStackTrace();
-			Global.printer.println("decompile .class error！！");
-		} 
-		Global.printer.println(".class has decompiled completed");
+	//jar->class
+	public void jar2class() throws Exception{
+		Global.unZipJar(dex2jarPath, classPath);
+	}
+	
+	//class->java
+	public void class2java() throws Exception{
+		new File(this.javaPath).mkdirs();
+		String cmd = JAD_EXE+" -r -ff -d \""+this.tmpJavaPath+"\" -s java \""+this.classPath+"/**/*.class\"";
+		Global.sysCmd(cmd);
+		//JAD can't handle chinese path, so use tmp dir
+		Global.copyDir(this.tmpJavaPath, this.javaPath);
 	}
 	
 	public void run() {
-		dex2jar();
-		jar2java();
+		try{
+			Global.printer.print("\nparsing classes.dex -> classes-dex2jar.jar ...");
+			dex2jar();
+			Global.printer.print("succeed!!");
+			Global.printer.print("\ndecompressing classes-dex2jar.jar -> *.class ...");
+			jar2class();
+			Global.printer.print("succeed!!");
+			Global.printer.print("\ndecompiling *.class -> *.java...");
+			class2java();
+			Global.printer.print("succeed!!");
+			Global.getSourceCodeSucceed = true;
+		}
+		catch(Exception e){
+			Global.printer.print("error!!");
+		}
 	}
 	
 	@Override

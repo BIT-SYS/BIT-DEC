@@ -1,24 +1,11 @@
 package core.APKProcessor;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.ui.console.MessageConsoleStream;
-
-import view.ConsoleFactory;
-import app.Activator;
 import common.Global;
 
-public class Sodump {
+public class Sodump implements Runnable{
 	private String apkPath  = "";
 	private String toolPath = "";
 	private String tmpPath  = "";
@@ -30,25 +17,28 @@ public class Sodump {
 		this.toolPath = Global.TOOLPATH;
 		this.tmpPath  = this.apkPath + "\\.tmp";
 		this.libPath  = this.tmpPath + "\\lib";
-		this.so2asm   = this.apkPath + "\\so2asm";
+		this.so2asm   = this.apkPath + "\\SO2ASM";
 	}
 	
 	public void run(){
 		//MessageConsoleStream  printer =ConsoleFactory.getConsole().newMessageStream();
-		Global.printer.println("sodumping...");
+		Global.printer.print("\nsodumping *.so -> *.asm ... ");
 		File so = new File(this.libPath);
 		if(!so.exists()){
 			Global.printer.println("there's no so files.");
+			Global.SOdumpSucceed = true;
 			return ;
 		}
 		try {
 			so2asmDir(new File(this.libPath), new File(this.so2asm));
+			Global.SOdumpSucceed = true;
 		} 
 		catch (FileNotFoundException e) {e.printStackTrace(); return ;}
-		Global.printer.println("sodumped completly.");
+		catch (Exception e) {e.printStackTrace(); return ;}
+		Global.printer.print("succeed!!");
 	}
 	
-	public void so2asmDir(File src,File dst) throws FileNotFoundException{
+	public void so2asmDir(File src,File dst) throws FileNotFoundException, Exception{
 		if(!src.isDirectory()) return ;
 		for(File file :src.listFiles()){
 			if(file.isFile()){
@@ -62,15 +52,11 @@ public class Sodump {
 		}
 	}
 	
-	public void disassemble(File file,String so2cPath){
+	public void disassemble(File file,String so2cPath) throws Exception{
 		if(!file.getName().endsWith(".so")) return ;
 		String sofilePath = file.getAbsolutePath();
-		try {
-			String cmd = this.toolPath+"arm-eabi-objdump.exe -d \""+sofilePath+"\" >> \""+so2cPath+"\\"+file.getName().replace(".so", ".asm")+"\"";
-			Global.sysCmd(cmd);
-			System.out.println(cmd);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		String cmd = this.toolPath+"arm-eabi-objdump.exe -d \""+sofilePath+"\"";
+		Global.sysCmd(cmd, so2cPath+"\\"+file.getName().replace(".so", ".asm"));
+		//System.out.println(cmd);
 	}
 }

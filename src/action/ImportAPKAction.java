@@ -28,37 +28,37 @@ public class ImportAPKAction extends Action implements   IWorkbenchAction,Runnab
 	@Override
 	public void run() 
 	{ 
-		if  (workbenchWindow != null )  {
-			String projectPath = PathTools.getProjectPath(workbenchWindow);
-			
-			Shell shell = workbenchWindow.getShell();
-			FileDialog dialog = new FileDialog (shell, SWT.OPEN);
-			String[] type = {"*.apk","*.hex"};
-			dialog.setFilterExtensions(type);
-			dialog.open();
-			
-			String file     = dialog.getFileName();
-			String fileType = file.substring(file.lastIndexOf(".")+1);
-			String fileName = file.substring(0, file.lastIndexOf("."));
-			String filePath = dialog.getFilterPath()+"\\"+file;
-			
-			switch(fileType){
-				case "apk":{
-					String apkPath = projectPath+"\\"+fileName;
-					if(Global.APKPATH.contains(apkPath)){
-						Global.printer.println(file+" is already in project "+projectPath.substring(projectPath.lastIndexOf("\\")+1));
-						return ;
-					}
-					Global.APKPATH.add(apkPath);
-					ApkProcessor apkPreprocessor = new ApkProcessor(projectPath, fileName, filePath,this.workbenchWindow);
-					Thread apkpreThread = new Thread(apkPreprocessor);
-					apkpreThread.start();
-					break;
+		if(workbenchWindow == null )  return ;
+		String projectPath = PathTools.getProjectPath(workbenchWindow);
+		
+		Shell shell = workbenchWindow.getShell();
+		FileDialog dialog = new FileDialog (shell, SWT.OPEN);
+		String[] type = {"*.apk","*.hex"};
+		dialog.setFilterExtensions(type);
+		dialog.open();
+		
+		String file     = dialog.getFileName();
+		String fileType = file.substring(file.lastIndexOf(".")+1);
+		String fileName = file.substring(0, file.lastIndexOf("."));
+		String filePath = dialog.getFilterPath()+"\\"+file;
+		
+		Global.printer.println("imported "+file);
+		switch(fileType){
+			case "apk":{
+				String apkPath = projectPath+"\\"+fileName;
+				if(Global.APKPATH.contains(apkPath)){
+					Global.printer.println(file+" is already in project "+projectPath.substring(projectPath.lastIndexOf("\\")+1));
+					return ;
 				}
-				case "8051":{break;}
-				case "PIC":{break;}
+				Global.APKPATH.add(apkPath);
+				ApkProcessor apkPreprocessor = new ApkProcessor(projectPath, fileName, filePath,this.workbenchWindow);
+				Thread apkpreThread = new Thread(apkPreprocessor);
+				apkpreThread.start();
+				break;
 			}
-		} 
+			case "8051":{break;}
+			case "PIC":{break;}
+		}
 		
 	}
 
