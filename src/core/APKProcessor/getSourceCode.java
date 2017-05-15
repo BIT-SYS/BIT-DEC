@@ -16,6 +16,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import common.Global;
 import common.PathTools;
+import common.StreamGobbler;
 import common.ZipUtils;
 
 public class getSourceCode extends Action implements IWorkbenchAction{
@@ -63,18 +64,10 @@ public class getSourceCode extends Action implements IWorkbenchAction{
 		Global.printer.println("parsing the classes.dex...");
 		try {
 			String cmd = Global.D2J_BAT +" -f \""+this.dexFilePath+"\" -o \""+this.dex2jarPath+'\"';
-			Process p = Runtime.getRuntime().exec(cmd);
-			System.out.println(cmd);
-			StreamGobbler errorGobbler  = new StreamGobbler(p.getErrorStream(), "Error");            
-			StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "Output");
-			errorGobbler.start();
-			outputGobbler.start();
-			p.waitFor();
-		} catch (IOException e) {
+			Global.sysCmd(cmd);
+		} catch (Exception e) {
 			e.printStackTrace();
 			Global.printer.println("parse classes.dex error.");
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 		
 		Global.printer.println("parse classes.dex successfully");
@@ -98,21 +91,14 @@ public class getSourceCode extends Action implements IWorkbenchAction{
 		try {
 			new File(this.javaPath).mkdirs();
 			String cmd = JAD_EXE+" -r -ff -d \""+this.tmpJavaPath+"\" -s java \""+this.classPath+"/**/*.class\"";
-			Process p = Runtime.getRuntime().exec(cmd);
-			StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), "Error");            
-			StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "Output");
-			errorGobbler.start();
-			outputGobbler.start();
-			p.waitFor();
+			Global.sysCmd(cmd);
 
 			//JAD can't handle chinese path, so use tmp dir
 			Global.copyDir(this.tmpJavaPath, this.javaPath);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			Global.printer.println("decompile .class error！！");
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		} 
 		Global.printer.println(".class has decompiled completed");
 	}
 	

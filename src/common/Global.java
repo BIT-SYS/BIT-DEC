@@ -159,6 +159,16 @@ public class Global {
         }  
             
     }  
+	
+	public static void sysCmd(String cmd) throws Exception{
+		Process p = Runtime.getRuntime().exec(cmd);
+		//System.out.println(cmd);
+		StreamGobbler errorGobbler  = new StreamGobbler(p.getErrorStream(), "Error");            
+		StreamGobbler outputGobbler = new StreamGobbler(p.getInputStream(), "Output");
+		errorGobbler.start();
+		outputGobbler.start();
+		p.waitFor();
+	}
   
 }
 

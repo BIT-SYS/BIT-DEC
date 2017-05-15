@@ -11,7 +11,6 @@ import java.util.zip.ZipInputStream;
 import org.eclipse.ui.IWorkbenchWindow;
 
 import common.Global;
-import common.Global.printer;
 
 public class ApkProcessor implements Runnable{
 	
@@ -37,7 +36,7 @@ public class ApkProcessor implements Runnable{
 			Global.unzipFile(filePath, tmpPath);
 			new getSourceCode(apkPath).run();
 			new Sodump(apkPath).run();
-			printer.println("APK has been preproced, please refresh the project");
+			Global.printer.println("APK has been preproced, please refresh the project");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
