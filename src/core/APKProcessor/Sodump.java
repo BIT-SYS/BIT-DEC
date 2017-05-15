@@ -16,6 +16,7 @@ import org.eclipse.ui.console.MessageConsoleStream;
 
 import view.ConsoleFactory;
 import app.Activator;
+import common.Global.printer;
 
 public class Sodump {
 	
@@ -33,29 +34,22 @@ public class Sodump {
 	}
 	
 	public void run(){
-		MessageConsoleStream  printer =ConsoleFactory.getConsole().newMessageStream();
+		//MessageConsoleStream  printer =ConsoleFactory.getConsole().newMessageStream();
 		printer.println("sodumping...");
-		File[] apkFiles = new File(projectPath).listFiles();
-		int k;
-		for(k=0;k<apkFiles.length;k++){
-			if(apkFiles[k].getName().equals("lib")){
-				try {
-					File soDiassembler = new File(projectPath+"/so2asm");
-					soDiassembler.mkdir();
-					listSo(apkFiles[k],soDiassembler.getAbsolutePath());
-				} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				}
-				break;
-			}
+		int flag =0;
+		File so = new File(projectPath);
+		for(File file : so.listFiles()){
+			if(!file.getName().equals("lib")) continue;
+			flag = 1;
+			try {
+				File soDiassembler = new File(projectPath+"/so2asm");
+				soDiassembler.mkdir();
+				listSo(file,soDiassembler.getAbsolutePath());
+			} 
+			catch (FileNotFoundException e) {e.printStackTrace();}
 		}
-		if(k == apkFiles.length){
-			printer.println("there's no so files.");
-		}
-		else{
-			printer.println("sodumped completly.");
-		}
-		printer.println("APK has been preproced, please refresh the project");
+		if(flag == 0)printer.println("there's no so files.");
+		else    	 printer.println("sodumped completly.");
 	}
 	
 	public void listSo(File file,String so2cPath) throws FileNotFoundException{

@@ -11,29 +11,33 @@ import java.util.zip.ZipInputStream;
 import org.eclipse.ui.IWorkbenchWindow;
 
 import common.Global;
+import common.Global.printer;
 
 public class ApkProcessor implements Runnable{
 	
 	private IWorkbenchWindow workbenchWindow;
 	private String projectPath = "";
+	private String apkName = "";
+	private String apkPath = "";
 	private String filePath = "";
-	private String toolsFileUrl = "";
+	private String tmpPath = "";
 	
-	public  ApkProcessor(String projectPath,String filePath,IWorkbenchWindow workbenchWindow){
+	public  ApkProcessor(String projectPath, String apkName, String filePath, IWorkbenchWindow workbenchWindow){
 		this.workbenchWindow = workbenchWindow;
 		this.projectPath = projectPath;
-		this.filePath = filePath;
+		this.apkName     = apkName;
+		this.apkPath     = this.projectPath+"\\"+this.apkName;
+		this.tmpPath   = this.apkPath+"\\.tmp";
+		this.filePath    = filePath;
 	}
 	
 	@Override
 	public void run() {
 		try {
-			Global.unzipFile(this.filePath, this.projectPath);
-			getSourceCode androidCodeDecAction = new getSourceCode(workbenchWindow);
-			androidCodeDecAction.run();
-			Sodump sodump = new Sodump(projectPath);
-			sodump.run();
-			//System.out.println("tinymintinymintinymintinymintinymintinymintinymintinymin");
+			Global.unzipFile(filePath, tmpPath);
+			new getSourceCode(apkPath).run();
+			new Sodump(apkPath).run();
+			printer.println("APK has been preproced, please refresh the project");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

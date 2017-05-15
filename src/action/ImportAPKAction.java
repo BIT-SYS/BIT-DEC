@@ -37,16 +37,20 @@ public class ImportAPKAction extends Action implements   IWorkbenchAction,Runnab
 			dialog.setFilterExtensions(type);
 			dialog.open();
 			
-			String apk      = dialog.getFileName();
-			String apkName  = apk.substring(0, apk.lastIndexOf("."));
-			String fileType = apk.substring(apk.lastIndexOf(".")+1).toLowerCase();
-			String filePath = dialog.getFilterPath()+"\\"+apk;
-
-			if(Global.APKPATH.containsKey(apk))  Global.printer.println()
-
+			String file     = dialog.getFileName();
+			String fileType = file.substring(file.lastIndexOf(".")+1);
+			String fileName = file.substring(0, file.lastIndexOf("."));
+			String filePath = dialog.getFilterPath()+"\\"+file;
+			
 			switch(fileType){
 				case "apk":{
-					ApkProcessor apkPreprocessor = new ApkProcessor(projectPath,filePath,this.workbenchWindow);
+					String apkPath = projectPath+"\\"+fileName;
+					if(Global.APKPATH.contains(apkPath)){
+						Global.printer.println(file+" is already in project "+projectPath.substring(projectPath.lastIndexOf("\\")+1));
+						return ;
+					}
+					Global.APKPATH.add(apkPath);
+					ApkProcessor apkPreprocessor = new ApkProcessor(projectPath, fileName, filePath,this.workbenchWindow);
 					Thread apkpreThread = new Thread(apkPreprocessor);
 					apkpreThread.start();
 					break;

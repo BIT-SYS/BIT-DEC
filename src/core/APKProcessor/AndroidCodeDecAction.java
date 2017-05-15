@@ -15,8 +15,9 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import utils.PathTools;
-import utils.ZipUtils;
+import common.Global;
+import common.PathTools;
+
 import view.ConsoleFactory;
 
 public class AndroidCodeDecAction extends Action implements IWorkbenchAction{
@@ -73,7 +74,7 @@ public class AndroidCodeDecAction extends Action implements IWorkbenchAction{
 			File directory = new File(this.projectPath+"/classes");
 			directory.mkdir();
 			try {
-				ZipUtils.decompress(dex2jarPath, directory.getAbsolutePath());
+				Global.unzipFile(dex2jarPath, directory.getAbsolutePath());
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
@@ -118,27 +119,4 @@ public class AndroidCodeDecAction extends Action implements IWorkbenchAction{
 		workbenchWindow  =   null ;
 	}
 }
-
-
-//保证exec成功完成类
-class StreamGobbler extends Thread {
-	 InputStream is;
-	 String type;
-	 StreamGobbler(InputStream is, String type) {
-	  this.is = is;
-	  this.type = type;
-	 }
-
-	 public void run() {
-	  try {
-	   InputStreamReader isr = new InputStreamReader(is);
-	   BufferedReader br = new BufferedReader(isr);
-	   String line = null;
-	   while ((line = br.readLine()) != null) {
-	   }
-	  } catch (IOException ioe) {
-	   ioe.printStackTrace();
-	  }
-	 }
-	}
 
