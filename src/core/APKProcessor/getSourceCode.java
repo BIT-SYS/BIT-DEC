@@ -34,7 +34,7 @@ public class getSourceCode extends Action implements IWorkbenchAction, Runnable{
 	
 	public getSourceCode(String apkPath) {
 		this.apkPath     = apkPath;
-		this.javaPath    = this.apkPath+"/JavaCode";
+		this.javaPath    = this.apkPath+"/JAVACODE";
 		this.tmpPath     = this.apkPath+"/.tmp";
 		this.dexFilePath = this.tmpPath+"/classes.dex";
 		this.dex2jarPath = this.tmpPath+"/classes-dex2jar.jar";

@@ -84,8 +84,7 @@ public class FunctionDecAction extends Action implements IWorkbenchAction, Runna
 			adCodeView.showContent(highcodeContent, 0);
 		} catch (Exception e) {
 			//MessageDialog.openInformation(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "提示", e.toString());
-			MessageConsoleStream  printer =ConsoleFactory.getConsole().newMessageStream();
-			printer.println("无法处理函数"+funcName);
+			Global.printer.println("无法处理函数"+funcName);
 		}
 	}
 

@@ -71,6 +71,7 @@ public class AsmTextSectionStruct {
 				if (line.trim().equals("") || isPop == true || line.trim().equals("..."))
 					continue;
 				//指令
+				funcModel.asm+=line+'\n';
 				instModel = structInst(line);
 				instMap.put(instModel.getAddr(), instModel);
 				instList.add(instModel);

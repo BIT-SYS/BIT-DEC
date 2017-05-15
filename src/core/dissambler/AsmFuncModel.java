@@ -16,6 +16,7 @@ public class AsmFuncModel {
 	private HashMap<Long, AsmInstModel> instMap;//Long表示指令的地址
 	private HashMap<Integer, AsmBlockModel> blockMap;//Integer表示基本块的编号
 	
+	public  String asm = "";
 	/**
 	 * Instruct
 	 */
