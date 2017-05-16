@@ -23,8 +23,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
 import utils.Global;
-import core.dissambler.AsmBlockModel;
-import core.dissambler.AsmFunc;
+import core.dissambler.AsmBlock;
+import core.dissambler.model.AsmFunc;
 
 
 public class CFGView extends ViewPart {
@@ -91,10 +91,10 @@ public class CFGView extends ViewPart {
 	    force.useWorker(false).minRadius(15).maxRadius(25).gravity(1.1).scaling(1.1).linkSymbol(Symbol.arrow);
 	    
 	    HashMap<String, Node> nodeMap = new HashMap<String, Node>();
-		for (AsmBlockModel block: funcModel.getBlockList()) {
+		for (AsmBlock block: funcModel.getBlockList()) {
 			if(!nodeMap.containsKey(block.toString()))    
 				nodeMap.put(block.getbNoStr(), new Node(1, block.getInstListStr() ,block.getbNoStr(), block.getbNo()==0?15:10));
-			for (AsmBlockModel sublock : block.getSubBlockSet()){
+			for (AsmBlock sublock : block.getSubBlockSet()){
 				if(!nodeMap.containsKey(sublock.toString()))
 					nodeMap.put(sublock.getbNoStr(), new Node(1, sublock.getInstListStr() ,sublock.getbNoStr(), 10));
 				force.links(new Link(block.getInstListStr(), sublock.getInstListStr(), 10));

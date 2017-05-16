@@ -6,6 +6,8 @@ import java.util.Stack;
 
 import org.eclipse.ui.console.MessageConsoleStream;
 
+import core.dissambler.model.AsmFunc;
+import core.dissambler.model.AsmInst;
 import view.ConsoleFactory;
 /**
  * 对单个函数进行基本块的划分；控制流的分析
@@ -25,13 +27,13 @@ public class AsmStructAna{
 		
 		genBasicBlock(funcModel);
 		
-		ArrayList<AsmBlockModel> blockList = funcModel.getBlockList();
+		ArrayList<AsmBlock> blockList = funcModel.getBlockList();
 		int blockListSize = blockList.size();
 		
 		for(int i=0;i<blockListSize;i++){
-			AsmBlockModel block = blockList.get(i);
-			ArrayList<AsmInstModel> instList = block.getInstList();
-			AsmInstModel lastInstModel = instList.get(instList.size()-1);
+			AsmBlock block = blockList.get(i);
+			ArrayList<AsmInst> instList = block.getInstList();
+			AsmInst lastInstModel = instList.get(instList.size()-1);
 			String lastInstOp = lastInstModel.getOp();
 			//基本块i的最后一条语句是跳转语句
 			if(isJumpIns(lastInstModel)){
@@ -42,7 +44,7 @@ public class AsmStructAna{
 					System.out.println(e.toString());
 				}
 				for(int k=0;k<blockListSize;k++){
-					AsmBlockModel jumpedBlock = blockList.get(k);
+					AsmBlock jumpedBlock = blockList.get(k);
 					long jumpedBlockAddr = jumpedBlock.getInstList().get(0).getAddr();
 					//2、基本块i的出口语句是goto(s)或者if...goto(s)且(s)是基本块k的入口语句
 					if ( jumpedBlockAddr == jumpedAddr) {
@@ -56,7 +58,7 @@ public class AsmStructAna{
 			//BUG:没有将POP当做停止语句
 			if (!isNoConsJumpIns(lastInstModel)) {
 				if (i+1 < blockListSize) {
-					AsmBlockModel nextBlockModel = blockList.get(i+1);
+					AsmBlock nextBlockModel = blockList.get(i+1);
 					nextBlockModel.addPreBlockIndex(block);
 					block.addSubBlockIndex(nextBlockModel);
 				}
@@ -74,17 +76,17 @@ public class AsmStructAna{
 	 */
 	private void genBasicBlock(AsmFunc funcModel){
 		int bNo = 0;
-		AsmBlockModel blockModel = null;
-		Stack<AsmInstModel> stack = new Stack<>();
-		ArrayList<AsmBlockModel> blockList = new ArrayList<>();
-		HashMap<Integer, AsmBlockModel> blockMap = new HashMap<>();
+		AsmBlock blockModel = null;
+		Stack<AsmInst> stack = new Stack<>();
+		ArrayList<AsmBlock> blockList = new ArrayList<>();
+		HashMap<Integer, AsmBlock> blockMap = new HashMap<>();
 		//标记函数的基本块入口
 		markBhead(funcModel);
 		
-		ArrayList<AsmInstModel> instList = funcModel.getInstList();
+		ArrayList<AsmInst> instList = funcModel.getInstList();
 		int instListSize = instList.size();
 		for (int i = 0; i < instListSize; i++) {
-			AsmInstModel instModel = instList.get(i);
+			AsmInst instModel = instList.get(i);
 			//基本块的入口语句
 			if (instModel.isHead()) {
 				//清空blockModel
@@ -92,7 +94,7 @@ public class AsmStructAna{
 					blockList.add(blockModel);
 					blockMap.put(blockModel.getbNo(), blockModel);
 				}
-				blockModel = new AsmBlockModel();
+				blockModel = new AsmBlock();
 				stack.push(instModel);
 				blockModel.setbNo(bNo++);
 				blockModel.addInstModel(instModel);
@@ -136,18 +138,18 @@ public class AsmStructAna{
 	 */
 	private void markBhead(AsmFunc funcModel){
 		
-		ArrayList<AsmInstModel> instList = funcModel.getInstList();
+		ArrayList<AsmInst> instList = funcModel.getInstList();
 		long instListSize = instList.size();
 		//(1)程序的第一个语句
-		AsmInstModel firstInstModel = instList.get(0);
+		AsmInst firstInstModel = instList.get(0);
 		firstInstModel.setHead();
 		for(int i=0;i<instListSize;i++){
-			AsmInstModel instModel = instList.get(i);
+			AsmInst instModel = instList.get(i);
 			//当是跳转语句时
 			if(isJumpIns(instModel)){
 				//(2)紧跟在条件转移语句后面的语句 
 				if(isConsJumpIns(instModel) && i<(instListSize-1)){
-					AsmInstModel nextInstModel = instList.get(i+1);
+					AsmInst nextInstModel = instList.get(i+1);
 					nextInstModel.setHead();
 				}
 				ArrayList<String> args = instModel.getArgList();
@@ -156,8 +158,8 @@ public class AsmStructAna{
 				//System.out.println(args.toString());
 				if (args.size() > 0 && !args.get(0).contains("r")) {
 					long addr = Integer.parseInt(args.get(0), 16);
-					HashMap<Long, AsmInstModel> instMap = funcModel.getInstMap();
-					AsmInstModel jumpedInstModel = instMap.get(addr);
+					HashMap<Long, AsmInst> instMap = funcModel.getInstMap();
+					AsmInst jumpedInstModel = instMap.get(addr);
 					if (jumpedInstModel != null) {
 						jumpedInstModel.setHead();
 					}
@@ -170,7 +172,7 @@ public class AsmStructAna{
 	 * @param instModel
 	 * @return
 	 */
-	private boolean isJumpIns(AsmInstModel instModel){
+	private boolean isJumpIns(AsmInst instModel){
 		String op = instModel.getOp();
 		if (op.startsWith("blx") || op.startsWith("bl") ||
 			op.startsWith("bx") || op.startsWith("b")) {
@@ -183,7 +185,7 @@ public class AsmStructAna{
 	 * @param instModel
 	 * @return
 	 */
-	private boolean isNoConsJumpIns(AsmInstModel instModel){
+	private boolean isNoConsJumpIns(AsmInst instModel){
 		String op = instModel.getOp();
 		if (op.equals("blx") || op.equals("bl") ||
 			op.equals("bx") || op.equals("b")||
@@ -198,7 +200,7 @@ public class AsmStructAna{
 	 * @param instModel
 	 * @return
 	 */
-	private boolean isConsJumpIns(AsmInstModel instModel){
+	private boolean isConsJumpIns(AsmInst instModel){
 		if (isJumpIns(instModel) && !isNoConsJumpIns(instModel)) {
 			return true;
 		}

@@ -8,6 +8,8 @@ import utils.StringTools;
 import view.AdvancedCodeView;
 import core.callgraph.FuncModel;
 import core.callgraph.JavaCalledList;
+import core.dissambler.model.AsmFunc;
+import core.dissambler.model.AsmInst;
 
 public class AsmAdCode {
 
@@ -19,7 +21,7 @@ public class AsmAdCode {
 	static ArrayList<VarNode> P;
 	private AdvancedCodeView myView;
 	private AsmFunc func;
-	private ArrayList<AsmBlockModel> blockList;
+	private ArrayList<AsmBlock> blockList;
 	private String funcHeadStr;
 	private StringBuilder funcBodyStr;
 	private String funcContentStr;
@@ -65,9 +67,9 @@ public class AsmAdCode {
 		blockList = funcModel.getBlockList();
 		int block_list_size = blockList.size();
 		for (int i = 0; i < block_list_size; i++) {
-			AsmBlockModel block = blockList.get(i);
+			AsmBlock block = blockList.get(i);
 			addVertex(block.getbNo());
-			ArrayList<AsmBlockModel> subBlockSet = block.getSubBlockSet();
+			ArrayList<AsmBlock> subBlockSet = block.getSubBlockSet();
 			int subBlockNum = subBlockSet.size();
 			for (int j = 0; j < subBlockNum; j++) {
 				addEdge(block.getbNo(), subBlockSet.get(j).getbNo());
@@ -398,14 +400,14 @@ public class AsmAdCode {
 	 */
 	public ArrayList<highcode> block2code(int blockIndex) {
 		ArrayList<highcode> highCodeList = new ArrayList<highcode>();
-		ArrayList<AsmInstModel> Inslist =  blockList.get(blockIndex).getInstList();
+		ArrayList<AsmInst> Inslist =  blockList.get(blockIndex).getInstList();
 		for (int i = 0; i < Inslist.size(); i++) {
-			AsmInstModel inst = Inslist.get(i);
+			AsmInst inst = Inslist.get(i);
 			String opStr = inst.getOp();
 			switch (opStr) {
 			//比较
 			case "cmp": {
-				AsmInstModel nextInst = Inslist.get(i + 1);
+				AsmInst nextInst = Inslist.get(i + 1);
 				String nextOpStr = nextInst.getOp();
 				ArrayList<String> argsList = inst.getArgList();
 				highcode high = new highcode();
@@ -563,9 +565,9 @@ public class AsmAdCode {
 			V.add(var);
 		}
 		//参数收集
-		ArrayList<AsmInstModel> instList = funcModel.getInstList();
+		ArrayList<AsmInst> instList = funcModel.getInstList();
 		for (int i = 0; i < instList.size(); i++) {
-			AsmInstModel instModel = instList.get(i);
+			AsmInst instModel = instList.get(i);
 			ArrayList<String> argsList = instModel.getArgList();
 			/* ??????????????????????????????
 			 * add(adds)既是二元运算符又是三元运算符
@@ -663,11 +665,11 @@ public class AsmAdCode {
 		//初始化
 		ArrayList<Node> L = new ArrayList<Node>();
 
-		ArrayList<AsmInstModel> instList = func.getInstList();
+		ArrayList<AsmInst> instList = func.getInstList();
 		int instListSize = instList.size();
 		for (int i = 0; i < instListSize; i++) {
 			Node node = new Node();
-			AsmInstModel inst = instList.get(i);
+			AsmInst inst = instList.get(i);
 			node.op = inst.getOp();
 			node.argsList = inst.getArgList();
 			L.add(node);

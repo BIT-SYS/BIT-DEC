@@ -27,6 +27,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.console.MessageConsoleStream;
 
+import core.dissambler.model.AsmFunc;
 import app.Activator;
 import view.ConsoleFactory;
 import view.FuncsView;
@@ -59,6 +60,9 @@ public class Global {
 	//store all apk path
 	public static ArrayList<String> APKPATH = new ArrayList<String>();
 	
+	//store all functions in a asmFile;
+	HashMap<String, AsmFunc> FUNCMAP = null;
+	
 	//global printer used to print something
 	public static MessageConsoleStream  printer =ConsoleFactory.getConsole().newMessageStream();
 	
@@ -69,7 +73,6 @@ public class Global {
 		return viewPart;
     }
 	
-    
 	public static void unZipFile(String filePath, String projectPath) throws Exception{
 //		this.apk2smali(this.filePath);
 //		this.smali2java(this.projectPath+"/smali");

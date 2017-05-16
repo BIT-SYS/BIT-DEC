@@ -3,7 +3,9 @@ package core.dissambler;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AsmSectionModel {
+import core.dissambler.model.AsmFunc;
+
+public class AsmSection {
 	
 	private String name = "";
 	private ArrayList<AsmFunc> funcList;
@@ -14,7 +16,7 @@ public class AsmSectionModel {
 	/**
 	 * Instruct
 	 */
-	public AsmSectionModel(){
+	public AsmSection(){
 		funcList = new ArrayList<AsmFunc>();
 		funcMap = new HashMap<>();
 	}

@@ -3,7 +3,7 @@ package test;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import core.dissambler.AsmInstModel;
+import core.dissambler.model.AsmInst;
 
 
 public class PointedRead {

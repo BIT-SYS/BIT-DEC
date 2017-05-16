@@ -12,8 +12,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
 import utils.Global;
-import core.dissambler.AsmBlockModel;
-import core.dissambler.AsmFunc;
+import core.dissambler.AsmBlock;
+import core.dissambler.model.AsmFunc;
 
 public class ha {
 	public static void main(String args[]){
