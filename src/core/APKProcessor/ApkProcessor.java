@@ -1,4 +1,4 @@
-package core.APKProcessor;
+package core.apkprocessor;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -10,7 +10,7 @@ import java.util.zip.ZipInputStream;
 
 import org.eclipse.ui.IWorkbenchWindow;
 
-import common.Global;
+import utils.Global;
 
 public class ApkProcessor implements Runnable{
 	

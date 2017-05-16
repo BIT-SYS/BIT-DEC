@@ -21,7 +21,7 @@ public class AsmStructAna{
 	 * 2、基本块i的出口语句是goto(s)或者if...goto(s)且(s)是基本块k的入口语句
 	 * i为k的前驱，k为i的后继 
 	 */
-	public AsmFuncModel genCfg(AsmFuncModel funcModel){
+	public AsmFunc genCfg(AsmFunc funcModel){
 		
 		genBasicBlock(funcModel);
 		
@@ -72,7 +72,7 @@ public class AsmStructAna{
 	 * 2、由该入口语句到一转移语句（含该转移语句）之间的所有语句构成一个基本块；或到程序中的
 	 * 停止或暂停语句（包含该停止或暂停语句）之间的语句序列组成的。
 	 */
-	private void genBasicBlock(AsmFuncModel funcModel){
+	private void genBasicBlock(AsmFunc funcModel){
 		int bNo = 0;
 		AsmBlockModel blockModel = null;
 		Stack<AsmInstModel> stack = new Stack<>();
@@ -134,7 +134,7 @@ public class AsmStructAna{
 	 * 标记基本块的入口地址
 	 * @param curFunc
 	 */
-	private void markBhead(AsmFuncModel funcModel){
+	private void markBhead(AsmFunc funcModel){
 		
 		ArrayList<AsmInstModel> instList = funcModel.getInstList();
 		long instListSize = instList.size();

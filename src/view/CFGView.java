@@ -9,7 +9,6 @@ import com.github.abel533.echarts.style.LinkStyle;
 import com.github.abel533.echarts.style.NodeStyle;
 import com.github.abel533.echarts.style.TextStyle;
 import com.github.abel533.echarts.util.EnhancedOption;
-import common.Global;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,8 +22,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
+import utils.Global;
 import core.dissambler.AsmBlockModel;
-import core.dissambler.AsmFuncModel;
+import core.dissambler.AsmFunc;
 
 
 public class CFGView extends ViewPart {
@@ -68,7 +68,7 @@ public class CFGView extends ViewPart {
 		
 	}
 	
-	public void drawCFG(AsmFuncModel funcModel) {
+	public void drawCFG(AsmFunc funcModel) {
 		// use ECharts to draw charts
 		
 		EnhancedOption option = new EnhancedOption();

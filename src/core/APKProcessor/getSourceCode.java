@@ -1,4 +1,4 @@
-package core.APKProcessor;
+package core.apkprocessor;
 
 import java.io.File;
 
@@ -7,7 +7,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import common.Global;
+import utils.Global;
 
 public class getSourceCode extends Action implements IWorkbenchAction, Runnable{
 	private IWorkbenchWindow workbenchWindow;

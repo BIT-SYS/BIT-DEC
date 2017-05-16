@@ -11,10 +11,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-import common.Global;
-
+import utils.Global;
 import core.dissambler.AsmBlockModel;
-import core.dissambler.AsmFuncModel;
+import core.dissambler.AsmFunc;
 
 public class ha {
 	public static void main(String args[]){

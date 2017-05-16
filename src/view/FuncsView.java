@@ -16,7 +16,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import core.callgraph.FuncParser;
 import core.dissambler.AsmAdCode;
-import core.dissambler.AsmFuncModel;
+import core.dissambler.AsmFunc;
 import core.dissambler.AsmStructAna;
 import core.dissambler.AsmTextSectionStruct;
 import action.FunctionDecAction;
@@ -25,8 +25,8 @@ public class FuncsView extends ViewPart {
 
 	private List list;
 	private ArrayList<String> arrayList;
-	private ArrayList<AsmFuncModel> funclist;
-	private HashMap<String, AsmFuncModel> funcMap;
+	private ArrayList<AsmFunc> funclist;
+	private HashMap<String, AsmFunc> funcMap;
 	
 	public FuncsView() {
 		// TODO Auto-generated constructor stub

@@ -14,14 +14,13 @@ import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import common.Global;
-
+import utils.Global;
 import view.AdvancedCodeView;
 import view.CFGView;
 import view.ConsoleFactory;
 import view.FuncsView;
 import core.dissambler.AsmAdCode;
-import core.dissambler.AsmFuncModel;
+import core.dissambler.AsmFunc;
 import core.dissambler.AsmStructAna;
 import core.dissambler.AsmTextSectionStruct;
 
@@ -68,10 +67,10 @@ public class FunctionDecAction extends Action implements IWorkbenchAction, Runna
 	 */
 	//此地乃是错误高发区 （田泽民注（苦笑））
 	public static void decAction(String funcName,IWorkbenchPage workbenchPage){
-		HashMap<String, AsmFuncModel> funcMap = AsmTextSectionStruct.textSectionModel.getFuncMap();
+		HashMap<String, AsmFunc> funcMap = AsmTextSectionStruct.textSectionModel.getFuncMap();
 		AsmStructAna structAna = new AsmStructAna();
 		try {
-			AsmFuncModel funcModel = structAna.genCfg(funcMap.get(funcName));
+			AsmFunc funcModel = structAna.genCfg(funcMap.get(funcName));
 			//AsmFuncModel funcModel = funcMap.get(funcName);
 			//==============构建控制流图================//
 			CFGView graphView = (CFGView)workbenchPage.findView(Global.VIEW_CGF); 

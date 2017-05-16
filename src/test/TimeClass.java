@@ -12,8 +12,7 @@ import java.io.OutputStreamWriter;
 
 import org.eclipse.ui.console.MessageConsoleStream;
 
-import common.ZipUtils;
-
+import utils.ZipUtils;
 import view.ConsoleFactory;
 
 

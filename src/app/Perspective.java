@@ -5,8 +5,7 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.console.IConsoleConstants;
 
-import common.Global;
-
+import utils.Global;
 import view.ConsoleFactory;
 public class Perspective implements IPerspectiveFactory {
 

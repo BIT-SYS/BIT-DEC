@@ -7,9 +7,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 
-import common.Global;
-import common.PathTools;
-import core.APKProcessor.ApkProcessor;
+import utils.Global;
+import utils.PathTools;
+import core.apkprocessor.ApkProcessor;
 
 
 public class ImportAPKAction extends Action implements   IWorkbenchAction,Runnable {

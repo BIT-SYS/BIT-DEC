@@ -1,9 +1,9 @@
-package core.APKProcessor;
+package core.apkprocessor;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import common.Global;
+import utils.Global;
 
 public class Sodump implements Runnable{
 	private String apkPath  = "";

@@ -1,5 +1,7 @@
 package test;
 
+import utils.Global;
+
 import com.github.abel533.echarts.Label;
 import com.github.abel533.echarts.code.*;
 import com.github.abel533.echarts.series.Force;
@@ -9,7 +11,6 @@ import com.github.abel533.echarts.style.LinkStyle;
 import com.github.abel533.echarts.style.NodeStyle;
 import com.github.abel533.echarts.style.TextStyle;
 import com.github.abel533.echarts.util.EnhancedOption;
-import common.Global;
 
 public class test {
 

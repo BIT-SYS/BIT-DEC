@@ -6,8 +6,8 @@ import java.util.HashMap;
 public class AsmSectionModel {
 	
 	private String name = "";
-	private ArrayList<AsmFuncModel> funcList;
-	private HashMap<String, AsmFuncModel> funcMap;//String 表示函数名
+	private ArrayList<AsmFunc> funcList;
+	private HashMap<String, AsmFunc> funcMap;//String 表示函数名
 	private long start;
 	private long end;
 	
@@ -15,7 +15,7 @@ public class AsmSectionModel {
 	 * Instruct
 	 */
 	public AsmSectionModel(){
-		funcList = new ArrayList<AsmFuncModel>();
+		funcList = new ArrayList<AsmFunc>();
 		funcMap = new HashMap<>();
 	}
 
@@ -27,15 +27,15 @@ public class AsmSectionModel {
 		this.name = name;
 	}
 
-	public ArrayList<AsmFuncModel> getFuncList() {
+	public ArrayList<AsmFunc> getFuncList() {
 		return funcList;
 	}
 
-	public void setFuncList(ArrayList<AsmFuncModel> funcList) {
+	public void setFuncList(ArrayList<AsmFunc> funcList) {
 		this.funcList = funcList;
 	}
 	
-	public void addFunctionList(AsmFuncModel functionname){
+	public void addFunctionList(AsmFunc functionname){
 		this.funcList.add(functionname);
 	}
 
@@ -55,11 +55,11 @@ public class AsmSectionModel {
 		this.end = end;
 	}	
 	
-	public HashMap<String, AsmFuncModel> getFuncMap() {
+	public HashMap<String, AsmFunc> getFuncMap() {
 		return funcMap;
 	}
 
-	public void setFuncMap(HashMap<String, AsmFuncModel> funcMap) {
+	public void setFuncMap(HashMap<String, AsmFunc> funcMap) {
 		this.funcMap = funcMap;
 	}
 

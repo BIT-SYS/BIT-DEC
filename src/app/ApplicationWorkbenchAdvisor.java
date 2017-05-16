@@ -16,7 +16,7 @@ import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.internal.ide.model.WorkbenchAdapterBuilder;
 import org.osgi.framework.Bundle;
 
-import common.Global;
+import utils.Global;
 
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 

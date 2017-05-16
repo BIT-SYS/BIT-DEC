@@ -36,12 +36,13 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.Global;
+
 import com.github.abel533.echarts.Option;
 import com.github.abel533.echarts.TestConfig;
 import com.github.abel533.echarts.json.GsonOption;
 import com.github.abel533.echarts.json.GsonUtil;
 import com.github.abel533.echarts.json.OptionUtil;
-import common.Global;
 
 /**
  * 增强的Option - 主要用于测试、演示

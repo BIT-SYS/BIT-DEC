@@ -9,9 +9,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import common.Global;
-import common.PathTools;
-
+import utils.Global;
+import utils.PathTools;
 import view.CallGraphView;
 import core.callgraph.FuncParser;
 

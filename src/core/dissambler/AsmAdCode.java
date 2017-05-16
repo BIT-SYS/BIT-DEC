@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
-import common.StringTools;
-
+import utils.StringTools;
 import view.AdvancedCodeView;
 import core.callgraph.FuncModel;
 import core.callgraph.JavaCalledList;
@@ -19,14 +18,14 @@ public class AsmAdCode {
 	private ArrayList<VarNode> V1;
 	static ArrayList<VarNode> P;
 	private AdvancedCodeView myView;
-	private AsmFuncModel func;
+	private AsmFunc func;
 	private ArrayList<AsmBlockModel> blockList;
 	private String funcHeadStr;
 	private StringBuilder funcBodyStr;
 	private String funcContentStr;
 	
 	public String cfgAna(String funcName) throws Exception {
-		AsmFuncModel funcModel = AsmTextSectionStruct.textSectionModel.getFuncMap().get(funcName);
+		AsmFunc funcModel = AsmTextSectionStruct.textSectionModel.getFuncMap().get(funcName);
 		// ================对函数的基本块进行预处理======================
 		preDealBlocks(funcModel);
 		// ================变量类型分析===============================
@@ -57,7 +56,7 @@ public class AsmAdCode {
 	 * 将函数的基本块放在邻接表中进行预处理
 	 * @param funcName
 	 */
-	private void preDealBlocks(AsmFuncModel funcModel){
+	private void preDealBlocks(AsmFunc funcModel){
 		vertices = new ArrayList<Integer>();
 		adjacentTable = new ArrayList<ArrayList<Integer>>();
 		treeList = new ArrayList<nodeinfo>();
@@ -550,7 +549,7 @@ public class AsmAdCode {
 	 * 3、常量
 	 * 
 	 */
-	public HashSet<Var> propagationType(ArrayList<String> argsType,AsmFuncModel funcModel){
+	public HashSet<Var> propagationType(ArrayList<String> argsType,AsmFunc funcModel){
 		if (funcModel == null) {
 			return null;
 		}
@@ -921,7 +920,7 @@ public class AsmAdCode {
 	/*
 	 * 函数基本块定值点形成
 	 */
-	public void EPGen(AsmFuncModel func) {
+	public void EPGen(AsmFunc func) {
 
 	}
 

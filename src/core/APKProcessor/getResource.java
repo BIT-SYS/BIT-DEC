@@ -1,10 +1,10 @@
-package core.APKProcessor;
+package core.apkprocessor;
 
 import java.io.File;
 
 import org.eclipse.ui.IWorkbenchWindow;
 
-import common.Global;
+import utils.Global;
 
 public class getResource implements Runnable{
 	private IWorkbenchWindow workbenchWindow;

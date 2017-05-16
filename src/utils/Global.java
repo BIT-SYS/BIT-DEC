@@ -1,4 +1,4 @@
-package common;
+package utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -22,12 +22,17 @@ import java.util.zip.ZipInputStream;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.console.MessageConsoleStream;
 
 import app.Activator;
 import view.ConsoleFactory;
+import view.FuncsView;
 
 public class Global {
+	//IDs
 	public static final String PLUGIN_ID 		 = "bit-dec";
 	public static final String PERSPECTIVE_ID    = "app.Perspective";
 	public static final String VIEW_ADVANCEDCODE = "view.AdvancedCodeView";
@@ -36,6 +41,7 @@ public class Global {
 	public static final String VIEW_FUNCSVIEW    = "view.FuncsView";
 	public static final String VIEW_NAVIGATOR    = "view.NavigatorView";
 	
+	//path Strings
 	//public static String PROGRAMLOCATION = Platform.getInstallLocation().getURL().getPath(); 
 	public static String TMP             = System.getProperty("user.home")+"/.BIT-DEC";
 	public static String PROGRAMLOCATION = "D:\\WorkSpace\\eclipse-rcp\\BIT-DEC";
@@ -50,9 +56,20 @@ public class Global {
 	public static boolean getSourceCodeSucceed = false; //indicate whether getSourceCode succeed
 	public static boolean SOdumpSucceed = false; 		//indicate whether SOdump succeed
 	
+	//store all apk path
 	public static ArrayList<String> APKPATH = new ArrayList<String>();
+	
+	//global printer used to print something
 	public static MessageConsoleStream  printer =ConsoleFactory.getConsole().newMessageStream();
 	
+	//get view from ID
+    public static IViewPart findView(String ViewID){
+		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		IViewPart viewPart = page.findView(ViewID);
+		return viewPart;
+    }
+	
+    
 	public static void unZipFile(String filePath, String projectPath) throws Exception{
 //		this.apk2smali(this.filePath);
 //		this.smali2java(this.projectPath+"/smali");
@@ -165,6 +182,7 @@ public class Global {
             
     }  
 	
+	//execute system command
 	public static void sysCmd(String cmd) throws Exception{
 		Process p = Runtime.getRuntime().exec(cmd);
 		//System.out.println(cmd);

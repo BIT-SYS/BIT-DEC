@@ -3,7 +3,7 @@ package core.dissambler;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AsmFuncModel {
+public class AsmFunc {
 
 	private String funcAddr = "";
 	private String funcName = "";
@@ -20,7 +20,7 @@ public class AsmFuncModel {
 	/**
 	 * Instruct
 	 */
-	public AsmFuncModel(){
+	public AsmFunc(){
 		instList = new ArrayList<AsmInstModel>();
 		blockList = new ArrayList<AsmBlockModel>();
 		instMap = new HashMap<>();

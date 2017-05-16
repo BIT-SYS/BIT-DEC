@@ -52,10 +52,9 @@ import org.eclipse.ui.views.navigator.SortAndFilterActionGroup;
 import org.eclipse.ui.views.navigator.ToggleLinkingAction;
 import org.eclipse.ui.views.navigator.WorkspaceActionGroup;
 
-import common.Global;
-
 import core.dissambler.AsmStructAna;
 import core.dissambler.AsmTextSectionStruct;
+import utils.Global;
 import view.FuncsView;
 /**
  * The main action group for the navigator. This contains a few actions and
@@ -391,16 +390,8 @@ public class NavigatorActionGroup extends ResourceNavigatorActionGroup {
 			//如果是ASM或者SMALI文件时，得到函数列表 && 将文件内容投射到MainEditView
 			if (extention.equals(".asm")) {
 				//结构化选中的asm文件(获得AsmTestSectionStruct)
-				AsmTextSectionStruct.struct(selectedFile);
-				
-				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				IViewPart viewPart = page.findView(Global.VIEW_FUNCSVIEW);
-				FuncsView myView = (FuncsView) viewPart;
-				myView.showFunctions();
-				
-				/*
-				 * 显示带高亮的汇编码
-				 */
+				AsmTextSectionStruct.getAsmFuncs(selectedFile);
+				((FuncsView) Global.findView(Global.VIEW_FUNCSVIEW)).showFunctions();
 			}
 		}
 	}

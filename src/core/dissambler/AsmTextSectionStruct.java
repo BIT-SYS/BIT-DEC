@@ -9,45 +9,51 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.*;
 
 public class AsmTextSectionStruct {
-
+	//匹配函数
+	public static Pattern asmFuncParttern = Pattern.compile("([0-9a-z]+)\\s<(\\S+?)>:");
+	//匹配指令
+	public static Pattern asmInstParttern = Pattern.compile("\\s*(\\w+):\\s+(\\w+)\\s+(\\S+)(\\s+)?(.+?)?(\\s+)?(;.+)?");
 	public static AsmSectionModel textSectionModel = new AsmSectionModel();
 	
-//	public static void main(String[] args){
-//		String pathString = "C:\\Users\\zxs\\Desktop\\runtime-BIT_DEC.application\\aa\\so2asm\\armeabi\\libHelloWorld.asm";
-//		AsmTextSectionStruct asmTextSectionStruct = new AsmTextSectionStruct(pathString);
-//		asmTextSectionStruct.struct();
-//	}
+	public static void main(String[] args){
+		String pathString = "D:\\WorkSpace\\runtime-bit-dec.application\\asfasfasf\\百度手机助手 v7.7.0\\SO2ASM\\armeabi\\libsapi_so_6.asm";
+		AsmTextSectionStruct.getAsmFuncs(pathString);
+	}
 	
 	/**
 	 * 结构化text section
 	 */
-	public static void struct(String filepath) {
-		
-		String line = null;
-		InputStream is;
-		boolean isPop = false;//用于识别是否到了pop指令处，如果是就跳过当前函数后面的数据指令
-		AsmFuncModel funcModel = null;
+	public static void getAsmFuncs(String filepath) {
+
+		AsmFunc funcModel = null;
 		AsmInstModel instModel = null;
-		HashMap<String, AsmFuncModel> funcMap = new HashMap<>();
+		HashMap<String, AsmFunc> funcMap = new HashMap<>();
 		HashMap<Long,   AsmInstModel> instMap = new HashMap<>();
-		ArrayList<AsmFuncModel> funcList = new ArrayList<>();
+		ArrayList<AsmFunc> funcList = new ArrayList<>(); 
 		ArrayList<AsmInstModel> instList = new ArrayList<>();
-		
+		String line = null;
+		boolean isPop = false;//用于识别是否到了pop指令处，如果是就跳过当前函数后面的数据指令
 		try {
-			is = new FileInputStream(filepath);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-			while ((line = reader.readLine()) != null&& !line.contains("Disassembly of section .text:"));
-			//	System.out.println(line);
-			//System.out.println(line);
-			//System.out.println("==========================================================================");
-			while ((line = reader.readLine())!= null && !line.contains("Disassembly of section")) {
-				//System.out.println(line);
-				//函数
-				if (line.trim().endsWith(">:")) {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filepath), "UTF-8"));
+			//"" != null
+			while ((line = reader.readLine())!= null && !line.contains("Disassembly of section .text:"));
+			while ((line = reader.readLine())!= null && !line.contains("Disassembly of section")){
+				//跳过空行和数据指令
+				if (line.trim().equals("") || isPop == true || line.trim().equals("..."))
+					continue;
+				Matcher funcMod = asmFuncParttern.matcher(line);
+				Matcher instMod = asmInstParttern.matcher(line);
+				//这一行是函数名字
+				if(funcMod.matches()){
+					String funcAddr = funcMod.group(1);
+					String funcName = funcMod.group(2);
+					System.out.println("函数    "+funcName+" 地址 "+funcAddr);
+					
 					isPop = false;
-					//存储函数的结尾
+					//存储上一个函数的结尾
 					if (funcModel != null && instModel != null) {
 						funcModel.setInstMap(instMap);
 						funcModel.setInstList(instList);
@@ -60,24 +66,34 @@ public class AsmTextSectionStruct {
 					}
 					String[] strs = line.trim().split(" ");
 					long addr = Long.parseLong(strs[0], 16);
-					String funcName = strs[1].substring(1,strs[1].length()-2);
-					funcModel = new AsmFuncModel();
+					//String funcName = strs[1].substring(1,strs[1].length()-2);
+					funcModel = new AsmFunc();
 					//存储函数的起始地址和函数名
 					funcModel.setStart(addr);
 					funcModel.setFuncName(funcName);
 					continue;
-				}
-				//跳过空行和数据指令
-				if (line.trim().equals("") || isPop == true || line.trim().equals("..."))
-					continue;
-				//指令
-				funcModel.asm+=line+'\n';
-				instModel = structInst(line);
-				instMap.put(instModel.getAddr(), instModel);
-				instList.add(instModel);
-				if (instModel.getOp().equals("pop")) {
-					isPop = true;
-				}
+			    }
+				//这一行是指令
+				else if(instMod.matches()){
+					String instAddr = instMod.group(1);
+					String instBin  = instMod.group(2);
+					String instCmd  = instMod.group(3);
+					String instArg  = instMod.group(5);
+					String instCom  = instMod.group(7);
+					System.out.println("指令    "+instCmd+" "+instArg+" 地址 "+instAddr+" 二进制 "+instBin+" 注释 "+instCom);
+					
+					//指令
+					funcModel.asm+=line+'\n';
+					instModel = structInst(line);
+					instMap.put(instModel.getAddr(), instModel);
+					instList.add(instModel);
+					if (instModel.getOp().equals("pop")) {
+						isPop = true;
+					}
+			    }
+				//不能解析
+				else 
+					System.out.println("不能解析的行:"+line);
 			}
 			//存储最后一个函数的内容
 			funcModel.setInstMap(instMap);
