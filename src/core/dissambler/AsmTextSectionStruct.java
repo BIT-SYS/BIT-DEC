@@ -2,32 +2,28 @@ package core.dissambler;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import utils.Global;
 import core.dissambler.model.AsmFunc;
 import core.dissambler.model.AsmInst;
-import utils.Global;
 
 public class AsmTextSectionStruct {
 	//匹配函数
 	public static Pattern asmFuncParttern = Pattern.compile("([0-9a-z]+)\\s<(\\S+?)>:");
 	//匹配指令
-	public static Pattern asmInstParttern = Pattern.compile("\\s*(\\w+):\\s+(\\w+)\\s+(\\S+)(\\s+)?(.+?)?(\\s+)?(;.+)?");
-	public static AsmSection textSectionModel = new AsmSection();
+	public static Pattern asmInstParttern = Pattern.compile("\\s*([0-9a-z]+):\t([0-9a-z]{4})( ?[0-9a-z]{4}| {5}) \t([a-z0-9\\.]+)?(\\s+)?([^;]+)?(\\s+)?(;.+)?");
 	
 	/*public static void main(String[] args){
 		String pathString = "C:\\Users\\Administrator\\Desktop\\1.asm";
 		AsmTextSectionStruct.getAsmFuncs(pathString);
 	}*/
 	
-	public static HashMap<String, AsmFunc> getAsmFuncs(String filepath) {
+	public static void getAsmFuncs(String filepath) {
 		HashMap<String, AsmFunc> funcMap = new HashMap<>();
 		//HashMap<Long,   AsmInst> instMap = new HashMap<>();
 		//ArrayList<AsmFunc> funcList = new ArrayList<>(); 
@@ -62,24 +58,20 @@ public class AsmTextSectionStruct {
 				//这一行是指令
 				else if(instMod.matches()){
 					String instAddr   = instMod.group(1);
-					String instBinary = instMod.group(2);
-					String instOp     = instMod.group(3);
-					String instArg    = instMod.group(5);
-					String instMemo   = instMod.group(7);
-					//System.out.println("指令    "+instOp+" "+instArg+" 地址 "+instAddr+" 二进制 "+instBinary+" 注释 "+instMemo);
-					
-					//指令
-					inst = new AsmInst();
-					inst.setAddr(instAddr);
-					inst.setBinary(instBinary);
-					inst.setOp(instOp);
-					inst.setArg(instArg);
-					inst.setMemo(instMemo);
-					inst.setArgList(instArg.split(","));
-					inst.setIndex(instIndex++);
+					String instBinary = instMod.group(2)+instMod.group(3).trim();
+					String instOp     = instMod.group(4);
+					String instArg    = instMod.group(6);
+					String instMemo   = instMod.group(8);
+					instAddr   = instAddr   !=null?instAddr.trim():""; 
+					instBinary = instBinary !=null?instBinary.trim():"";
+					instOp     = instOp     !=null?instOp.trim():"";
+					instArg    = instArg    !=null?instArg.trim():"";
+					instMemo   = instMemo   !=null?instMemo.trim():"";
+					//System.out.printf("地址:%5s 二进制:%10s 指令:%15s 参数:%40s 注释:%50s\n",instAddr, instBinary, instOp, instArg,instMemo);
+					inst = new AsmInst(instAddr, instBinary,instOp,instArg,instMemo,instIndex++);
 					if(func==null){
 						Global.printer.println("ERROR: in "+filepath+" \nget instrucetion without function!!\n"+line);
-						return null;
+						return;
 					}
 					func.getInstList().add(inst);
 			    }
@@ -89,6 +81,12 @@ public class AsmTextSectionStruct {
 			}
 			//存储最后一个函数的内容
 		} catch (IOException e) {e.printStackTrace();}
-		return funcMap;
+		
+		//set end address to last instruction
+		for(AsmFunc f: funcMap.values()){
+			f.setEnd(f.getInstList().get(f.getInstList().size()-1).getAddr());
+			
+		}
+		Global.FUNCMAP = funcMap;
 	}
 }

@@ -14,7 +14,7 @@ import view.ConsoleFactory;
  * @author zxs
  *
  */
-public class AsmStructAna{
+public class AsmFuncAna{
 	
 	/**
 	 * 生成控制流图

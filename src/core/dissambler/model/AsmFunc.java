@@ -3,18 +3,28 @@ package core.dissambler.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import core.dissambler.AsmBlock;
-
 public class AsmFunc {
 
 	private String funcAddr = "";
 	private String funcName = "";
-	private long   start;
-	private long   end;
+	//private String   start; //same as funcAddr
+	private String   end;     //address of last instruction
 	private ArrayList<AsmInst>  instList  = new ArrayList<AsmInst> ();
 	private ArrayList<AsmBlock> blockList = new ArrayList<AsmBlock>();
 	//private HashMap<Long,    AsmInst>  instMap  = new HashMap<>();//Long表示指令的地址
 	//private HashMap<Integer, AsmBlock> blockMap = new HashMap<>();//Integer表示基本块的编号
+	
+	
+	public AsmInst getInstByAddr(String addr){
+		for(AsmInst inst:instList){
+			if(addr.trim().equals(inst.getAddr().trim()))
+				return inst;
+		}
+		return null;
+	}
+	
+	//////////////////////////////////////////////
+	//below are normal geters  seters 
 	public String getFuncAddr() {
 		return funcAddr;
 	}
@@ -27,16 +37,16 @@ public class AsmFunc {
 	public void setFuncName(String funcName) {
 		this.funcName = funcName;
 	}
-	public long getStart() {
+	/*public String getStart() {
 		return start;
 	}
-	public void setStart(long start) {
+	public void setStart(String start) {
 		this.start = start;
-	}
-	public long getEnd() {
+	}*/
+	public String getEnd() {
 		return end;
 	}
-	public void setEnd(long end) {
+	public void setEnd(String end) {
 		this.end = end;
 	}
 	public ArrayList<AsmInst> getInstList() {

@@ -44,15 +44,15 @@ public class Global {
 	
 	//path Strings
 	//public static String PROGRAMLOCATION = Platform.getInstallLocation().getURL().getPath(); 
-	public static String TMP             = System.getProperty("user.home")+"/.BIT-DEC";
-	public static String PROGRAMLOCATION = "D:\\WorkSpace\\eclipse-rcp\\BIT-DEC";
-	public static String OUTPUTFOLDER    = PROGRAMLOCATION + "\\resources\\";
-	public static String TEMPLATE        = PROGRAMLOCATION + "\\resources\\template";
-	public static String TOOLPATH        = PathTools.getToolsPath();
-	public static String D2J_BAT         = TOOLPATH+"dex2jar-0.0.9.15/d2j-dex2jar.bat";
-	public static String JAD_BAT         = TOOLPATH+"jad/jad.bat";
-	public static String JAD_EXE         = TOOLPATH+"jad/jad.exe";
-	public static String APKTOOL         = TOOLPATH+"apktool.jar"; 
+	public static final String TMP             = System.getProperty("user.home")+"/.BIT-DEC";
+	public static final String PROGRAMLOCATION = "D:\\WorkSpace\\eclipse-rcp\\BIT-DEC";
+	public static final String OUTPUTFOLDER    = PROGRAMLOCATION + "\\resources\\";
+	public static final String TEMPLATE        = PROGRAMLOCATION + "\\resources\\template";
+	public static final String TOOLPATH        = PathTools.getToolsPath();
+	public static final String D2J_BAT         = TOOLPATH+"dex2jar-0.0.9.15/d2j-dex2jar.bat";
+	public static final String JAD_BAT         = TOOLPATH+"jad/jad.bat";
+	public static final String JAD_EXE         = TOOLPATH+"jad/jad.exe";
+	public static final String APKTOOL         = TOOLPATH+"apktool.jar"; 
 	
 	public static boolean getSourceCodeSucceed = false; //indicate whether getSourceCode succeed
 	public static boolean SOdumpSucceed = false; 		//indicate whether SOdump succeed
@@ -60,8 +60,8 @@ public class Global {
 	//store all apk path
 	public static ArrayList<String> APKPATH = new ArrayList<String>();
 	
-	//store all functions in a asmFile;
-	HashMap<String, AsmFunc> FUNCMAP = null;
+	//store all functions of current asmFile;
+	public static HashMap<String, AsmFunc> FUNCMAP = null;
 	
 	//global printer used to print something
 	public static MessageConsoleStream  printer =ConsoleFactory.getConsole().newMessageStream();
@@ -73,6 +73,7 @@ public class Global {
 		return viewPart;
     }
 	
+    
 	public static void unZipFile(String filePath, String projectPath) throws Exception{
 //		this.apk2smali(this.filePath);
 //		this.smali2java(this.projectPath+"/smali");

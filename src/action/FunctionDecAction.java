@@ -1,43 +1,38 @@
 package action;
 
-import java.util.HashMap;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
-import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import utils.Global;
 import view.AdvancedCodeView;
 import view.CFGView;
-import view.ConsoleFactory;
 import view.FuncsView;
 import core.dissambler.AsmAdCode;
-import core.dissambler.AsmStructAna;
-import core.dissambler.AsmTextSectionStruct;
+import core.dissambler.AsmFuncAna;
 import core.dissambler.model.AsmFunc;
 
 public class FunctionDecAction extends Action implements IWorkbenchAction, Runnable {
-	
+	private IWorkbenchWindow window = null;
 	public FunctionDecAction(IWorkbenchWindow window) {
 		this.setText("Function Call Graph");
 		setImageDescriptor(AbstractUIPlugin.imageDescriptorFromPlugin(Global.PLUGIN_ID, "icons/c.jpg"));
 		this.setToolTipText("Function Call Graph");
+		this.window = window;
 	}
 	
 	@Override
 	public void run() {
+		if(this.window == null) return ;
 		FuncsView funcsView = (FuncsView) Global.findView(Global.VIEW_FUNCSVIEW);
-		//Shell shell = workbenchWindow.getShell();
-		ElementListSelectionDialog dialog = new ElementListSelectionDialog(, new LabelProvider());
-		dialog.setElements(funcsView.getList());
+		Shell shell = this.window.getShell();
+		ElementListSelectionDialog dialog = new ElementListSelectionDialog(shell, new LabelProvider());
+		dialog.setElements(funcsView.getList().getItems());
 		/*
 		 * 选择一个函数进行控制流和高级代码的输出
 		 */
@@ -57,11 +52,8 @@ public class FunctionDecAction extends Action implements IWorkbenchAction, Runna
 	 * @param funcName
 	 */
 	public static void decAction(String funcName){
-		HashMap<String, AsmFunc> funcMap = AsmTextSectionStruct.textSectionModel.getFuncMap();
-		AsmStructAna structAna = new AsmStructAna();
 		try {
-			AsmFunc funcModel = structAna.genCfg(funcMap.get(funcName));
-			//AsmFuncModel funcModel = funcMap.get(funcName);
+			AsmFunc funcModel = new AsmFuncAna().genControlFlowGraph(Global.FUNCMAP.get(funcName));
 			//==============构建控制流图================//
 			CFGView graphView = (CFGView)Global.findView(Global.VIEW_CGF); 
 			graphView.drawCFG(funcModel);
@@ -79,6 +71,6 @@ public class FunctionDecAction extends Action implements IWorkbenchAction, Runna
 
 	@Override
 	public void dispose() {
-		workbenchWindow = null;
+		window = null;
 	}
 }

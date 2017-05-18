@@ -8,6 +8,7 @@ import utils.StringTools;
 import view.AdvancedCodeView;
 import core.callgraph.FuncModel;
 import core.callgraph.JavaCalledList;
+import core.dissambler.model.AsmBlock;
 import core.dissambler.model.AsmFunc;
 import core.dissambler.model.AsmInst;
 

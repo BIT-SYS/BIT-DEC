@@ -12,7 +12,8 @@ import java.io.OutputStreamWriter;
 
 import org.eclipse.ui.console.MessageConsoleStream;
 
-import utils.ZipUtils;
+import utils.Global;
+import utils.StreamGobbler;
 import view.ConsoleFactory;
 
 
@@ -33,10 +34,10 @@ public class TimeClass {
 		String so2cPath = unzipPath+"\\so2asm";
 		
 		long start = System.currentTimeMillis();
-		ZipUtils.decompress(new File(apkPath),new File(unzipPath));
+		Global.unZipFile(apkPath, unzipPath);
 		dex2jar(dexPath,unzipPath);
 		dex2jarPath.replace(".jar", ".zip");
-		ZipUtils.decompress(dex2jarPath,classesPath);
+		Global.unZipFile(dex2jarPath, classesPath);
 		jad(unzipPath);
 		long end = System.currentTimeMillis();
 		long javaTime = end - start;
@@ -153,24 +154,3 @@ public class TimeClass {
 		}
 	}
 }
-//保证exec成功完成类
-class StreamGobbler extends Thread {
-	 InputStream is;
-	 String type;
-	 StreamGobbler(InputStream is, String type) {
-	  this.is = is;
-	  this.type = type;
-	 }
-
-	 public void run() {
-	  try {
-	   InputStreamReader isr = new InputStreamReader(is);
-	   BufferedReader br = new BufferedReader(isr);
-	   String line = null;
-	   while ((line = br.readLine()) != null) {
-	   }
-	  } catch (IOException ioe) {
-	   ioe.printStackTrace();
-	  }
-	 }
-	}

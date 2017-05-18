@@ -1,6 +1,5 @@
 package action;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.commands.operations.IUndoContext;
@@ -24,9 +23,6 @@ import org.eclipse.jface.window.IShellProvider;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.ISelectionService;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionContext;
@@ -53,11 +49,9 @@ import org.eclipse.ui.views.navigator.SortAndFilterActionGroup;
 import org.eclipse.ui.views.navigator.ToggleLinkingAction;
 import org.eclipse.ui.views.navigator.WorkspaceActionGroup;
 
-import core.dissambler.AsmStructAna;
-import core.dissambler.AsmTextSectionStruct;
-import core.dissambler.model.AsmFunc;
 import utils.Global;
 import view.FuncsView;
+import core.dissambler.AsmTextSectionStruct;
 /**
  * The main action group for the navigator. This contains a few actions and
  * several subgroups.
@@ -392,8 +386,8 @@ public class NavigatorActionGroup extends ResourceNavigatorActionGroup {
 			//如果是ASM或者SMALI文件时，得到函数列表 && 将文件内容投射到MainEditView
 			if (extention.equals(".asm")) {
 				//结构化选中的asm文件(获得AsmTestSectionStruct)
-				HashMap<String, AsmFunc> funcMap = AsmTextSectionStruct.getAsmFuncs(selectedFile);
-				((FuncsView) Global.findView(Global.VIEW_FUNCSVIEW)).setList(funcMap);
+				AsmTextSectionStruct.getAsmFuncs(selectedFile);
+				((FuncsView) Global.findView(Global.VIEW_FUNCSVIEW)).setList(Global.FUNCMAP);
 			}
 		}
 	}

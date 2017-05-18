@@ -1,25 +1,17 @@
 package view;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
-import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-import core.callgraph.FuncParser;
-import core.dissambler.AsmAdCode;
-import core.dissambler.AsmStructAna;
-import core.dissambler.AsmTextSectionStruct;
-import core.dissambler.model.AsmFunc;
 import action.FunctionDecAction;
+import core.dissambler.model.AsmFunc;
 
 public class FuncsView extends ViewPart {
 
@@ -40,7 +32,7 @@ public class FuncsView extends ViewPart {
 					return;
 				IWorkbenchPage page = getViewSite().getPage();
 				String funcName = list.getItem(index);
-				FunctionDecAction.decAction(funcName, page);
+				FunctionDecAction.decAction(funcName);
 			}
 
 			@Override

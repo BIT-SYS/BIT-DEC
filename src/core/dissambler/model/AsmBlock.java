@@ -1,14 +1,12 @@
-package core.dissambler;
+package core.dissambler.model;
 
 import java.util.ArrayList;
-
-import core.dissambler.model.AsmInst;
 
 public class AsmBlock {
 	private int bNo; 
 	private ArrayList<AsmBlock> preBlockSet;
 	private ArrayList<AsmBlock> subBlockSet;
-	private ArrayList<AsmInst> instList;
+	private ArrayList<AsmInst>  instList;
 	
 	
 
@@ -23,7 +21,7 @@ public class AsmBlock {
 	public AsmBlock(){
 		preBlockSet= new ArrayList<AsmBlock>();
 		subBlockSet= new ArrayList<AsmBlock>();
-		instList = new ArrayList<AsmInst>();
+		instList =   new ArrayList<AsmInst>();
 	}
 	
 	
@@ -35,7 +33,7 @@ public class AsmBlock {
 		subBlockSet.add(temp);
 	}
 	
-	public void addInstModel(AsmInst temp){
+	public void addInst(AsmInst temp){
 		instList.add(temp);
 	}
 
