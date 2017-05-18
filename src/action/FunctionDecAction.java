@@ -13,9 +13,9 @@ import utils.Global;
 import view.AdvancedCodeView;
 import view.CFGView;
 import view.FuncsView;
-import core.dissambler.AsmAdCode;
-import core.dissambler.AsmFuncAna;
-import core.dissambler.model.AsmFunc;
+import core.disassembler.AsmAdCode;
+import core.disassembler.genAsmFuncBlock;
+import core.disassembler.model.AsmFunc;
 
 public class FunctionDecAction extends Action implements IWorkbenchAction, Runnable {
 	private IWorkbenchWindow window = null;
@@ -53,7 +53,7 @@ public class FunctionDecAction extends Action implements IWorkbenchAction, Runna
 	 */
 	public static void decAction(String funcName){
 		try {
-			AsmFunc funcModel = new AsmFuncAna().genControlFlowGraph(Global.FUNCMAP.get(funcName));
+			AsmFunc funcModel = new genAsmFuncBlock().genControlFlowGraph(Global.FUNCMAP.get(funcName));
 			//==============构建控制流图================//
 			CFGView graphView = (CFGView)Global.findView(Global.VIEW_CGF); 
 			graphView.drawCFG(funcModel);

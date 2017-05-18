@@ -1,4 +1,4 @@
-package core.dissambler.model;
+package core.disassembler.model;
 
 import java.util.ArrayList;
 

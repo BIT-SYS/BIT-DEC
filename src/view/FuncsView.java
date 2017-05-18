@@ -11,7 +11,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.part.ViewPart;
 
 import action.FunctionDecAction;
-import core.dissambler.model.AsmFunc;
+import core.disassembler.model.AsmFunc;
 
 public class FuncsView extends ViewPart {
 

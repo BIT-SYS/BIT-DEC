@@ -1,16 +1,17 @@
-package core.dissambler;
+package core.disassembler;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+import utils.Global;
 import utils.StringTools;
 import view.AdvancedCodeView;
 import core.callgraph.FuncModel;
 import core.callgraph.JavaCalledList;
-import core.dissambler.model.AsmBlock;
-import core.dissambler.model.AsmFunc;
-import core.dissambler.model.AsmInst;
+import core.disassembler.model.AsmBlock;
+import core.disassembler.model.AsmFunc;
+import core.disassembler.model.AsmInst;
 
 public class AsmAdCode {
 
@@ -28,7 +29,7 @@ public class AsmAdCode {
 	private String funcContentStr;
 	
 	public String cfgAna(String funcName) throws Exception {
-		AsmFunc funcModel = AsmTextSectionStruct.textSectionModel.getFuncMap().get(funcName);
+		AsmFunc funcModel = Global.FUNCMAP.get(funcName);
 		// ================对函数的基本块进行预处理======================
 		preDealBlocks(funcModel);
 		// ================变量类型分析===============================

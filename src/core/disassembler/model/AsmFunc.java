@@ -1,4 +1,4 @@
-package core.dissambler.model;
+package core.disassembler.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +16,11 @@ public class AsmFunc {
 	
 	
 	public AsmInst getInstByAddr(String addr){
+		int tmp   = Integer.parseInt(addr, 16);
+		int start = Integer.parseInt(funcAddr, 16);
+		int stop   = Integer.parseInt(end, 16);
+		if(tmp>stop||tmp<start)
+			return null;
 		for(AsmInst inst:instList){
 			if(addr.trim().equals(inst.getAddr().trim()))
 				return inst;

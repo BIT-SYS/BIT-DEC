@@ -27,7 +27,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.console.MessageConsoleStream;
 
-import core.dissambler.model.AsmFunc;
+import core.disassembler.model.AsmBlock;
+import core.disassembler.model.AsmFunc;
 import app.Activator;
 import view.ConsoleFactory;
 import view.FuncsView;
@@ -61,7 +62,9 @@ public class Global {
 	public static ArrayList<String> APKPATH = new ArrayList<String>();
 	
 	//store all functions of current asmFile;
-	public static HashMap<String, AsmFunc> FUNCMAP = null;
+	public static HashMap<String, AsmFunc>  FUNCMAP  = null;
+	//store all blocks from all functions of current asmFile;
+	public static HashMap<String, AsmBlock> BLOCKMAP = null;
 	
 	//global printer used to print something
 	public static MessageConsoleStream  printer =ConsoleFactory.getConsole().newMessageStream();

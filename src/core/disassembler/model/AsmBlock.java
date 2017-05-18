@@ -1,15 +1,30 @@
-package core.dissambler.model;
+package core.disassembler.model;
 
 import java.util.ArrayList;
 
 public class AsmBlock {
+	private String funcName = "";
 	private int bNo; 
 	private ArrayList<AsmBlock> preBlockSet;
 	private ArrayList<AsmBlock> subBlockSet;
 	private ArrayList<AsmInst>  instList;
 	
 	
-
+	
+	
+	public String getAddr(){
+		if(instList.size()<1) return null;
+		return instList.get(0).getAddr();
+	}
+	
+	public String getFuncName(){
+		return funcName;
+	}
+	
+	public void setFuncName(String s){
+		this.funcName = s;
+	}
+	
 	public int getbNo() {
 		return bNo;
 	}
