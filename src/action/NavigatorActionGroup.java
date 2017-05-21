@@ -51,7 +51,7 @@ import org.eclipse.ui.views.navigator.WorkspaceActionGroup;
 
 import utils.Global;
 import view.FuncsView;
-import core.disassembler.genAsmFuncs;
+import core.disassembler.Disassembler;
 /**
  * The main action group for the navigator. This contains a few actions and
  * several subgroups.
@@ -386,7 +386,9 @@ public class NavigatorActionGroup extends ResourceNavigatorActionGroup {
 			//如果是ASM或者SMALI文件时，得到函数列表 && 将文件内容投射到MainEditView
 			if (extention.equals(".asm")) {
 				//结构化选中的asm文件(获得AsmTestSectionStruct)
-				genAsmFuncs.getAsmFuncs(selectedFile);
+				Disassembler disassembler = new Disassembler(selectedFile);
+				Global.FUNCMAP = disassembler.getFuncMap();
+				Global.BLOCKMAP = disassembler.getBlockMap();
 				((FuncsView) Global.findView(Global.VIEW_FUNCSVIEW)).setList(Global.FUNCMAP);
 			}
 		}

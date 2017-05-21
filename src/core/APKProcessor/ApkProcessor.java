@@ -1,13 +1,5 @@
 package core.apkprocessor;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-
 import org.eclipse.ui.IWorkbenchWindow;
 
 import utils.Global;
@@ -33,17 +25,22 @@ public class ApkProcessor implements Runnable{
 	@Override
 	public void run() {
 		try {
+			//use apktool to get apk resource ,be careful it would empty the dir
 			new getResource(apkPath, filePath, apkName).run();
+			
+			
 			Global.printer.print("\ndecompressing "+apkName+" ...");
 			Global.unZipFile(filePath, tmpPath);
 			Global.printer.print("succeed!!");
+			
+			new getSourceCode(apkPath).run();
+			
+			new Sodump(apkPath).run();
+			
 			//new Thread(new getSourceCode(apkPath)).start();;
 			//new Thread(new Sodump(apkPath)).start();
 			//new Thread(new getResource(apkPath, filePath, apkName)).start();
-			
-			new getSourceCode(apkPath).run();
-			new Sodump(apkPath).run();
-			
+
 			Global.printer.println("\nAPK has been preproced, please refresh the project");
 		} catch (Exception e) {
 			Global.printer.print("error!!");

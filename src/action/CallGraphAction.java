@@ -35,14 +35,8 @@ public class CallGraphAction extends Action implements IWorkbenchAction{
 		FuncParser funcParser = new FuncParser(projectPath);
 		funcParser.parse();
 		//绘制并显示函数调用图
-		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		try {
-			IViewPart viewPart = page.showView(Global.VIEW_CALLGRAPH);
-			CallGraphView callgarphView = (CallGraphView)viewPart;
-			callgarphView.drawCallGraph();
-		} catch (PartInitException e) {
-			e.printStackTrace();
-		}
+		CallGraphView callgarphView = (CallGraphView)Global.findView(Global.VIEW_CALLGRAPH);
+
 	}
 	
 	@Override

@@ -15,9 +15,12 @@ import core.disassembler.model.AsmFunc;
 import core.disassembler.model.AsmInst;
 
 public class Disassembler {
+	//匹配函数
 	private static final Pattern asmFuncParttern = Pattern.compile("([0-9a-z]+)\\s<(\\S+?)>:");
 	//匹配指令
 	private static final Pattern asmInstParttern = Pattern.compile("\\s*([0-9a-z]+):\t([0-9a-z]{4})( ?[0-9a-z]{4}| {5}) \t([a-z0-9\\.]+)?(\\s+)?([^;]+)?(\\s+)?(;.+)?");
+	//匹配跳转指令的跳转地址
+	private static final Pattern asmAddrParttern = Pattern.compile("([0-9a-f]+)(\\s+<(\\S+?)>)?");
 	private HashMap<String, AsmFunc>  funcMap  = new HashMap<String, AsmFunc>();
 	private HashMap<String, AsmBlock> blockMap = new HashMap<String, AsmBlock>();
 	
@@ -31,6 +34,12 @@ public class Disassembler {
 		genAllFuncBlock();
 		//generate control flow between all blocks
 		genAllControlFlow();
+		
+		/*AsmFunc f = this.funcMap.get("__gnu_Unwind_RaiseException");
+		for(AsmInst inst: f.getInstList()){
+			System.out.println(inst.toString());
+		}*/
+		
 	}
 
 	public HashMap<String, AsmFunc> getFuncMap(){
@@ -66,7 +75,7 @@ public class Disassembler {
 					func = new AsmFunc();
 					func.setFuncName(funcName);
 					func.setFuncAddr(funcAddr);
-					if(funcMap.containsKey(funcName))
+					if(this.funcMap.containsKey(funcName))
 						Global.printer.println("ERROR: in "+filepath+" \ntow or more funtion have same name!!");
 					funcMap.put(funcName, func);
 			    }
@@ -97,6 +106,10 @@ public class Disassembler {
 			//存储最后一个函数的内容
 		} catch (IOException e) {e.printStackTrace();}
 		
+		for(AsmFunc func1 : this.funcMap.values()){
+			ArrayList<AsmInst> list = func1.getInstList();
+			func1.setEnd(list.get(list.size()-1).getAddr());
+		}
 		return funcMap;
 	}
 	
@@ -116,23 +129,25 @@ public class Disassembler {
 				AsmInst instModel = instList.get(i);
 				//当是跳转语句时
 				if(isJumpIns(instModel)){
-					//(2)紧跟在条件转移语句后面的语句 
-					if(isConsJumpIns(instModel) && i<(instListSize-1)){
-						AsmInst nextInstModel = instList.get(i+1);
-						nextInstModel.setHead(true);
-					}
-					ArrayList<String> args = instModel.getArgList();
-					//(3)条件转移语句或无条件转移语句的转移目标语句
+					//(2)条件转移语句或无条件转移语句的转移目标语句
 					//BUG:跳转寄存器没有考虑
 					//System.out.println(args.toString());
-					if (args.size() > 0 && !args.get(0).contains("r")) {
-						String addr = args.get(0);
-						for(AsmFunc func1:funcMap.values()){
-							AsmInst inst1 = func1.getInstByAddr(addr);
-							if(inst1 == null) continue;
-							inst1.setHead(true);
-						}
+					String []addrTmp = getJumpedAddr(instModel);
+					if(addrTmp == null) continue;
+					String addr = addrTmp[0];
+					if(addr == null) continue;
+					for(AsmFunc func1:funcMap.values()){
+						//some times the jumped address is half a  instruction
+						//1 instruction's addr is 1c1a ,and is 4 bytes long.but there could be a jump:bl	1c1c
+						AsmInst inst1 = func1.getInstByAddr(addr);
+						if(inst1 == null) continue;
+						inst1.setHead(true);
 					}
+				}
+				//(3)紧跟在条件转移语句后面的语句 
+				if(isConsJumpIns(instModel) && i<(instListSize-1)){
+					AsmInst nextInstModel = instList.get(i+1);
+					nextInstModel.setHead(true);
 				}
 			}
 			
@@ -155,9 +170,9 @@ public class Disassembler {
 			if (inst.isHead()) {
 				block = new AsmBlock();
 				block.setFuncName(func.getFuncName());
-				blockList.add(block);
 				block.setbNo(bNo++);
 				block.addInst(inst);
+				blockList.add(block);
 				continue;
 			}
 			if(block == null) {
@@ -176,7 +191,7 @@ public class Disassembler {
 		}
 		for(AsmFunc func:funcMap.values())
 		for(AsmBlock block :func.getBlockList())
-			blockMap.put(block.getAddr(), block);
+			this.blockMap.put(block.getAddr(), block);
 		
 	}
 	
@@ -195,37 +210,53 @@ public class Disassembler {
 				AsmBlock block =blockList.get(i);
 				ArrayList<AsmInst> instList = block.getInstList();
 				AsmInst lastInst = instList.get(instList.size()-1);
-				String lastInstOp = lastInst.getOp();
 				//基本块i的最后一条语句是跳转语句
 				if(isJumpIns(lastInst)){
-					String jumpedAddr = lastInst.getArgList().get(0);
-					for(AsmBlock tmpBlock:this.blockMap.values()){
-						if ( tmpBlock.getAddr() == jumpedAddr) {
-							block.addSubBlockIndex(tmpBlock);
-							tmpBlock.addPreBlockIndex(block);
-							break;
-						}
+					String []addrTmp = getJumpedAddr(lastInst);
+					if(addrTmp == null) continue;
+					String addr = addrTmp[0];
+					if(addr == null) continue;
+					boolean flag = false;
+					AsmBlock tmpBlock = this.blockMap.get(addr);
+					if ( tmpBlock!= null) {
+						block.addSubBlock(tmpBlock);
+						tmpBlock.addPreBlock(block);
+						flag = true;
+					}
+					if(!flag){
+						//means addr could be a system kernel function
+						AsmBlock Systemblock = new AsmBlock();
+						Systemblock.setFuncName(addr);
+						block.addSubBlock(Systemblock);
 					}
 				}
 				//1、基本块k在流图中的位置紧跟在基本块i之后且i的出口语句不是无条件转移或停止语句
 				//BUG:没有将POP当做停止语句
-				if (!isNoConsJumpIns(lastInst)) {
-					if (i+1 < blockListSize) {
-						AsmBlock nextBlockModel = blockList.get(i+1);
-						nextBlockModel.addPreBlockIndex(block);
-						block.addSubBlockIndex(nextBlockModel);
-					}
+				if(isConsJumpIns(lastInst) && i<(blockListSize-1)){
+					AsmBlock nextBlockModel = blockList.get(i+1);
+					nextBlockModel.addPreBlock(block);
+					block.addSubBlock(nextBlockModel);
 				}
+
 			}
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
+	public String[] getJumpedAddr(AsmInst inst){
+		if(!isJumpIns(inst)) return null;
+		ArrayList<String> args = inst.getArgList();
+		if (args.size() > 0 && !args.get(0).contains("r")) {
+			String addr = args.get(0).trim();
+			//the string addr may contain function name ,we don't need it.
+			Matcher match = asmAddrParttern.matcher(addr);
+			if(!match.find()) return null;
+			//address
+			String addr1 = match.group(1);
+			String jumpedFuncName = match.group(3);
+			return new String[]{addr1, jumpedFuncName};
+		}
+		return null;
+	}
 	
 	/**
 	 * 判断该指令是不是转移语句
@@ -240,6 +271,7 @@ public class Disassembler {
 		}
 		return false;
 	}
+	
 	/**
 	 * 判断是不是无条件转移指令
 	 * @param instModel
@@ -255,6 +287,7 @@ public class Disassembler {
 		}
 		return false;
 	}
+	
 	/**
 	 * 判断是不是条件转移指令
 	 * @param instModel

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class AsmBlock {
 	private String funcName = "";
-	private int bNo; 
-	private ArrayList<AsmBlock> preBlockSet;
-	private ArrayList<AsmBlock> subBlockSet;
-	private ArrayList<AsmInst>  instList;
+	private int bNo  = -1; 
+	private ArrayList<AsmBlock> preBlockSet = null;
+	private ArrayList<AsmBlock> subBlockSet = null;
+	private ArrayList<AsmInst>  instList = null;
 	
 	
 	
@@ -40,11 +40,11 @@ public class AsmBlock {
 	}
 	
 	
-	public void addPreBlockIndex(AsmBlock temp){
+	public void addPreBlock(AsmBlock temp){
 		preBlockSet.add(temp);
 	}
 	
-	public void addSubBlockIndex(AsmBlock temp){
+	public void addSubBlock(AsmBlock temp){
 		subBlockSet.add(temp);
 	}
 	
@@ -91,4 +91,9 @@ public class AsmBlock {
 		return ins;
 	}
 	
+	public String toString(){
+		if(bNo<0)
+			return funcName;
+		return funcName+'.'+bNo;
+	}
 }

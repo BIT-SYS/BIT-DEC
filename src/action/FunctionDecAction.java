@@ -14,7 +14,6 @@ import view.AdvancedCodeView;
 import view.CFGView;
 import view.FuncsView;
 import core.disassembler.AsmAdCode;
-import core.disassembler.genAsmFuncBlock;
 import core.disassembler.model.AsmFunc;
 
 public class FunctionDecAction extends Action implements IWorkbenchAction, Runnable {
@@ -53,16 +52,16 @@ public class FunctionDecAction extends Action implements IWorkbenchAction, Runna
 	 */
 	public static void decAction(String funcName){
 		try {
-			AsmFunc funcModel = new genAsmFuncBlock().genControlFlowGraph(Global.FUNCMAP.get(funcName));
+			AsmFunc funcModel = Global.FUNCMAP.get(funcName);
 			//==============构建控制流图================//
 			CFGView graphView = (CFGView)Global.findView(Global.VIEW_CGF); 
-			graphView.drawCFG(funcModel);
+			graphView.drawControlFlowGraph(funcModel);
 			//==============输出高级代码================//
-			AsmAdCode showHighCode = new AsmAdCode(); 
-			String highcodeContent =  showHighCode.cfgAna(funcName);
-			AdvancedCodeView adCodeView = (AdvancedCodeView) Global.findView(Global.VIEW_ADVANCEDCODE);
-			adCodeView.init();
-			adCodeView.showContent(highcodeContent, 0);
+			//AsmAdCode showHighCode = new AsmAdCode(); 
+			//String highcodeContent =  showHighCode.cfgAna(funcName);
+			//AdvancedCodeView adCodeView = (AdvancedCodeView) Global.findView(Global.VIEW_ADVANCEDCODE);
+			//adCodeView.init();
+			//adCodeView.showContent(highcodeContent, 0);
 		} catch (Exception e) {
 			//MessageDialog.openInformation(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "提示", e.toString());
 			Global.printer.println("无法处理函数"+funcName);

@@ -2,6 +2,8 @@ package core.disassembler.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AsmFunc {
 
@@ -16,14 +18,22 @@ public class AsmFunc {
 	
 	
 	public AsmInst getInstByAddr(String addr){
-		int tmp   = Integer.parseInt(addr, 16);
-		int start = Integer.parseInt(funcAddr, 16);
-		int stop   = Integer.parseInt(end, 16);
+		//the string addr may contain function name ,we don't need it.
+		Matcher match = Pattern.compile("[0-9a-f]+").matcher(addr);
+		if(!match.find()) return null;
+		String addr1 = match.group();
+		long tmp   = Long.parseLong(addr1, 16);
+		long start = Long.parseLong(funcAddr, 16);
+		long stop  = Long.parseLong(end, 16);
 		if(tmp>stop||tmp<start)
 			return null;
-		for(AsmInst inst:instList){
-			if(addr.trim().equals(inst.getAddr().trim()))
+		for(int i = 0;i<instList.size();i++){
+			AsmInst inst = instList.get(i);
+			long instAddrNum = Long.parseLong(inst.getAddr(), 16);
+			//maybe the addr is mid of the instruction;
+			if(instAddrNum>=tmp){
 				return inst;
+			}
 		}
 		return null;
 	}

@@ -68,7 +68,7 @@ public class CFGView extends ViewPart {
 		
 	}
 	
-	public void drawCFG(AsmFunc funcModel) {
+	public void drawControlFlowGraph(AsmFunc funcModel) {
 		// use ECharts to draw charts
 		
 		EnhancedOption option = new EnhancedOption();
@@ -79,7 +79,7 @@ public class CFGView extends ViewPart {
 	
 	    //数据
 	    Force force = new Force("调用关系");
-	   // force.categories("人物", "家人", "朋友");
+	    force.categories("Block", "this Function", "other Function");
 	    force.itemStyle().normal()
 	            .label(new Label().show(true).textStyle(new TextStyle().color("#333")))
 	            .nodeStyle().brushType(BrushType.both).color("rgba(255,215,200,0.4)").borderWidth(1);
@@ -90,14 +90,29 @@ public class CFGView extends ViewPart {
 	            .label().show(true);
 	    force.useWorker(false).minRadius(15).maxRadius(25).gravity(1.1).scaling(1.1).linkSymbol(Symbol.arrow);
 	    
+	    
+	    String funcName = funcModel.getFuncName();
+	    ///////////////////////////////////////////
+	    System.out.println("\n//////////////////////////////////////////"+funcName);
 	    HashMap<String, Node> nodeMap = new HashMap<String, Node>();
 		for (AsmBlock block: funcModel.getBlockList()) {
+			///////////////////////////////////////////
+			System.out.println(block.toString());
+			
 			if(!nodeMap.containsKey(block.toString()))    
-				nodeMap.put(block.getbNoStr(), new Node(1, block.getInstListStr() ,block.getbNoStr(), block.getbNo()==0?15:10));
+				nodeMap.put(block.toString(), new Node(1, block.toString(), block.getbNoStr(), block.getbNo()==0?15:10));
 			for (AsmBlock sublock : block.getSubBlockSet()){
-				if(!nodeMap.containsKey(sublock.toString()))
-					nodeMap.put(sublock.getbNoStr(), new Node(1, sublock.getInstListStr() ,sublock.getbNoStr(), 10));
-				force.links(new Link(block.getInstListStr(), sublock.getInstListStr(), 10));
+				//////////////////////////////////////////////
+				System.out.println("--------"+sublock.toString());
+				
+				if(!nodeMap.containsKey(sublock.toString())){
+					//if the sublock belongs to other function,then show the function name
+					if(sublock.getFuncName()== funcName)
+						nodeMap.put(sublock.toString(), new Node(1, sublock.toString() ,sublock.getbNoStr(), 10));
+					else
+						nodeMap.put(sublock.toString(), new Node(2, sublock.toString() ,sublock.toString(), 10));
+				}
+				force.links(new Link(block.toString(), sublock.toString(), 10));
 			}
 		}
 		
