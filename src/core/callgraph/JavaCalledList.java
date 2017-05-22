@@ -206,7 +206,7 @@ public class JavaCalledList {
 	 */
 	public void seekFuncs(String funcBodyStr){
 		//扫面java调用的java
-		if (JavaFuncList.funcModelList != null && JavaFuncList.funcModelList.size() !=0) {
+	/*	if (JavaFuncList.funcModelList != null && JavaFuncList.funcModelList.size() !=0) {
 			int funcSize = JavaFuncList.funcModelList.size();
 			for(int i=0;i<funcSize;i++){
 				//BUG:1.不同类相同的函数 2.相同函数不同参数
@@ -214,7 +214,7 @@ public class JavaCalledList {
 					funcModel.addCalledFuncModel(JavaFuncList.funcModelList.get(i));
 				}
 			}
-		}
+		}*/
 		//扫描java调用的So
 		if (FuncParser.asmfuncList != null && FuncParser.asmfuncList.size() != 0) {
 			int funcSize = FuncParser.asmfuncList.size();

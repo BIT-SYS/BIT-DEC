@@ -13,6 +13,7 @@ public class AsmFunc {
 	private String   end;     //address of last instruction
 	private ArrayList<AsmInst>  instList  = new ArrayList<AsmInst> ();
 	private ArrayList<AsmBlock> blockList = new ArrayList<AsmBlock>();
+	private ArrayList<AsmFunc>  calledFuncList = new ArrayList<AsmFunc>();
 	//private HashMap<Long,    AsmInst>  instMap  = new HashMap<>();//Long表示指令的地址
 	//private HashMap<Integer, AsmBlock> blockMap = new HashMap<>();//Integer表示基本块的编号
 	
@@ -76,6 +77,11 @@ public class AsmFunc {
 	public void setBlockList(ArrayList<AsmBlock> blockList) {
 		this.blockList = blockList;
 	}
+	public ArrayList<AsmFunc> getCalledFuncList() {
+		return this.calledFuncList;
+	}
+	public void setCalledFuncList(ArrayList<AsmFunc> funcList) {
+		this.calledFuncList = funcList;
+	}
 	
 }
-

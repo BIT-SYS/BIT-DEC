@@ -16,12 +16,12 @@ import utils.FileTools;
 
 public class JavaFuncList {
 	
-	static ArrayList<FuncModel> funcModelList;
+	static ArrayList<FuncModel> javaFuncList = null;
 	private String className = "";
 	private String packName = "";
 	
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		String filePath = "C:\\Users\\zxs\\runtime-BIT_DEC.application\\test\\src\\com\\example\\myandroid\\MainActivity.java.copy";
 		JavaFuncList javaFuncList = new JavaFuncList();
 		javaFuncList.genFuncBean(new File(filePath));
@@ -29,17 +29,11 @@ public class JavaFuncList {
 		
 		//javaFuncList.listJavaFile(new File(filePath));
 		javaFuncList.print();
-	}
+	}*/
 
-	public void print() {
-		for (int i = 0; i < funcModelList.size(); i++) {
-			funcModelList.get(i).Print();
-		}
-	}
-	
 
 	public JavaFuncList() {
-		funcModelList = new ArrayList<FuncModel>();
+		javaFuncList = new ArrayList<FuncModel>();
 	}
 	/**
 	 * 
@@ -48,7 +42,7 @@ public class JavaFuncList {
 	public void listJavaFile(File file) {
 		File[] files = file.listFiles();
 		for (int i = 0; i < files.length; i++) {
-			if (files[i].isFile() && files[i].getName().endsWith(".java")) {
+			if (files[i].isFile() && files[i].getName().toLowerCase().endsWith(".java")) {
 				//对java原文件进行复制并预处理，去除注释
 				//System.out.println(files[i].getAbsolutePath());
 				String srcPath = files[i].getAbsolutePath();
@@ -97,9 +91,8 @@ public class JavaFuncList {
 				}
 				boolean flag = false;
 				//检测到函数
-				if (line.contains(" native ")
-						|| (flag = (line.contains("{") && stack.size() == 1 && line_pre
-								.trim().endsWith(")")))) {
+				if (line.contains(" native ")|| 
+					(flag = (line.contains("{") && stack.size() == 1 && line_pre.trim().endsWith(")")))) {
 					ArrayList<String> funcInfo = new ArrayList<String>();
 					FuncModel funcModel = new FuncModel();
 					//包含native的一个函数申明
@@ -120,7 +113,7 @@ public class JavaFuncList {
 					}
 					funcModel.setPackName(packName);
 					funcModel.setClassName(className);
-					funcModelList.add(funcModel);
+			//		funcModelList.add(funcModel);
 				}
 				if (line.contains("{") && !line.contains("\"")) {
 					stack.push('{');
@@ -163,7 +156,5 @@ public class JavaFuncList {
 		}
 		return funcInfo;
 	}
-	
-
 	
 }

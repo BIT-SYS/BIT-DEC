@@ -11,12 +11,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-
-
-
-
-
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -26,6 +20,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
+import core.disassembler.Disassembler;
+import core.disassembler.model.*;
 import utils.FileTools;
 import utils.PathTools;
 import view.CallGraphView;
@@ -36,14 +32,13 @@ public class FuncParser {
 	public static ArrayList<FuncModel> asmfuncList;
 	
 	private ArrayList<FuncModel> javafuncList;
-	private String projectPath;
+	private String apkPath;
 	private String armRootPath;
 	private String javaRootPath;
 	private String packName;
 	private String className;
 	private String smaliPath;
-	
-	public final static String[] filterFuncs= {"__gnu_","_Unwind_","__aeabi_","__restore_"};
+	private final static String[] filterFuncs= {"__gnu_","_Unwind_","__aeabi_","__restore_"};
 	/**
 	 * 主函数进行测试用
 	 * @param args
@@ -54,9 +49,11 @@ public class FuncParser {
 		funcParser.parse();
 	}
 	
-	public FuncParser(String projectPath){
-		this.smaliPath = projectPath+"/smali1/smali";
-		this.projectPath = projectPath;
+	public FuncParser(String apkPath){
+		this.apkPath      = apkPath;
+		this.smaliPath    = apkPath+"/smali";
+		this.javaRootPath = apkPath+"/JAVACODE";
+		this.armRootPath  = apkPath+"/SO2ASM";
 		this.javafuncList = new ArrayList<>();
 		this.asmfuncList = new ArrayList<>();
 		//对smali文件进行预处理，去注释
@@ -68,24 +65,139 @@ public class FuncParser {
 	}
 	
 	public void parse(){
-		String armRootPath = checkARMRoot(this.projectPath);
-		if (armRootPath != null) {
-			this.armRootPath = armRootPath;
-			//直接获取asm的函数调用关系（不包括so调用java）
-			parseASMDire(new File(this.armRootPath));
-		}
+		//直接获取asm的函数调用关系（不包括so调用java）
+		parseASMDir(new File(this.armRootPath));
 		System.out.println("========================================================");
 		//获取java的函数列表
 		JavaFuncList javaFuncList = new JavaFuncList();
-		javaFuncList.listJavaFile(new File(this.projectPath+"/src"));
+		javaFuncList.listJavaFile(new File(this.javaRootPath));
 		//获取java的函数调用表
 		JavaCalledList javaCalledList = new JavaCalledList();
-		javaCalledList.listJavaFile(new File(this.projectPath+"/src"));
+		javaCalledList.listJavaFile(new File(this.javaRootPath));
 		
 		
 		//通过smali进行java的函数解析
 		//parseSmaliDire(new File(this.smaliPath));
 	}
+	
+	private void parseASMDir(File file){
+		File[] files = file.listFiles();
+		for (File f:files) {
+			if (f.isFile()) {
+				if(f.getName().endsWith(".asm")){
+					
+					parseASM(f);
+				}
+			} 
+			else 
+				parseASMDir(f);
+		}
+	}
+	
+	/**
+	 * 解析一个ASM文件
+	 * @param file
+	 */
+	private HashMap<String, AsmFunc> parseASM(File file){
+		HashMap<String, AsmFunc>  funcMap1 = Disassembler.genAllFuncs(file.getAbsolutePath());
+		HashMap<String, AsmFunc>  funcMap2 = new HashMap<String, AsmFunc>();
+		boolean filterFlag = false;
+		for(AsmFunc func:funcMap1.values()){
+			//过滤到没用的函数
+			for(String fiterFunc:filterFuncs){
+				if (func.getFuncName().startsWith(fiterFunc)){
+					filterFlag = true;
+					break;
+				}
+			}
+			if (filterFlag) {
+				filterFlag = false;
+				continue;
+			}
+			///////////////////////////////
+			funcMap2.put(func.getFuncName(), func);
+			for(AsmInst inst: func.getInstList()){
+				String op = inst.getOp();
+				if(op.equals("pop")){
+					//进入下一个函数
+					break;
+				}
+				//why don't use Disassembler.isJumpInst()?
+				if(op.equals("bl") || op.equals("blx")){
+					String []addrTmp = Disassembler.getJumpedAddr(inst);
+					if(addrTmp == null) continue;
+					String jumpedFunc = addrTmp[1];
+					if(jumpedFunc == null) continue;
+					if(!funcMap1.containsKey(jumpedFunc)){
+						if(jumpedFunc.contains("+")){
+							jumpedFunc = jumpedFunc.substring(0, jumpedFunc.lastIndexOf('+'));
+						}
+						else if(jumpedFunc.contains("-")){
+							jumpedFunc = jumpedFunc.substring(0, jumpedFunc.lastIndexOf('-'));
+						}
+					}
+					if(!funcMap1.containsKey(jumpedFunc))
+						continue;
+					func.getCalledFuncList().add(funcMap1.get(jumpedFunc)); 
+					}
+			}
+		}
+		return funcMap2;
+	}
+	
+
+	/**
+	 * java文件夹去除注释
+	 * @param rootPath
+	 * @throws FileNotFoundException
+	 * @throws UnsupportedEncodingException
+	 */
+	private void clearComments(String rootPath) throws FileNotFoundException,
+		UnsupportedEncodingException {
+		File folder = new File(rootPath);
+		if (folder.isDirectory()) {
+			String[] files = folder.list();
+			for (int i = 0; i < files.length; i++) {
+				File file = new File(folder, files[i]);
+				if (file.isDirectory() && file.isHidden() == false) {
+					clearComments(file.getPath());
+				} else if (file.isFile()) {
+					FileTools.clearComment(file.getPath());
+				}
+			}
+		} else if (folder.isFile()) {
+			FileTools.clearComment(folder.getPath());
+		}
+	}
+	
+	/**
+	 * 打印函数列表
+	 */
+	public void printFuncList(){
+		for(FuncModel fm: this.javafuncList){
+			System.out.println(fm.toString());
+		}
+	}
+	
+	
+	
+	/**
+	 * 检查有没有ARM文件
+	 * @param preojectPath 选中项目的路径
+	 * @return 为空表明ARM文件,否则返回ARMRootPath
+	 *//*
+	private String checkARMRoot(String preojectPath){
+		File projectFile = new File(preojectPath);
+		File[] files  = projectFile.listFiles();
+		for(int i=0;i<files.length;i++){
+			if(files[i].getName().equals("so2asm")){
+				return files[i].getAbsolutePath();
+			}
+		}
+		return null;
+	}*/
+	
+	
 	/**
 	 * 解析Smali文件夹
 	 * @throws IOException 
@@ -108,90 +220,6 @@ public class FuncParser {
 	/**
 	 * 解析ASM文件夹
 	 */
-	private void parseASMDire(File file){
-		File[] files = file.listFiles();
-		for (int i = 0; i < files.length; i++) {
-			if (files[i].isFile()) {
-				if(files[i].getName().endsWith(".asm")){
-					this.parseASM(files[i]);
-				}
-			} else {
-				parseASMDire(files[i]);
-			}
-		}
-	}
-	/**
-	 * 解析一个ASM文件
-	 * @param file
-	 */
-	@SuppressWarnings("resource")
-	private void parseASM(File file){
-		try {
-			int GoalFuncIndex = 0;
-			String line = null;
-			String temp5;
-			HashSet<FuncModel> calledFuncList = null;
-			FuncModel funcModel = null;
-			InputStream is = new FileInputStream(file.getAbsolutePath());
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is,"UTF-8"));
-			
-			while ((line = reader.readLine())!= null && !line.contains("Disassembly of section .text:"));
-			while ((line = reader.readLine())!= null && !line.contains("Disassembly of section")) {
-				if(line.contains(">:")){
-					//存储上一个函数的调用关系
-					if (funcModel != null && calledFuncList !=null ) {
-						funcModel.setCalledFuncList(calledFuncList);
-						asmfuncList.add(funcModel);
-						System.out.println(funcModel.toString2());
-					}
-					//提取函数名
-					temp5 = line.substring(line.indexOf('<')+1, line.indexOf('>'));
-					//过滤到没用的函数
-					int filterFlag = 0;
-					for(String fiterFunc:filterFuncs){
-						if (temp5.startsWith(fiterFunc)) {
-							filterFlag = 1;
-							break;
-						}
-					}
-					if (filterFlag == 1) {
-						continue;
-					}
-					//初始化当前函数
-					calledFuncList = new HashSet<FuncModel>();
-					funcModel = new FuncModel();
-					funcModel.setFuncName(temp5);
-					GoalFuncIndex = 1;
-					continue;
-				}
-				//提取调用函数
-				if(GoalFuncIndex == 1){
-					String calledFuncName;
-					String[] words = line.split("\\s+");
-					for(int i=0;i<words.length;i++){
-						if(words[i].equals("pop")){
-							GoalFuncIndex = 0;
-							break;
-						}
-						if((words[i].equals("bl")) || (words[i].equals("blx"))){
-							if(line.contains("<") && line.contains(">")){
-								calledFuncName = line.substring(line.indexOf('<')+1, line.indexOf('>'));
-								if(calledFuncName.contains("+")){
-									calledFuncName = calledFuncName.substring(0, calledFuncName.lastIndexOf('+'));
-								}
-								else if(calledFuncName.contains("-")){
-									calledFuncName = calledFuncName.substring(0, calledFuncName.lastIndexOf('-'));
-								}
-								calledFuncList.add(new FuncModel(calledFuncName));
-							}
-						}
-					}
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
-	}
 	
 	/**
 	 * 解析一個smali文件
@@ -300,56 +328,6 @@ public class FuncParser {
 //		//System.out.println(funcModel.toString());
 //		return funcModel;
 //	}
-	
-	/**
-	 * 检查有没有ARM文件
-	 * @param preojectPath 选中项目的路径
-	 * @return 为空表明ARM文件,否则返回ARMRootPath
-	 */
-	private String checkARMRoot(String preojectPath){
-		File projectFile = new File(preojectPath);
-		File[] files  = projectFile.listFiles();
-		for(int i=0;i<files.length;i++){
-			if(files[i].getName().equals("so2asm")){
-				return files[i].getAbsolutePath();
-			}
-		}
-		return null;
-	}
-	/**
-	 * java文件夹去除注释
-	 * @param rootPath
-	 * @throws FileNotFoundException
-	 * @throws UnsupportedEncodingException
-	 */
-	private void clearComments(String rootPath) throws FileNotFoundException,
-		UnsupportedEncodingException {
-		File folder = new File(rootPath);
-		if (folder.isDirectory()) {
-			String[] files = folder.list();
-			for (int i = 0; i < files.length; i++) {
-				File file = new File(folder, files[i]);
-				if (file.isDirectory() && file.isHidden() == false) {
-					clearComments(file.getPath());
-				} else if (file.isFile()) {
-					FileTools.clearComment(file.getPath());
-				}
-			}
-		} else if (folder.isFile()) {
-			FileTools.clearComment(folder.getPath());
-		}
-	}
-	
-	/**
-	 * 打印函数列表
-	 */
-	public void printFuncList(){
-		for(FuncModel fm: this.javafuncList){
-			System.out.println(fm.toString());
-		}
-	}
-	
-	
 	
 	
 //	private FilePretreatment clearcomment;

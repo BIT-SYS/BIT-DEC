@@ -27,13 +27,13 @@ public class Disassembler {
 	public Disassembler(String asmfile){
 		
 		//get funcMap from sofile
-		genAllFuncs(asmfile);
+		funcMap = genAllFuncs(asmfile);
 		//mark all blocks 
-		genAllBlockMark();
+		genAllBlockMark(funcMap);
 		//generate all blocks
-		genAllFuncBlock();
+		genAllFuncBlock(funcMap,blockMap);
 		//generate control flow between all blocks
-		genAllControlFlow();
+		genAllControlFlow(funcMap,blockMap);
 		
 		/*AsmFunc f = this.funcMap.get("__gnu_Unwind_RaiseException");
 		for(AsmInst inst: f.getInstList()){
@@ -51,7 +51,8 @@ public class Disassembler {
 	}
 	
 	//get functions from asm file
-	public HashMap<String, AsmFunc> genAllFuncs(String filepath) {
+	public static HashMap<String, AsmFunc> genAllFuncs(String filepath) {
+		HashMap<String, AsmFunc> tmpfuncMap = new HashMap<String, AsmFunc>();
 		String  line      = null; //current line in filepath
 		long    instIndex = -1;   //index of instruction in function
 		AsmFunc func      = null;   
@@ -75,9 +76,9 @@ public class Disassembler {
 					func = new AsmFunc();
 					func.setFuncName(funcName);
 					func.setFuncAddr(funcAddr);
-					if(this.funcMap.containsKey(funcName))
+					if(tmpfuncMap.containsKey(funcName))
 						Global.printer.println("ERROR: in "+filepath+" \ntow or more funtion have same name!!");
-					funcMap.put(funcName, func);
+					tmpfuncMap.put(funcName, func);
 			    }
 				//这一行是指令
 				else if(instMod.matches()){
@@ -106,11 +107,11 @@ public class Disassembler {
 			//存储最后一个函数的内容
 		} catch (IOException e) {e.printStackTrace();}
 		
-		for(AsmFunc func1 : this.funcMap.values()){
+		for(AsmFunc func1 : tmpfuncMap.values()){
 			ArrayList<AsmInst> list = func1.getInstList();
 			func1.setEnd(list.get(list.size()-1).getAddr());
 		}
-		return funcMap;
+		return tmpfuncMap;
 	}
 	
 	
@@ -118,8 +119,8 @@ public class Disassembler {
 	 * 标记基本块的入口地址
 	 * @param curFunc
 	 */
-	private void genAllBlockMark(){
-		for(AsmFunc func:funcMap.values()){
+	private void genAllBlockMark(HashMap<String, AsmFunc> tmpfuncMap){
+		for(AsmFunc func:tmpfuncMap.values()){
 			ArrayList<AsmInst> instList = func.getInstList();
 			long instListSize = instList.size();
 			//(1)程序的第一个语句
@@ -136,7 +137,7 @@ public class Disassembler {
 					if(addrTmp == null) continue;
 					String addr = addrTmp[0];
 					if(addr == null) continue;
-					for(AsmFunc func1:funcMap.values()){
+					for(AsmFunc func1:tmpfuncMap.values()){
 						//some times the jumped address is half a  instruction
 						//1 instruction's addr is 1c1a ,and is 4 bytes long.but there could be a jump:bl	1c1c
 						AsmInst inst1 = func1.getInstByAddr(addr);
@@ -185,13 +186,13 @@ public class Disassembler {
 		func.setBlockList(blockList);
 	}
 	
-	protected void genAllFuncBlock(){
-		for(AsmFunc func:funcMap.values()){
+	protected void genAllFuncBlock(HashMap<String, AsmFunc> tmpfuncMap, HashMap<String, AsmBlock> tmpblockMap){
+		for(AsmFunc func:tmpfuncMap.values()){
 			genFuncBlock(func);
 		}
-		for(AsmFunc func:funcMap.values())
+		for(AsmFunc func:tmpfuncMap.values())
 		for(AsmBlock block :func.getBlockList())
-			this.blockMap.put(block.getAddr(), block);
+			tmpblockMap.put(block.getAddr(), block);
 		
 	}
 	
@@ -202,8 +203,8 @@ public class Disassembler {
 	 * 2、基本块i的出口语句是goto(s)或者if...goto(s)且(s)是基本块k的入口语句
 	 * i为k的前驱，k为i的后继 
 	 */
-	public void genAllControlFlow(){
-		for(AsmFunc func : funcMap.values()){
+	public void genAllControlFlow(HashMap<String, AsmFunc> tmpfuncMap, HashMap<String, AsmBlock> tmpblockMap){
+		for(AsmFunc func : tmpfuncMap.values()){
 			ArrayList<AsmBlock> blockList = func.getBlockList();
 			long blockListSize = blockList.size();
 			for(int i = 0;i<blockListSize;i++){
@@ -217,7 +218,7 @@ public class Disassembler {
 					String addr = addrTmp[0];
 					if(addr == null) continue;
 					boolean flag = false;
-					AsmBlock tmpBlock = this.blockMap.get(addr);
+					AsmBlock tmpBlock = tmpblockMap.get(addr);
 					if ( tmpBlock!= null) {
 						block.addSubBlock(tmpBlock);
 						tmpBlock.addPreBlock(block);
@@ -226,7 +227,7 @@ public class Disassembler {
 					if(!flag){
 						//means addr could be a system kernel function
 						AsmBlock Systemblock = new AsmBlock();
-						Systemblock.setFuncName(addr);
+						Systemblock.setFuncName("0X"+addr);
 						block.addSubBlock(Systemblock);
 					}
 				}
@@ -242,7 +243,7 @@ public class Disassembler {
 		}
 	}
 	
-	public String[] getJumpedAddr(AsmInst inst){
+	public static String[] getJumpedAddr(AsmInst inst){
 		if(!isJumpIns(inst)) return null;
 		ArrayList<String> args = inst.getArgList();
 		if (args.size() > 0 && !args.get(0).contains("r")) {
@@ -263,7 +264,7 @@ public class Disassembler {
 	 * @param instModel
 	 * @return
 	 */
-	private boolean isJumpIns(AsmInst instModel){
+	private static boolean isJumpIns(AsmInst instModel){
 		String op = instModel.getOp();
 		if (op.startsWith("blx") || op.startsWith("bl") ||
 			op.startsWith("bx") || op.startsWith("b")) {
@@ -277,7 +278,7 @@ public class Disassembler {
 	 * @param instModel
 	 * @return
 	 */
-	private boolean isNoConsJumpIns(AsmInst instModel){
+	private static boolean isNoConsJumpIns(AsmInst instModel){
 		String op = instModel.getOp();
 		if (op.equals("blx") || op.equals("bl") ||
 			op.equals("bx") || op.equals("b")||
@@ -293,7 +294,7 @@ public class Disassembler {
 	 * @param instModel
 	 * @return
 	 */
-	private boolean isConsJumpIns(AsmInst instModel){
+	private static boolean isConsJumpIns(AsmInst instModel){
 		if (isJumpIns(instModel) && !isNoConsJumpIns(instModel)) {
 			return true;
 		}
